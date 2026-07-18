@@ -1,15 +1,15 @@
 # DeliverPuyo - Avance 8: optimización del backend
 
-Backend académico adaptado a la estructura del repositorio **Canchago**, con Next.js, TypeScript, Prisma/PostgreSQL, Redis, BullMQ, JWT y Zod.
+Backend académico de **DeliverPuyo**, con Next.js, TypeScript, Prisma/PostgreSQL, Redis, BullMQ, JWT y Zod.
 
 ## Mejoras implementadas
 
-1. **Caché cache-aside** en `GET /api/products`, Redis, TTL de 120 segundos e invalidación explícita al crear o actualizar productos.
+1. **Caché cache-aside** en `GET /api/products`, Redis, TTL de 120 segundos, estado `MISS/HIT/BYPASS` e invalidación explícita al crear o actualizar productos.
 2. **Corrección de N+1** en el listado de pedidos mediante `relationLoadStrategy: 'join'`, eager loading y selección de campos.
 3. **Lazy/eager loading justificado**: listados cargan relaciones necesarias; el detalle solo carga dirección si `?include=address`.
 4. **Cola de trabajo** con BullMQ: la creación de un pedido encola un comprobante PDF y responde inmediatamente.
 5. **Autenticación eficiente**: el access token JWT se valida localmente; no se consulta la base en cada solicitud protegida. El refresh token sí se valida contra la base para permitir revocación.
-6. **Respuesta optimizada**: paginación máxima 50, selección de campos mediante `fields`, compresión HTTP y JSON reducido.
+6. **Respuesta optimizada**: paginación máxima 50, selección de campos mediante `fields`, compresión HTTP y JSON reducido para la aplicación móvil.
 7. **Evidencia automática**: endpoint de benchmark y script que guarda resultados reales en `evidence/benchmark-results.json`.
 
 ## Requisitos
@@ -73,6 +73,26 @@ npm run benchmark
 4. Crear un pedido: observar respuesta inmediata y luego PDF en `storage/receipts`.
 5. Mostrar que middleware JWT no ejecuta consulta de usuario por cada solicitud.
 6. Abrir `evidence/benchmark-results.json` generado por el script.
+
+## Resultados reales conservados
+
+Las métricas reales del Avance 8 están en `evidence/benchmark-results.json`, `evidence/benchmark-summary.txt` y `evidence/queue-status.txt`.
+
+| Optimización | Antes / MISS | Después / HIT | Mejora |
+|---|---:|---:|---:|
+| Caché HTTP estable | 103.91 ms | 11.31 ms | 89.12 % |
+| Consultas N+1 | 81 consultas | 1 consulta | 98.77 % |
+| Tiempo interno N+1 | 93.69 ms | 6.80 ms | 92.74 % |
+| Tiempo HTTP N+1 | 153.80 ms | 17.12 ms | 88.87 % |
+
+Estado real de BullMQ registrado: `wait: 0`, `active: 0`, `completed: 1`, `failed: 0`, `delayed: 0`, `paused: 0`.
+
+## Documentación técnica
+
+- `docs/avance8/AUDITORIA_CODEX_AVANCE8.md`
+- `docs/avance8/GUIA_EJECUCION.md`
+- `docs/avance8/MATRIZ_CUMPLIMIENTO.md`
+- `docs/avance8/USO_RESPONSABLE_IA.md`
 
 ## Nota de honestidad académica
 

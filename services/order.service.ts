@@ -43,19 +43,26 @@ export const orderService = {
     return order;
   },
 
-  async listOptimized(userId: string, role: 'CLIENT' | 'ADMIN', take = 20) {
+  async listOptimized(userId: string, role: 'CLIENT' | 'ADMIN', page = 1, limit = 20) {
     // Eager loading controlado + selección de campos. relationLoadStrategy=join evita N+1.
-    return prisma.order.findMany({
-      relationLoadStrategy: 'join',
-      where: role === 'ADMIN' ? {} : { userId },
-      take,
-      orderBy: { createdAt: 'desc' },
-      select: {
-        id: true, status: true, total: true, createdAt: true,
-        user: role === 'ADMIN' ? { select: { id: true, name: true, email: true } } : false,
-        items: { select: { quantity: true, unitPrice: true, product: { select: { id: true, name: true, imageUrl: true } } } },
-      },
-    });
+    const take = Math.min(50, Math.max(1, limit));
+    const skip = (Math.max(1, page) - 1) * take;
+    const where = role === 'ADMIN' ? {} : { userId };
+    return prisma.$transaction([
+      prisma.order.findMany({
+        relationLoadStrategy: 'join',
+        where,
+        skip,
+        take,
+        orderBy: { createdAt: 'desc' },
+        select: {
+          id: true, status: true, total: true, createdAt: true,
+          user: role === 'ADMIN' ? { select: { id: true, name: true, email: true } } : false,
+          items: { select: { quantity: true, unitPrice: true, product: { select: { id: true, name: true, imageUrl: true } } } },
+        },
+      }),
+      prisma.order.count({ where }),
+    ]);
   },
 
   async detail(userId: string, role: 'CLIENT' | 'ADMIN', id: string, includeAddress = false) {

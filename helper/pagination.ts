@@ -5,6 +5,6 @@ export function pagination(pageRaw: unknown, limitRaw: unknown) {
     page,
     limit,
     skip: (page - 1) * limit,
-    meta: (total: number) => ({ page, limit, total, totalPages: Math.ceil(total / limit) }),
+    meta: (total: number) => ({ page, limit, total, pages: Math.ceil(total / limit) }),
   };
 }
