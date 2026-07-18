@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import bcrypt from 'bcryptjs';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '../generated/prisma/client';
@@ -43,3 +44,4 @@ async function main() {
   console.log({ admin: admin.email, client: client.email, orders: await prisma.order.count() });
 }
 main().finally(() => prisma.$disconnect());
+

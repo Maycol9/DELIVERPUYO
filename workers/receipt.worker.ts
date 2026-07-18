@@ -1,3 +1,4 @@
+import "dotenv/config";
 import fs from 'node:fs';
 import path from 'node:path';
 import PDFDocument from 'pdfkit';
@@ -42,3 +43,4 @@ const worker = new Worker<ReceiptJob>('order-receipts', async (job) => generateR
 worker.on('completed', (job, result) => console.log(`Comprobante ${job.id} generado: ${result}`));
 worker.on('failed', (job, error) => console.error(`Trabajo ${job?.id} falló`, error));
 console.log('Worker de comprobantes activo');
+

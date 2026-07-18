@@ -26,3 +26,4 @@ Thumbs.db
 
 # Visual Studio Code
 .vscode/
+generated/

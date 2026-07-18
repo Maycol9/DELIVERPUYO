@@ -1,0 +1,24 @@
+DELIVERPUYO - RESULTADOS DE OPTIMIZACIÓN
+
+Fecha de prueba: 07/18/2026 17:33:35
+
+CACHÉ REDIS
+Solicitud sin utilizar caché: MISS
+Primera solicitud normal: HIT
+Segunda solicitud normal: HIT
+
+PROBLEMA N+1 - ANTES
+Modo: N+1
+Consultas a base de datos: 81
+Duración interna: 93.69 ms
+Registros procesados: 20
+
+EAGER LOADING - DESPUÉS
+Modo: EAGER_JOIN
+Consultas a base de datos: 1
+Duración interna: 6.8 ms
+Registros procesados: 20
+
+MEJORAS
+Reducción de consultas: 98.77 %
+Reducción del tiempo interno: 92.74 %

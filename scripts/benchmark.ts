@@ -1,3 +1,4 @@
+import "dotenv/config";
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -31,3 +32,4 @@ async function main() {
   console.log(JSON.stringify(result, null, 2));
 }
 main().catch((error) => { console.error(error); process.exit(1); });
+

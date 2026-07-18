@@ -1,0 +1,311 @@
+{
+  "generatedAt": "2026-07-18T17:33:35.211Z",
+  "productCache": {
+    "bypass": {
+      "status": 200,
+      "ms": 103.91,
+      "cache": "MISS",
+      "body": {
+        "success": true,
+        "data": [
+          {
+            "id": "9752b812-2ba0-4e27-8cdb-3226c0f2e42e",
+            "name": "Producto 1",
+            "price": "2.5"
+          },
+          {
+            "id": "8da50899-f9d3-40e7-be8e-d6e88c571b8e",
+            "name": "Producto 10",
+            "price": "7"
+          },
+          {
+            "id": "ec876166-44fd-4e71-a79c-001df1b76c0a",
+            "name": "Producto 11",
+            "price": "7.5"
+          },
+          {
+            "id": "fe90f311-ea28-4c7a-899a-68c6b9d276a0",
+            "name": "Producto 12",
+            "price": "8"
+          },
+          {
+            "id": "8d206bfd-5e8e-40d4-b530-d6941ed2e5a2",
+            "name": "Producto 13",
+            "price": "8.5"
+          },
+          {
+            "id": "4485a0da-10e8-444f-960e-1e29be38fb83",
+            "name": "Producto 14",
+            "price": "9"
+          },
+          {
+            "id": "97d8708a-0c0f-4e71-bcc7-806fdc979ee0",
+            "name": "Producto 15",
+            "price": "9.5"
+          },
+          {
+            "id": "f1a93cd0-c413-48d3-b504-c084cfc33bc3",
+            "name": "Producto 2",
+            "price": "3"
+          },
+          {
+            "id": "f36cf577-1503-4d4c-854d-fac923f7a8bb",
+            "name": "Producto 3",
+            "price": "3.5"
+          },
+          {
+            "id": "160a7939-9b17-445b-9acb-58fa1a72ca02",
+            "name": "Producto 4",
+            "price": "4"
+          },
+          {
+            "id": "54f18608-1124-4606-896c-50f5d6039cf4",
+            "name": "Producto 5",
+            "price": "4.5"
+          },
+          {
+            "id": "16cbcebe-6a71-4a6c-b9c0-66a2b3e81556",
+            "name": "Producto 6",
+            "price": "5"
+          },
+          {
+            "id": "a193a582-2bcd-423d-9865-b33d462b20be",
+            "name": "Producto 7",
+            "price": "5.5"
+          },
+          {
+            "id": "c8246767-5cd1-41e1-8d0c-7016493892b3",
+            "name": "Producto 8",
+            "price": "6"
+          },
+          {
+            "id": "b640b5bf-e113-450f-8662-9e5f7dfa988f",
+            "name": "Producto 9",
+            "price": "6.5"
+          }
+        ],
+        "pagination": {
+          "page": 1,
+          "limit": 20,
+          "total": 15,
+          "totalPages": 1
+        },
+        "cache": "MISS"
+      }
+    },
+    "warm": {
+      "status": 200,
+      "ms": 13.36,
+      "cache": "HIT",
+      "body": {
+        "success": true,
+        "data": [
+          {
+            "id": "9752b812-2ba0-4e27-8cdb-3226c0f2e42e",
+            "name": "Producto 1",
+            "price": "2.5"
+          },
+          {
+            "id": "8da50899-f9d3-40e7-be8e-d6e88c571b8e",
+            "name": "Producto 10",
+            "price": "7"
+          },
+          {
+            "id": "ec876166-44fd-4e71-a79c-001df1b76c0a",
+            "name": "Producto 11",
+            "price": "7.5"
+          },
+          {
+            "id": "fe90f311-ea28-4c7a-899a-68c6b9d276a0",
+            "name": "Producto 12",
+            "price": "8"
+          },
+          {
+            "id": "8d206bfd-5e8e-40d4-b530-d6941ed2e5a2",
+            "name": "Producto 13",
+            "price": "8.5"
+          },
+          {
+            "id": "4485a0da-10e8-444f-960e-1e29be38fb83",
+            "name": "Producto 14",
+            "price": "9"
+          },
+          {
+            "id": "97d8708a-0c0f-4e71-bcc7-806fdc979ee0",
+            "name": "Producto 15",
+            "price": "9.5"
+          },
+          {
+            "id": "f1a93cd0-c413-48d3-b504-c084cfc33bc3",
+            "name": "Producto 2",
+            "price": "3"
+          },
+          {
+            "id": "f36cf577-1503-4d4c-854d-fac923f7a8bb",
+            "name": "Producto 3",
+            "price": "3.5"
+          },
+          {
+            "id": "160a7939-9b17-445b-9acb-58fa1a72ca02",
+            "name": "Producto 4",
+            "price": "4"
+          },
+          {
+            "id": "54f18608-1124-4606-896c-50f5d6039cf4",
+            "name": "Producto 5",
+            "price": "4.5"
+          },
+          {
+            "id": "16cbcebe-6a71-4a6c-b9c0-66a2b3e81556",
+            "name": "Producto 6",
+            "price": "5"
+          },
+          {
+            "id": "a193a582-2bcd-423d-9865-b33d462b20be",
+            "name": "Producto 7",
+            "price": "5.5"
+          },
+          {
+            "id": "c8246767-5cd1-41e1-8d0c-7016493892b3",
+            "name": "Producto 8",
+            "price": "6"
+          },
+          {
+            "id": "b640b5bf-e113-450f-8662-9e5f7dfa988f",
+            "name": "Producto 9",
+            "price": "6.5"
+          }
+        ],
+        "pagination": {
+          "page": 1,
+          "limit": 20,
+          "total": 15,
+          "totalPages": 1
+        },
+        "cache": "HIT"
+      }
+    },
+    "hit": {
+      "status": 200,
+      "ms": 11.31,
+      "cache": "HIT",
+      "body": {
+        "success": true,
+        "data": [
+          {
+            "id": "9752b812-2ba0-4e27-8cdb-3226c0f2e42e",
+            "name": "Producto 1",
+            "price": "2.5"
+          },
+          {
+            "id": "8da50899-f9d3-40e7-be8e-d6e88c571b8e",
+            "name": "Producto 10",
+            "price": "7"
+          },
+          {
+            "id": "ec876166-44fd-4e71-a79c-001df1b76c0a",
+            "name": "Producto 11",
+            "price": "7.5"
+          },
+          {
+            "id": "fe90f311-ea28-4c7a-899a-68c6b9d276a0",
+            "name": "Producto 12",
+            "price": "8"
+          },
+          {
+            "id": "8d206bfd-5e8e-40d4-b530-d6941ed2e5a2",
+            "name": "Producto 13",
+            "price": "8.5"
+          },
+          {
+            "id": "4485a0da-10e8-444f-960e-1e29be38fb83",
+            "name": "Producto 14",
+            "price": "9"
+          },
+          {
+            "id": "97d8708a-0c0f-4e71-bcc7-806fdc979ee0",
+            "name": "Producto 15",
+            "price": "9.5"
+          },
+          {
+            "id": "f1a93cd0-c413-48d3-b504-c084cfc33bc3",
+            "name": "Producto 2",
+            "price": "3"
+          },
+          {
+            "id": "f36cf577-1503-4d4c-854d-fac923f7a8bb",
+            "name": "Producto 3",
+            "price": "3.5"
+          },
+          {
+            "id": "160a7939-9b17-445b-9acb-58fa1a72ca02",
+            "name": "Producto 4",
+            "price": "4"
+          },
+          {
+            "id": "54f18608-1124-4606-896c-50f5d6039cf4",
+            "name": "Producto 5",
+            "price": "4.5"
+          },
+          {
+            "id": "16cbcebe-6a71-4a6c-b9c0-66a2b3e81556",
+            "name": "Producto 6",
+            "price": "5"
+          },
+          {
+            "id": "a193a582-2bcd-423d-9865-b33d462b20be",
+            "name": "Producto 7",
+            "price": "5.5"
+          },
+          {
+            "id": "c8246767-5cd1-41e1-8d0c-7016493892b3",
+            "name": "Producto 8",
+            "price": "6"
+          },
+          {
+            "id": "b640b5bf-e113-450f-8662-9e5f7dfa988f",
+            "name": "Producto 9",
+            "price": "6.5"
+          }
+        ],
+        "pagination": {
+          "page": 1,
+          "limit": 20,
+          "total": 15,
+          "totalPages": 1
+        },
+        "cache": "HIT"
+      }
+    }
+  },
+  "queryOptimization": {
+    "before": {
+      "status": 200,
+      "ms": 153.8,
+      "cache": null,
+      "body": {
+        "success": true,
+        "data": {
+          "mode": "N+1",
+          "databaseCalls": 81,
+          "durationMs": 93.69,
+          "records": 20
+        }
+      }
+    },
+    "after": {
+      "status": 200,
+      "ms": 17.12,
+      "cache": null,
+      "body": {
+        "success": true,
+        "data": {
+          "mode": "EAGER_JOIN",
+          "databaseCalls": 1,
+          "durationMs": 6.8,
+          "records": 20
+        }
+      }
+    }
+  }
+}

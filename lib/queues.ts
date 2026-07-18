@@ -16,6 +16,7 @@ export async function enqueueReceipt(job: ReceiptJob): Promise<void> {
     backoff: { type: 'exponential', delay: 2000 },
     removeOnComplete: 100,
     removeOnFail: 500,
-    jobId: `receipt:${job.orderId}`, // idempotencia: evita duplicar el mismo comprobante
+    jobId: `receipt-${job.orderId}`, // idempotencia: evita duplicar el mismo comprobante
   });
 }
+
