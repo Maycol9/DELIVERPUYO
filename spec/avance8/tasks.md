@@ -1,0 +1,12 @@
+# Tareas
+- [x] Modelo relacional Prisma
+- [x] Autenticación access/refresh token
+- [x] Middleware de roles
+- [x] Caché Redis con TTL
+- [x] Invalidación explícita
+- [x] Endpoint N+1 de diagnóstico
+- [x] Endpoint optimizado con eager JOIN
+- [x] Worker BullMQ para PDF
+- [x] Paginación, fields y compresión
+- [x] Script de benchmark
+- [ ] Ejecutar benchmark en el equipo del estudiante y adjuntar capturas

@@ -1,0 +1,32 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: deliverpuyo
+      POSTGRES_PASSWORD: deliverpuyo
+      POSTGRES_DB: deliverpuyo
+    ports:
+      - "5432:5432"
+    volumes:
+      - deliverpuyo_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U deliverpuyo -d deliverpuyo"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - deliverpuyo_redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  deliverpuyo_pg:
+  deliverpuyo_redis:
