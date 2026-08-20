@@ -1,0 +1,4 @@
+
+> deliverpuyo-backend-avance8@1.0.0 typecheck
+> tsc --noEmit
+
