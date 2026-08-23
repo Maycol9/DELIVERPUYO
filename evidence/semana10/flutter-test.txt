@@ -1,0 +1,22 @@
+Resolving dependencies...
+Downloading packages...
+  matcher 0.12.19 (0.12.20 available)
+  material_color_utilities 0.13.0 (0.13.1 available)
+  meta 1.18.0 (1.19.0 available)
+  test_api 0.7.11 (0.7.13 available)
+  vector_math 2.2.0 (2.4.2 available)
+Got dependencies!
+5 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+00:00 +0: loading C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/widget_test.dart
+00:00 +0: AppPrimaryButton renders normal state
+00:00 +1: AppPrimaryButton renders loading state and disables action
+00:00 +2: AppPrimaryButton renders disabled state
+00:00 +3: StateView renders loading state
+00:00 +4: StateView renders empty state
+00:00 +5: StateView renders error state with retry action
+00:00 +6: StateView exposes semantic label for errors
+00:00 +7: ProductCard renders product data
+00:00 +8: ProductCard calls onTap callback
+00:00 +9: ProductCard exposes product semantic label
+00:01 +10: All tests passed!

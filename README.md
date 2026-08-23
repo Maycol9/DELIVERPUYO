@@ -319,3 +319,157 @@ Se utilizó ChatGPT/Codex como apoyo para:
 - diagnóstico técnico.
 
 Las instrucciones, archivos modificados y verificaciones automatizables fueron revisados sobre el entorno real. La conexión Flutter → API DeliverPuyo fue verificada con backend, Docker, base de datos y emulador Android ejecutándose.
+
+# Avance 10 — Sistema de diseño y componentes reutilizables
+
+## Objetivo
+
+Preparar la aplicación Flutter de DeliverPuyo con sistema de diseño, componentes reutilizables, pantalla real ensamblada, estados de interfaz, accesibilidad WCAG 2.2 y documentación técnica.
+
+## Inventario de pantallas
+
+| Pantalla | Endpoint |
+| -------- | -------- |
+| Inicio de sesión | `POST /api/auth/login` |
+| Registro | `POST /api/auth/register` |
+| Renovar sesión | `POST /api/auth/refresh` |
+| Categorías | `GET /api/categories` |
+| Catálogo de productos | `GET /api/products` |
+| Crear producto | `POST /api/products` |
+| Editar producto | `PATCH /api/products/{id}` |
+| Direcciones | `GET /api/addresses` |
+| Crear dirección | `POST /api/addresses` |
+| Pedidos | `GET /api/orders` |
+| Crear pedido | `POST /api/orders` |
+| Detalle de pedido | `GET /api/orders/{id}?include=address` |
+
+El inventario completo está en `docs/semana10/INVENTARIO_PANTALLAS.md`.
+
+## Sistema de tokens
+
+Se agregaron tokens en `mobile/lib/theme/`:
+
+- Primitivo: valor visual puro, por ejemplo `green800`, `white`, `gray900`.
+- Semántico: función de interfaz, por ejemplo `colorPrimary`, `colorTextPrimary`, `colorError`.
+- Componente: consumo desde `ThemeData`, `ColorScheme` y `AppTokens`.
+
+Colores principales:
+
+| Token | Valor |
+| ----- | ----- |
+| `colorPrimary` | `#006C57` |
+| `colorOnPrimary` | `#FFFFFF` |
+| `colorBackground` | `#F7FAF9` |
+| `colorSurface` | `#FFFFFF` |
+| `colorTextPrimary` | `#17211F` |
+| `colorTextSecondary` | `#52615D` |
+| `colorError` | `#B3261E` |
+
+## Contraste
+
+| Par | Relación | Resultado |
+| --- | -------: | --------- |
+| `colorPrimary / colorOnPrimary` | 6.40:1 | Cumple AA |
+| `colorTextPrimary / colorBackground` | 15.70:1 | Cumple AA |
+| `colorTextSecondary / colorBackground` | 6.20:1 | Cumple AA |
+| `colorError / colorSurface` | 6.54:1 | Cumple AA |
+| `colorOutline / colorSurface` | 3.29:1 | Cumple para componentes |
+
+Detalle en `docs/semana10/CONTRASTE_WCAG.md`.
+
+## Tipografía
+
+La escala se centralizó en `ThemeData.textTheme` con `displaySmall`, `titleLarge`, `titleMedium`, `bodyLarge`, `bodyMedium` y `labelLarge`. No se deshabilita el escalado de fuente del sistema.
+
+## Espaciado
+
+Se usa base de 8 puntos lógicos mediante `AppTokens`: `xs=4`, `sm=8`, `md=16`, `lg=24`, `xl=32`.
+
+## Radios
+
+Los radios están centralizados en `AppTokens`: campo `8`, botón `8`, tarjeta `8`.
+
+## Componentes reutilizables
+
+| Componente | Propósito | Entradas/configuración/callbacks | Estados | Justificación |
+| ---------- | --------- | -------------------------------- | ------- | ------------- |
+| `AppPrimaryButton` | Acción principal | `text`, `loading`, `enabled`, `onPressed`, `icon` | normal, disabled, loading | No conoce negocio ni API; comunica intención con callback. |
+| `AppTextField` | Entrada de formularios | `label`, `controller`, `initialValue`, `onChanged`, `errorText`, `obscureText`, `keyboardType`, `enabled`, `prefix`, `suffix` | normal, focused, disabled, error | Reutilizable en login, registro, direcciones y búsqueda. |
+| `StateView` | Cargando, vacío y error | `type`, `message`, `title`, `onRetry`, `actionText`, `child` | loading, empty, error | Evita repetir estados de pantalla y traduce errores a mensajes claros. |
+| `ProductCard` | Representación de producto | `name`, `price`, `stock`, `description`, `category`, `imageUrl`, `onTap`, `trailing`, `compact` | normal, pressed, sin imagen, sin stock | Recibe datos; no consulta API ni decide navegación. |
+| `CategoryFilterChip` | Filtro visual de categoría | `label`, `selected`, `onSelected` | normal, selected, focused | Filtra localmente datos reales y no conoce endpoints. |
+
+La interfaz pública completa está en `docs/semana10/CATALOGO_COMPONENTES.md`.
+
+## Pantalla implementada
+
+Se implementó `mobile/lib/screens/products_screen.dart`, que consume el endpoint real público:
+
+```text
+GET /api/products?page=1&limit=20&fields=id,name,price,stock,imageUrl,category
+```
+
+La pantalla conserva la verificación de Semana 9 mediante el botón `PROBAR CONEXIÓN CON API`, que consulta `GET /api/categories`.
+
+## Ejecución Flutter Web
+
+Para web, el navegador corre en Windows y debe usar `localhost` para alcanzar el backend:
+
+```powershell
+cd mobile
+flutter run -d edge --web-port=8081 --dart-define=API_URL=http://localhost:3000
+```
+
+Para evidencias visuales sin modificar la base de datos:
+
+```powershell
+flutter run -d edge --web-port=8081 --dart-define=API_URL=http://localhost:3000 --dart-define=UI_DEMO_STATE=loading
+flutter run -d edge --web-port=8081 --dart-define=API_URL=http://localhost:3000 --dart-define=UI_DEMO_STATE=empty
+flutter run -d edge --web-port=8081 --dart-define=API_URL=http://localhost:3000 --dart-define=UI_DEMO_STATE=error
+flutter run -d edge --web-port=8081 --dart-define=API_URL=http://localhost:3000 --dart-define=UI_DEMO_STATE=normal
+```
+
+Para Flutter Web se habilitó CORS de desarrollo únicamente para `http://localhost:8081` en los endpoints usados por la app móvil (`/api/products` y `/api/categories`). No se usa wildcard `*`.
+
+## Ejecución Android Emulator
+
+Para Android Emulator, `localhost` apunta al emulador, no a Windows. Por eso se usa `10.0.2.2`:
+
+```powershell
+cd mobile
+flutter devices
+flutter run -d <ID_REAL> --dart-define=API_URL=http://10.0.2.2:3000
+```
+
+## Estados
+
+La pantalla de productos contempla:
+
+- cargando: `Cargando productos...`;
+- con datos: tarjetas `ProductCard`;
+- vacío: `No hay productos disponibles en este momento.`;
+- error: mensaje comprensible y acción `REINTENTAR`.
+
+El rediseño visual del catálogo organiza título, subtítulo, contador real de productos, buscador, filtros de categoría derivados de la API, estado de conexión secundario y tarjetas responsivas.
+
+## Responsividad
+
+La pantalla usa `SliverLayoutBuilder` para decidir columnas según el ancho disponible: una columna en teléfono, dos en ancho medio y tres en ancho grande.
+
+## Accesibilidad
+
+Se aplican criterios WCAG 2.2:
+
+- contraste AA calculado;
+- controles Material con área táctil mínima de 48 puntos;
+- errores con icono, texto y color;
+- etiquetas `Semantics` en estados, botones y tarjetas;
+- guía manual para TalkBack, fuente ampliada y dos anchos en `docs/semana10/VERIFICACION_MANUAL.md`.
+
+## Uso de IA
+
+Resumen documentado en `docs/semana10/USO_IA.md`.
+
+## Evidencias
+
+La checklist está en `evidence/semana10/CHECKLIST_EVIDENCIAS.md`. Las capturas, TalkBack, fuente ampliada y dos anchos quedan pendientes porque requieren intervención manual.
