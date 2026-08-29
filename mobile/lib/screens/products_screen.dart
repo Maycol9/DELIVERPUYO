@@ -1,37 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../config/app_demo_config.dart';
 import '../models/product.dart';
-import '../services/api_service.dart';
+import '../products/products_controller.dart';
+import '../providers/app_providers.dart';
+import '../state/remote_state.dart';
 import '../theme/app_tokens.dart';
 import '../widgets/app_text_field.dart';
+import '../widgets/app_primary_button.dart';
 import '../widgets/category_filter_chip.dart';
 import '../widgets/product_card.dart';
 import '../widgets/state_view.dart';
 
-class ProductsScreen extends StatefulWidget {
+class ProductsScreen extends ConsumerStatefulWidget {
   const ProductsScreen({super.key});
 
   @override
-  State<ProductsScreen> createState() => _ProductsScreenState();
+  ConsumerState<ProductsScreen> createState() => _ProductsScreenState();
 }
 
-class _ProductsScreenState extends State<ProductsScreen> {
-  final ApiService _apiService = ApiService();
+class _ProductsScreenState extends ConsumerState<ProductsScreen> {
   final TextEditingController _searchController = TextEditingController();
 
-  bool _loading = true;
-  String? _errorMessage;
   String? _connectionMessage;
   bool? _apiConnectionOk;
-  List<Product> _products = const [];
-  int _totalProducts = 0;
   String? _selectedCategory;
 
   @override
   void initState() {
     super.initState();
-    _loadProducts();
   }
 
   @override
@@ -40,56 +39,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
     super.dispose();
   }
 
-  Future<void> _loadProducts() async {
-    setState(() {
-      _loading = true;
-      _errorMessage = null;
-    });
-
-    if (AppDemoConfig.state == UiDemoState.loading) {
-      return;
-    }
-
-    if (AppDemoConfig.state == UiDemoState.empty) {
-      setState(() {
-        _loading = false;
-        _products = const [];
-        _totalProducts = 0;
-      });
-      return;
-    }
-
-    if (AppDemoConfig.state == UiDemoState.error) {
-      setState(() {
-        _loading = false;
-        _products = const [];
-        _totalProducts = 0;
-        _errorMessage = 'No fue posible conectarse con el servidor.';
-      });
-      return;
-    }
-
-    final result = await _apiService.getProducts();
-    if (!mounted) return;
-
-    setState(() {
-      _loading = false;
-      if (result.success) {
-        _products = result.products;
-        _totalProducts = result.totalItems;
-      } else {
-        _products = const [];
-        _totalProducts = 0;
-        _errorMessage = result.message;
-      }
-    });
-  }
-
   Future<void> _testCategoriesConnection() async {
     setState(() {
       _connectionMessage = 'Consultando categorías...';
     });
-    final result = await _apiService.getCategories();
+    final result = await ref.read(apiServiceProvider).getCategories();
     if (!mounted) return;
 
     setState(() {
@@ -103,12 +57,33 @@ class _ProductsScreenState extends State<ProductsScreen> {
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
+    final productsState = ref.watch(productsControllerProvider);
+    final products = switch (productsState) {
+      RemoteData<List<Product>>(:final value) => value,
+      _ => const <Product>[],
+    };
+    final visibleProducts = _visibleProducts(products);
+    final categories = _categories(products);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('DeliverPuyo')),
+      appBar: AppBar(
+        title: const Text('DeliverPuyo'),
+        actions: [
+          IconButton(
+            tooltip: 'Pedidos',
+            onPressed: () => context.go('/orders'),
+            icon: const Icon(Icons.receipt_long_outlined),
+          ),
+          IconButton(
+            tooltip: 'Perfil',
+            onPressed: () => context.go('/profile'),
+            icon: const Icon(Icons.person_outline),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: RefreshIndicator(
-          onRefresh: _loadProducts,
+          onRefresh: () => ref.read(productsControllerProvider.notifier).load(),
           child: CustomScrollView(
             slivers: [
               SliverPadding(
@@ -133,9 +108,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
                             connectionMessage: _connectionMessage,
                             apiConnectionOk: _apiConnectionOk,
                             demoMode: AppDemoConfig.isDemoMode,
-                            totalProducts: _totalProducts,
-                            visibleProducts: _visibleProducts.length,
-                            categories: _categories,
+                            totalProducts: products.length,
+                            visibleProducts: visibleProducts.length,
+                            categories: categories,
                             selectedCategory: _selectedCategory,
                             onCategorySelected: (category) {
                               setState(() {
@@ -144,28 +119,13 @@ class _ProductsScreenState extends State<ProductsScreen> {
                             },
                           ),
                           SizedBox(height: tokens.spaceLg),
-                          if (_loading)
-                            const StateView(
-                              type: StateViewType.loading,
-                              title: 'Cargando catálogo',
-                              message: 'Cargando productos...',
-                            )
-                          else if (_errorMessage != null)
-                            StateView(
-                              type: StateViewType.error,
-                              title: 'No se pudo cargar el catálogo',
-                              message: _errorMessage!,
-                              onRetry: _loadProducts,
-                            )
-                          else if (_visibleProducts.isEmpty)
-                            const StateView(
-                              type: StateViewType.empty,
-                              title: 'Catálogo vacío',
-                              message:
-                                  'No hay productos disponibles en este momento.',
-                            )
-                          else
-                            _ProductsGrid(products: _visibleProducts),
+                          _ProductsStateView(
+                            state: productsState,
+                            visibleProducts: visibleProducts,
+                            onRetry: () => ref
+                                .read(productsControllerProvider.notifier)
+                                .load(),
+                          ),
                           SizedBox(height: tokens.spaceLg),
                         ],
                       ),
@@ -180,11 +140,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
     );
   }
 
-  List<Product> get _visibleProducts {
+  List<Product> _visibleProducts(List<Product> products) {
     final query = _searchController.text.trim().toLowerCase();
     final category = _selectedCategory;
 
-    return _products
+    return products
         .where((product) {
           final matchesSearch =
               query.isEmpty || product.name.toLowerCase().contains(query);
@@ -195,9 +155,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
         .toList(growable: false);
   }
 
-  List<String> get _categories {
+  List<String> _categories(List<Product> products) {
     final categories =
-        _products
+        products
             .map((product) => product.categoryName)
             .whereType<String>()
             .where((category) => category.trim().isNotEmpty)
@@ -205,6 +165,49 @@ class _ProductsScreenState extends State<ProductsScreen> {
             .toList()
           ..sort();
     return categories;
+  }
+}
+
+class _ProductsStateView extends StatelessWidget {
+  const _ProductsStateView({
+    required this.state,
+    required this.visibleProducts,
+    required this.onRetry,
+  });
+
+  final RemoteState<List<Product>> state;
+  final List<Product> visibleProducts;
+  final VoidCallback onRetry;
+
+  @override
+  Widget build(BuildContext context) {
+    return switch (state) {
+      RemoteInitial<List<Product>>() ||
+      RemoteLoading<List<Product>>() => const StateView(
+        type: StateViewType.loading,
+        title: 'Cargando catálogo',
+        message: 'Cargando productos...',
+      ),
+      RemoteError<List<Product>>(:final message) => StateView(
+        type: StateViewType.error,
+        title: 'No se pudo cargar el catálogo',
+        message: message,
+        onRetry: onRetry,
+      ),
+      RemoteEmpty<List<Product>>(:final message) => StateView(
+        type: StateViewType.empty,
+        title: 'Catálogo vacío',
+        message: message,
+      ),
+      RemoteData<List<Product>>() =>
+        visibleProducts.isEmpty
+            ? const StateView(
+                type: StateViewType.empty,
+                title: 'Sin coincidencias',
+                message: 'No hay productos que coincidan con el filtro actual.',
+              )
+            : _ProductsGrid(products: visibleProducts),
+    };
   }
 }
 
@@ -293,6 +296,15 @@ class _Header extends StatelessWidget {
           connectionOk: apiConnectionOk,
           message: connectionMessage,
           onPressed: onTestConnection,
+        ),
+        SizedBox(height: tokens.spaceMd),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: AppPrimaryButton(
+            text: 'NUEVO PEDIDO',
+            onPressed: () => context.go('/orders/new'),
+            icon: const Icon(Icons.add_shopping_cart),
+          ),
         ),
       ],
     );
@@ -439,11 +451,7 @@ class _ProductsGrid extends StatelessWidget {
                   imageUrl: product.imageUrl,
                   compact: columns > 1,
                   onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Producto seleccionado: ${product.name}'),
-                      ),
-                    );
+                    context.go('/products/${Uri.encodeComponent(product.id)}');
                   },
                   trailing: const Icon(Icons.chevron_right),
                 ),

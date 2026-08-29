@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'screens/products_screen.dart';
+import 'router/app_router.dart';
 import 'theme/app_theme.dart';
 
 void main() {
-  runApp(const DeliverPuyoApp());
+  runApp(const ProviderScope(child: DeliverPuyoApp()));
 }
 
-class DeliverPuyoApp extends StatelessWidget {
+class DeliverPuyoApp extends ConsumerWidget {
   const DeliverPuyoApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(appRouterProvider);
+
+    return MaterialApp.router(
       title: 'DeliverPuyo Móvil',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),
-      home: const ProductsScreen(),
+      routerConfig: router,
     );
   }
 }

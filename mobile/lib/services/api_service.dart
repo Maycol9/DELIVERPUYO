@@ -4,8 +4,13 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../config/api_config.dart';
+import '../models/address.dart';
+import '../models/app_user.dart';
+import '../models/auth_session.dart';
+import '../models/order.dart';
 import '../models/product.dart';
 import 'api_error_translator.dart';
+import 'api_exception.dart';
 
 class ApiResult {
   const ApiResult({
@@ -22,27 +27,25 @@ class ApiResult {
 }
 
 class ApiService {
+  ApiService({http.Client? client}) : _client = client ?? http.Client();
+
   static const Duration _timeout = Duration(seconds: 10);
+  final http.Client _client;
 
   Future<ApiResult> getCategories() async {
-    final uri = Uri.parse('${ApiConfig.baseUrl}/api/categories');
-
     try {
-      final response = await http.get(uri).timeout(_timeout);
-
-      if (response.statusCode != 200) {
-        return ApiResult(
-          success: false,
-          statusCode: response.statusCode,
-          message: ApiErrorTranslator.fromStatusCode(response.statusCode),
-        );
-      }
-
+      final decoded = await _request('GET', '/api/categories');
       return ApiResult(
         success: true,
-        statusCode: response.statusCode,
+        statusCode: 200,
         message: 'Conexión exitosa',
-        preview: _buildPreview(response.body),
+        preview: _buildPreview(decoded),
+      );
+    } on ApiException catch (error) {
+      return ApiResult(
+        success: false,
+        statusCode: error.statusCode,
+        message: error.message,
       );
     } catch (error) {
       return ApiResult(
@@ -53,27 +56,16 @@ class ApiService {
   }
 
   Future<ProductListResult> getProducts() async {
-    final uri = Uri.parse(
-      '${ApiConfig.baseUrl}/api/products?page=1&limit=20'
-      '&fields=id,name,price,stock,imageUrl,category',
-    );
-
     try {
-      final response = await http.get(uri).timeout(_timeout);
-
-      if (response.statusCode != 200) {
-        return ProductListResult.failure(
-          ApiErrorTranslator.fromStatusCode(response.statusCode),
-          statusCode: response.statusCode,
-        );
-      }
-
-      final decoded = jsonDecode(response.body);
-      if (decoded is! Map<String, dynamic>) {
-        return const ProductListResult.failure(
-          'La respuesta de productos no tiene el formato esperado.',
-        );
-      }
+      final decoded = await _request(
+        'GET',
+        '/api/products',
+        query: const {
+          'page': '1',
+          'limit': '50',
+          'fields': 'id,name,description,price,stock,imageUrl,category',
+        },
+      );
 
       final rawData = decoded['data'];
       final products = rawData is List
@@ -89,18 +81,151 @@ class ApiService {
           : products.length;
 
       return ProductListResult.success(products, totalItems: totalItems);
+    } on ApiException catch (error) {
+      return ProductListResult.failure(
+        error.message,
+        statusCode: error.statusCode,
+      );
     } catch (error) {
       return ProductListResult.failure(ApiErrorTranslator.fromException(error));
     }
   }
 
-  String _buildPreview(String body) {
-    final decoded = jsonDecode(body);
+  Future<AuthSession> login({
+    required String email,
+    required String password,
+  }) async {
+    final decoded = await _request(
+      'POST',
+      '/api/auth/login',
+      body: {'email': email, 'password': password},
+    );
+    final data = _dataMap(decoded);
+    return AuthSession(
+      user: AppUser.fromJson(_asMap(data['user'])),
+      accessToken: data['accessToken']?.toString() ?? '',
+      refreshToken: data['refreshToken']?.toString() ?? '',
+      expiresInSeconds: _toInt(data['expiresInSeconds']),
+    );
+  }
+
+  Future<List<Address>> getAddresses(String token) async {
+    final decoded = await _request('GET', '/api/addresses', token: token);
+    final rawData = decoded['data'];
+    return rawData is List
+        ? rawData
+              .whereType<Map<String, dynamic>>()
+              .map(Address.fromJson)
+              .toList(growable: false)
+        : <Address>[];
+  }
+
+  Future<List<OrderSummary>> getOrders(String token) async {
+    final decoded = await _request(
+      'GET',
+      '/api/orders',
+      token: token,
+      query: const {'page': '1', 'limit': '20'},
+    );
+    final rawData = decoded['data'];
+    return rawData is List
+        ? rawData
+              .whereType<Map<String, dynamic>>()
+              .map(OrderSummary.fromJson)
+              .toList(growable: false)
+        : <OrderSummary>[];
+  }
+
+  Future<OrderSummary> createOrder({
+    required String token,
+    required OrderDraft draft,
+  }) async {
+    final decoded = await _request(
+      'POST',
+      '/api/orders',
+      token: token,
+      body: draft.toCreateJson(),
+    );
+    return OrderSummary.fromJson(_dataMap(decoded));
+  }
+
+  Future<void> probeForbidden(String token) async {
+    await _request(
+      'POST',
+      '/api/categories',
+      token: token,
+      body: const {'name': 'Semana once'},
+    );
+  }
+
+  Future<Map<String, dynamic>> _request(
+    String method,
+    String path, {
+    Map<String, String>? query,
+    Map<String, dynamic>? body,
+    String? token,
+  }) async {
+    final uri = Uri.parse(
+      '${ApiConfig.baseUrl}$path',
+    ).replace(queryParameters: query);
+    final headers = <String, String>{
+      'Accept': 'application/json',
+      if (body != null) 'Content-Type': 'application/json',
+      if (token != null && token.isNotEmpty) 'Authorization': 'Bearer $token',
+    };
+
+    try {
+      final response = switch (method) {
+        'GET' => await _client.get(uri, headers: headers).timeout(_timeout),
+        'POST' =>
+          await _client
+              .post(uri, headers: headers, body: jsonEncode(body))
+              .timeout(_timeout),
+        _ => throw UnsupportedError('Metodo HTTP no soportado: $method'),
+      };
+      return _decodeResponse(response);
+    } catch (error) {
+      if (error is ApiException) rethrow;
+      throw ApiException(message: ApiErrorTranslator.fromException(error));
+    }
+  }
+
+  Map<String, dynamic> _decodeResponse(http.Response response) {
+    final decoded = response.body.isEmpty
+        ? <String, dynamic>{}
+        : jsonDecode(response.body);
+    if (decoded is! Map<String, dynamic>) {
+      throw const ApiException(
+        message: 'La respuesta del servidor no tiene el formato esperado.',
+      );
+    }
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      throw ApiException.fromStatus(
+        response.statusCode,
+        serverMessage: decoded['message']?.toString(),
+        errors: decoded['errors'],
+      );
+    }
+    return decoded;
+  }
+
+  String _buildPreview(Map<String, dynamic> decoded) {
     const encoder = JsonEncoder.withIndent('  ');
     final formatted = encoder.convert(decoded);
 
     if (formatted.length <= 600) return formatted;
     return '${formatted.substring(0, 600)}...';
+  }
+
+  Map<String, dynamic> _dataMap(Map<String, dynamic> decoded) {
+    return _asMap(decoded['data']);
+  }
+
+  Map<String, dynamic> _asMap(Object? value) {
+    if (value is Map<String, dynamic>) return value;
+    throw const ApiException(
+      message: 'La respuesta del servidor no tiene el formato esperado.',
+    );
   }
 
   int _toInt(Object? value) {

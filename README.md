@@ -473,3 +473,83 @@ Resumen documentado en `docs/semana10/USO_IA.md`.
 ## Evidencias
 
 La checklist está en `evidence/semana10/CHECKLIST_EVIDENCIAS.md`. Las capturas, TalkBack, fuente ampliada y dos anchos quedan pendientes porque requieren intervención manual.
+
+# Avance 11 — Navegación, manejo de estado y formularios
+
+## Objetivo
+
+Se agregó navegación declarativa, manejo de estado con Riverpod, autenticación en memoria, rutas protegidas, estado remoto cerrado y formulario real de creación de pedidos sin reconstruir el proyecto ni eliminar avances anteriores.
+
+## Navegación con go_router
+
+La configuración vive en `mobile/lib/router/app_router.dart`.
+
+Rutas principales:
+
+- `/login`: pública, consume `POST /api/auth/login`.
+- `/products`: pública, consume `GET /api/products`.
+- `/products/:id`: anidada y protegida, recibe el ID por URL.
+- `/orders`: protegida, consume `GET /api/orders`.
+- `/orders/new`: protegida, consume `POST /api/orders`.
+- `/profile`: protegida, muestra usuario autenticado y prueba controlada de 403.
+
+`/products/:id` no recibe un objeto completo por `extra`; reconstruye la pantalla desde la URL. Como el backend no tiene `GET /api/products/[id]`, usa el catálogo real y localiza el producto por ID.
+
+## Autenticación y protección
+
+Riverpod mantiene token y usuario autenticado como estado de aplicación durante la sesión actual. Las rutas protegidas redirigen a `/login?from=<destino>` y, tras login exitoso, vuelven al destino interno solicitado. El parámetro `from` se valida para impedir URLs externas.
+
+401 limpia la sesión y muestra que la sesión terminó. 403 conserva la sesión y muestra un mensaje de permisos.
+
+## Estado
+
+El estado efímero permanece local cuando solo afecta una pantalla: búsqueda, filtros visuales y mostrar/ocultar contraseña. El estado de aplicación usa Riverpod: autenticación, catálogo, pedidos y borrador de pedido.
+
+El catálogo usa `RemoteState<T>` con estados cerrados: initial, loading, data, empty y error. `ProductsScreen` lo integra con `StateView` y `ProductCard`.
+
+## Formulario de pedido
+
+`CreateOrderScreen` usa el endpoint real `POST /api/orders`.
+
+Contrato:
+
+```json
+{
+  "addressId": "uuid",
+  "items": [{ "productId": "uuid", "quantity": 1 }]
+}
+```
+
+Validaciones derivadas del backend:
+
+- `addressId`: UUID requerido.
+- `items`: mínimo 1, máximo 30.
+- `productId`: UUID requerido.
+- `quantity`: entero positivo, máximo 50.
+
+La cantidad valida al abandonar el campo mediante `FocusNode` y valida al enviar con `FormState.validate()`. Los errores 422 se extraen de `errors` y se asocian al campo correspondiente cuando el backend lo permite. El borrador se conserva al navegar y se limpia después de crear correctamente.
+
+## Pruebas y evidencias
+
+Verificación ejecutada:
+
+```powershell
+cd mobile
+flutter pub get
+dart format lib test
+flutter analyze
+flutter test
+```
+
+Resultado:
+
+- `flutter analyze`: No issues found.
+- `flutter test`: All tests passed.
+
+Documentación de Semana 11: `docs/semana11/`.
+
+Evidencias: `evidence/semana11/`. Las capturas visuales quedan pendientes de ejecución manual/ADB con backend y emulador activos; no se crearon capturas falsas.
+
+## Uso de IA
+
+El registro está en `docs/semana11/USO_IA.md`.
