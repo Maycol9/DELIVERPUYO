@@ -50,6 +50,31 @@ void main() {
 
       expect(ok, isFalse);
       expect(container.read(authControllerProvider), isA<AuthFailure>());
+      expect(
+        (container.read(authControllerProvider) as AuthFailure).message,
+        'Correo o contraseña incorrectos.',
+      );
+    });
+
+    test('register success stores created user and token', () async {
+      final container = ProviderContainer(
+        overrides: [apiServiceProvider.overrideWithValue(_FakeApiService())],
+      );
+      addTearDown(container.dispose);
+
+      final ok = await container
+          .read(authControllerProvider.notifier)
+          .register(
+            name: 'Cliente Nuevo',
+            email: 'nuevo@deliverpuyo.local',
+            password: 'Cliente1234',
+          );
+
+      final state = container.read(authControllerProvider);
+      expect(ok, isTrue);
+      expect(state, isA<Authenticated>());
+      expect(state.session?.user.email, 'nuevo@deliverpuyo.local');
+      expect(state.session?.accessToken, 'register-access-token');
     });
 
     test('logout clears session', () async {
@@ -116,6 +141,25 @@ class _FakeApiService extends ApiService {
       ),
       accessToken: 'access-token',
       refreshToken: 'refresh-token',
+      expiresInSeconds: 900,
+    );
+  }
+
+  @override
+  Future<AuthSession> register({
+    required String name,
+    required String email,
+    required String password,
+  }) async {
+    return AuthSession(
+      user: AppUser(
+        id: 'new-user-id',
+        name: name,
+        email: email,
+        role: 'CLIENT',
+      ),
+      accessToken: 'register-access-token',
+      refreshToken: 'register-refresh-token',
       expiresInSeconds: 900,
     );
   }

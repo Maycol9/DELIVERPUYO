@@ -26,10 +26,36 @@ class AuthController extends Notifier<AuthState> {
       state = Authenticated(session);
       return true;
     } on ApiException catch (error) {
-      state = AuthFailure(error.message, statusCode: error.statusCode);
+      state = AuthFailure(
+        error.statusCode == 401
+            ? 'Correo o contraseña incorrectos.'
+            : error.message,
+        statusCode: error.statusCode,
+      );
       return false;
     } catch (_) {
       state = const AuthFailure('No fue posible iniciar sesión.');
+      return false;
+    }
+  }
+
+  Future<bool> register({
+    required String name,
+    required String email,
+    required String password,
+  }) async {
+    state = const AuthLoading();
+    try {
+      final session = await ref
+          .read(authRepositoryProvider)
+          .register(name: name, email: email, password: password);
+      state = Authenticated(session);
+      return true;
+    } on ApiException catch (error) {
+      state = AuthFailure(error.message, statusCode: error.statusCode);
+      return false;
+    } catch (_) {
+      state = const AuthFailure('No fue posible registrar la cuenta.');
       return false;
     }
   }

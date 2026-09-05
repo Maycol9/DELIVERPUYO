@@ -9,4 +9,12 @@ class AuthRepository {
   Future<AuthSession> login({required String email, required String password}) {
     return _apiService.login(email: email, password: password);
   }
+
+  Future<AuthSession> register({
+    required String name,
+    required String email,
+    required String password,
+  }) {
+    return _apiService.register(name: name, email: email, password: password);
+  }
 }

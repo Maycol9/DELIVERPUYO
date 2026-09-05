@@ -553,3 +553,19 @@ Evidencias: `evidence/semana11/`. Las capturas visuales quedan pendientes de eje
 ## Uso de IA
 
 El registro está en `docs/semana11/USO_IA.md`.
+
+# Taller - Autenticación, navegación, estado y formularios
+
+La documentación del taller está en `docs/taller_autenticacion/`.
+
+Resumen:
+
+- Login móvil con `POST /api/auth/login`.
+- Registro móvil con `POST /api/auth/register`.
+- Navegación declarativa con `go_router`.
+- Rutas protegidas para pedidos, creación de pedido, perfil y detalle.
+- Estado de sesión y formularios con Riverpod.
+- Logout desde perfil.
+- Pruebas desde `mobile` con `dart format .`, `flutter analyze` y `flutter test`.
+
+No se agregan credenciales ni tokens en esta sección.

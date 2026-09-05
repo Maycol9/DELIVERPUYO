@@ -7,6 +7,7 @@ import 'package:deliverpuyo_mobile/models/product.dart';
 import 'package:deliverpuyo_mobile/orders/orders_controller.dart';
 import 'package:deliverpuyo_mobile/providers/app_providers.dart';
 import 'package:deliverpuyo_mobile/router/app_router.dart';
+import 'package:deliverpuyo_mobile/screens/login_screen.dart';
 import 'package:deliverpuyo_mobile/screens/product_detail_screen.dart';
 import 'package:deliverpuyo_mobile/services/api_exception.dart';
 import 'package:deliverpuyo_mobile/services/api_service.dart';
@@ -66,6 +67,86 @@ void main() {
       router.routerDelegate.currentConfiguration.uri.queryParameters['from'],
       '/orders',
     );
+  });
+
+  testWidgets('login form validates email and password with clear messages', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [apiServiceProvider.overrideWithValue(_ClosureFakeApi())],
+        child: MaterialApp(theme: AppTheme.light(), home: const LoginScreen()),
+      ),
+    );
+
+    await tester.tap(find.text('INGRESAR'));
+    await tester.pump();
+
+    expect(find.text('Ingresa tu correo electrónico.'), findsOneWidget);
+    expect(find.text('Ingresa tu contraseña.'), findsOneWidget);
+
+    await tester.enterText(
+      find.widgetWithText(TextFormField, 'Correo electrónico'),
+      'correo-invalido',
+    );
+    await tester.enterText(
+      find.widgetWithText(TextFormField, 'Contraseña'),
+      'secreto',
+    );
+    await tester.tap(find.text('INGRESAR'));
+    await tester.pump();
+
+    expect(find.text('Ingresa un correo electrónico válido.'), findsOneWidget);
+  });
+
+  testWidgets('login success returns to the intended protected destination', (
+    tester,
+  ) async {
+    final container = ProviderContainer(
+      overrides: [apiServiceProvider.overrideWithValue(_ClosureFakeApi())],
+    );
+    addTearDown(container.dispose);
+    final router = container.read(appRouterProvider);
+
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: MaterialApp.router(
+          theme: AppTheme.light(),
+          routerConfig: router,
+        ),
+      ),
+    );
+
+    router.go('/orders');
+    await tester.pumpAndSettle();
+    await tester.enterText(
+      find.widgetWithText(TextFormField, 'Correo electrónico'),
+      'cliente@deliverpuyo.local',
+    );
+    await tester.enterText(
+      find.widgetWithText(TextFormField, 'Contraseña'),
+      'Cliente1234',
+    );
+    await tester.tap(find.text('INGRESAR'));
+    await tester.pumpAndSettle();
+
+    expect(router.routerDelegate.currentConfiguration.uri.path, '/orders');
+    expect(container.read(authControllerProvider), isA<Authenticated>());
+  });
+
+  test('logout blocks protected routes again', () async {
+    final container = ProviderContainer(
+      overrides: [apiServiceProvider.overrideWithValue(_ClosureFakeApi())],
+    );
+    addTearDown(container.dispose);
+
+    await container
+        .read(authControllerProvider.notifier)
+        .login(email: 'cliente@deliverpuyo.local', password: 'secret');
+    container.read(authControllerProvider.notifier).logout();
+
+    expect(container.read(authControllerProvider), isA<Unauthenticated>());
   });
 
   test('422 extracts field errors and keeps the order draft values', () async {

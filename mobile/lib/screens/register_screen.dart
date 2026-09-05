@@ -8,23 +8,25 @@ import '../theme/app_tokens.dart';
 import '../widgets/app_primary_button.dart';
 import '../widgets/app_text_field.dart';
 
-class LoginScreen extends ConsumerStatefulWidget {
-  const LoginScreen({this.from, super.key});
+class RegisterScreen extends ConsumerStatefulWidget {
+  const RegisterScreen({this.from, super.key});
 
   final String? from;
 
   @override
-  ConsumerState<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends ConsumerState<LoginScreen> {
+class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _showPassword = false;
 
   @override
   void dispose() {
+    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -34,7 +36,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     if (!_formKey.currentState!.validate()) return;
     final ok = await ref
         .read(authControllerProvider.notifier)
-        .login(
+        .register(
+          name: _nameController.text.trim(),
           email: _emailController.text.trim(),
           password: _passwordController.text,
         );
@@ -54,7 +57,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     };
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Iniciar sesión')),
+      appBar: AppBar(
+        title: const Text('Crear cuenta'),
+        leading: IconButton(
+          tooltip: 'Volver',
+          onPressed: () => context.go('/login'),
+          icon: const Icon(Icons.arrow_back),
+        ),
+      ),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -67,12 +77,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      'DeliverPuyo',
+                      'Registro',
                       style: Theme.of(context).textTheme.displaySmall,
                     ),
                     SizedBox(height: tokens.spaceSm),
                     Text(
-                      'Accede para ver detalles y gestionar pedidos.',
+                      'Crea una cuenta de cliente para usar DeliverPuyo.',
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     if (message != null) ...[
@@ -85,6 +95,24 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                     ],
                     SizedBox(height: tokens.spaceLg),
+                    AppTextField(
+                      label: 'Nombre',
+                      controller: _nameController,
+                      keyboardType: TextInputType.name,
+                      prefix: const Icon(Icons.person_outline),
+                      validator: (value) {
+                        final text = value?.trim() ?? '';
+                        if (text.isEmpty) return 'Ingresa tu nombre.';
+                        if (text.length < 3) {
+                          return 'El nombre debe tener al menos 3 caracteres.';
+                        }
+                        if (text.length > 120) {
+                          return 'El nombre no puede superar 120 caracteres.';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: tokens.spaceMd),
                     AppTextField(
                       label: 'Correo electrónico',
                       controller: _emailController,
@@ -121,18 +149,26 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         ),
                       ),
                       validator: (value) {
-                        if ((value ?? '').isEmpty) {
-                          return 'Ingresa tu contraseña.';
+                        final text = value ?? '';
+                        if (text.isEmpty) return 'Ingresa tu contraseña.';
+                        if (text.length < 8) {
+                          return 'La contraseña debe tener al menos 8 caracteres.';
+                        }
+                        if (!RegExp('[A-Z]').hasMatch(text)) {
+                          return 'La contraseña debe incluir una mayúscula.';
+                        }
+                        if (!RegExp('[0-9]').hasMatch(text)) {
+                          return 'La contraseña debe incluir un número.';
                         }
                         return null;
                       },
                     ),
                     SizedBox(height: tokens.spaceLg),
                     AppPrimaryButton(
-                      text: 'INGRESAR',
+                      text: 'CREAR CUENTA',
                       loading: loading,
                       onPressed: _submit,
-                      icon: const Icon(Icons.login),
+                      icon: const Icon(Icons.person_add_alt_1),
                     ),
                     SizedBox(height: tokens.spaceSm),
                     TextButton(
@@ -140,10 +176,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           ? null
                           : () => context.go(
                               widget.from == null
-                                  ? '/register'
-                                  : '/register?from=${Uri.encodeComponent(widget.from!)}',
+                                  ? '/login'
+                                  : '/login?from=${Uri.encodeComponent(widget.from!)}',
                             ),
-                      child: const Text('Crear cuenta'),
+                      child: const Text('Ya tengo cuenta'),
                     ),
                   ],
                 ),

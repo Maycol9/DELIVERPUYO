@@ -109,6 +109,25 @@ class ApiService {
     );
   }
 
+  Future<AuthSession> register({
+    required String name,
+    required String email,
+    required String password,
+  }) async {
+    final decoded = await _request(
+      'POST',
+      '/api/auth/register',
+      body: {'name': name, 'email': email, 'password': password},
+    );
+    final data = _dataMap(decoded);
+    return AuthSession(
+      user: AppUser.fromJson(_asMap(data['user'])),
+      accessToken: data['accessToken']?.toString() ?? '',
+      refreshToken: data['refreshToken']?.toString() ?? '',
+      expiresInSeconds: _toInt(data['expiresInSeconds']),
+    );
+  }
+
   Future<List<Address>> getAddresses(String token) async {
     final decoded = await _request('GET', '/api/addresses', token: token);
     final rawData = decoded['data'];

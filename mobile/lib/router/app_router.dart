@@ -10,6 +10,7 @@ import '../screens/orders_screen.dart';
 import '../screens/product_detail_screen.dart';
 import '../screens/products_screen.dart';
 import '../screens/profile_screen.dart';
+import '../screens/register_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   final refresh = _RouterRefreshNotifier();
@@ -23,14 +24,16 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       final authState = ref.read(authControllerProvider);
       final isLoggedIn = authState is Authenticated;
       final location = state.uri.toString();
-      final isLogin = state.matchedLocation == '/login';
+      final isAuthRoute =
+          state.matchedLocation == '/login' ||
+          state.matchedLocation == '/register';
       final protected = _isProtectedPath(state.uri.path);
 
       if (!isLoggedIn && protected) {
         return '/login?from=${Uri.encodeComponent(location)}';
       }
 
-      if (isLoggedIn && isLogin) {
+      if (isLoggedIn && isAuthRoute) {
         final from = state.uri.queryParameters['from'];
         return _safeInternalPath(from) ?? '/products';
       }
@@ -41,6 +44,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/login',
         builder: (context, state) => LoginScreen(
+          from: _safeInternalPath(state.uri.queryParameters['from']),
+        ),
+      ),
+      GoRoute(
+        path: '/register',
+        builder: (context, state) => RegisterScreen(
           from: _safeInternalPath(state.uri.queryParameters['from']),
         ),
       ),
