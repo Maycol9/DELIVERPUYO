@@ -11,7 +11,9 @@ final class RemoteLoading<T> extends RemoteState<T> {
 }
 
 final class RemoteData<T> extends RemoteState<T> {
-  const RemoteData(this.value);
+  const RemoteData(this.value, {this.notice});
+
+  final String? notice;
 
   final T value;
 }

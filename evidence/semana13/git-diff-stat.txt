@@ -1,0 +1,26 @@
+ mobile/android/app/src/main/AndroidManifest.xml    |   1 +
+ .../src/main/res/xml/network_security_config.xml   |  11 +-
+ mobile/lib/auth/auth_controller.dart               |  40 +-
+ mobile/lib/config/api_config.dart                  |  21 +
+ mobile/lib/main.dart                               |  13 +-
+ mobile/lib/models/order.dart                       |  16 +-
+ mobile/lib/models/product.dart                     |  32 +-
+ mobile/lib/orders/orders_controller.dart           |  53 +-
+ mobile/lib/products/products_controller.dart       |  38 +-
+ mobile/lib/screens/orders_screen.dart              |  86 ++-
+ mobile/lib/screens/products_screen.dart            |   9 +
+ mobile/lib/services/api_error_translator.dart      |  16 +-
+ mobile/lib/services/api_exception.dart             |   2 +-
+ mobile/lib/services/api_service.dart               |  86 ++-
+ mobile/lib/state/remote_state.dart                 |   4 +-
+ .../linux/flutter/generated_plugin_registrant.cc   |   4 +
+ mobile/linux/flutter/generated_plugins.cmake       |   2 +
+ .../macos/Flutter/GeneratedPluginRegistrant.swift  |   4 +
+ mobile/pubspec.lock                                | 595 ++++++++++++++++++++-
+ mobile/pubspec.yaml                                |   9 +-
+ mobile/test/auth_controller_test.dart              |   7 +
+ mobile/test/semana11_closure_test.dart             |  10 +-
+ mobile/test/widget_test.dart                       |   7 +
+ .../windows/flutter/generated_plugin_registrant.cc |   3 +
+ mobile/windows/flutter/generated_plugins.cmake     |   2 +
+ 25 files changed, 963 insertions(+), 108 deletions(-)

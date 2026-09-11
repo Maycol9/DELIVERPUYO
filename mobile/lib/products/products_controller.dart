@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+import 'product_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../config/app_demo_config.dart';
@@ -11,13 +13,25 @@ final productsControllerProvider =
     );
 
 class ProductsController extends Notifier<RemoteState<List<Product>>> {
+  int _generation = 0;
+  bool _disposed = false;
+  void cancel() {
+    _generation++;
+    ref.read(apiServiceProvider).cancelProducts();
+  }
+
   @override
   RemoteState<List<Product>> build() {
+    ref.onDispose(() {
+      _disposed = true;
+    });
     Future.microtask(load);
     return const RemoteInitial();
   }
 
   Future<void> load() async {
+    final generation = ++_generation;
+    ref.read(apiServiceProvider).cancelProducts();
     state = const RemoteLoading();
 
     if (AppDemoConfig.state == UiDemoState.loading) return;
@@ -34,14 +48,24 @@ class ProductsController extends Notifier<RemoteState<List<Product>>> {
       return;
     }
 
-    final result = await ref.read(apiServiceProvider).getProducts();
-    if (!result.success) {
-      state = RemoteError(result.message, statusCode: result.statusCode);
-      return;
+    final repository = ProductRepository(
+      ProductRemoteDataSource(ref.read(apiServiceProvider)),
+      ProductLocalDataSource(),
+    );
+    try {
+      await for (final result in repository.watch()) {
+        if (_disposed || generation != _generation) return;
+        state = result.error != null
+            ? RemoteError(result.error!, statusCode: result.statusCode)
+            : result.products.isEmpty
+            ? const RemoteEmpty('No hay productos disponibles en este momento.')
+            : RemoteData(result.products, notice: result.notice);
+      }
+    } on DioException catch (e) {
+      if (!CancelToken.isCancel(e) && !_disposed && generation == _generation) {
+        state = const RemoteError('No fue posible cargar los productos.');
+      }
     }
-    state = result.products.isEmpty
-        ? const RemoteEmpty('No hay productos disponibles en este momento.')
-        : RemoteData(result.products);
   }
 
   Product? byId(String productId) {

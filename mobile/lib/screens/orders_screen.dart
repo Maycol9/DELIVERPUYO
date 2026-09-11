@@ -1,3 +1,4 @@
+import '../auth/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -26,6 +27,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(ordersControllerProvider);
+    final pending = ref.watch(outboxStatusProvider).valueOrNull;
 
     return Scaffold(
       appBar: AppBar(
@@ -44,9 +46,87 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(context.tokens.spaceMd),
-          child: _OrdersBody(
-            state: state,
-            onRetry: () => ref.read(ordersControllerProvider.notifier).load(),
+          child: Column(
+            children: [
+              if (pending != null)
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      children: [
+                        Text(
+                          pending == 'pending'
+                              ? 'Hay un pedido guardado pendiente de envío. Actualiza con conexión para enviarlo.'
+                              : 'El envío anterior no está confirmado. Revisa la lista antes de crear otro pedido.',
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            final user = ref
+                                .read(authControllerProvider)
+                                .session
+                                ?.user
+                                .id;
+                            final confirmed = await showDialog<bool>(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: const Text('Descartar envío guardado'),
+                                content: const Text(
+                                  'Confirma que revisaste tus pedidos. Esto elimina solo el envío guardado en este dispositivo.',
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(context, false),
+                                    child: const Text('Cancelar'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(context, true),
+                                    child: const Text('Descartar'),
+                                  ),
+                                ],
+                              ),
+                            );
+                            if (!mounted || confirmed != true || user == null) {
+                              return;
+                            }
+                            try {
+                              await ref
+                                  .read(orderRepositoryProvider)
+                                  .discard(user);
+                              ref.invalidate(outboxStatusProvider);
+                            } catch (_) {
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      'No fue posible descartar el envío.',
+                                    ),
+                                  ),
+                                );
+                              }
+                            }
+                          },
+                          child: const Text(
+                            'Revisé mis pedidos: descartar envío guardado',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              Expanded(
+                child: RefreshIndicator(
+                  onRefresh: () =>
+                      ref.read(ordersControllerProvider.notifier).load(),
+                  child: _OrdersBody(
+                    state: state,
+                    onRetry: () =>
+                        ref.read(ordersControllerProvider.notifier).load(),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),

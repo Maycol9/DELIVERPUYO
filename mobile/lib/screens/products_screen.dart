@@ -24,6 +24,7 @@ class ProductsScreen extends ConsumerStatefulWidget {
 class _ProductsScreenState extends ConsumerState<ProductsScreen> {
   final TextEditingController _searchController = TextEditingController();
 
+  late final ProductsController _productsController;
   String? _connectionMessage;
   bool? _apiConnectionOk;
   String? _selectedCategory;
@@ -31,10 +32,12 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
   @override
   void initState() {
     super.initState();
+    _productsController = ref.read(productsControllerProvider.notifier);
   }
 
   @override
   void dispose() {
+    _productsController.cancel();
     _searchController.dispose();
     super.dispose();
   }
@@ -119,6 +122,12 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                             },
                           ),
                           SizedBox(height: tokens.spaceLg),
+                          if (productsState is RemoteData<List<Product>> &&
+                              productsState.notice != null)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 12),
+                              child: Text(productsState.notice!),
+                            ),
                           _ProductsStateView(
                             state: productsState,
                             visibleProducts: visibleProducts,

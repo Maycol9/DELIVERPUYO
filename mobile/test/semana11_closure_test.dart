@@ -1,3 +1,5 @@
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:deliverpuyo_mobile/auth/auth_controller.dart';
 import 'package:deliverpuyo_mobile/auth/auth_state.dart';
 import 'package:deliverpuyo_mobile/models/app_user.dart';
@@ -18,6 +20,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  setUp(() {
+    FlutterSecureStorage.setMockInitialValues({});
+    SharedPreferences.setMockInitialValues({});
+  });
   testWidgets('ProductDetailScreen rebuilds from the route id without extra', (
     tester,
   ) async {
@@ -31,8 +38,7 @@ void main() {
       ),
     );
 
-    await tester.pump();
-    await tester.pump();
+    await tester.pumpAndSettle();
 
     expect(find.text('Producto por ID'), findsOneWidget);
     expect(find.text(r'$4.25'), findsOneWidget);

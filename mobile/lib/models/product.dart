@@ -1,3 +1,7 @@
+import 'package:json_annotation/json_annotation.dart';
+part 'product.g.dart';
+
+@JsonSerializable()
 class Product {
   const Product({
     required this.id,
@@ -11,26 +15,26 @@ class Product {
 
   final String id;
   final String name;
+  @JsonKey(fromJson: _toDouble)
   final double price;
+  @JsonKey(fromJson: _toInt)
   final int stock;
   final String? imageUrl;
   final String? description;
+  @JsonKey(
+    name: 'category',
+    fromJson: _categoryFromJson,
+    toJson: _categoryToJson,
+  )
   final String? categoryName;
 
-  factory Product.fromJson(Map<String, dynamic> json) {
-    final category = json['category'];
-    return Product(
-      id: json['id']?.toString() ?? '',
-      name: json['name']?.toString() ?? 'Producto sin nombre',
-      price: _toDouble(json['price']),
-      stock: _toInt(json['stock']),
-      imageUrl: json['imageUrl']?.toString(),
-      description: json['description']?.toString(),
-      categoryName: category is Map<String, dynamic>
-          ? category['name']?.toString()
-          : null,
-    );
-  }
+  factory Product.fromJson(Map<String, dynamic> json) =>
+      _$ProductFromJson(json);
+  Map<String, dynamic> toJson() => _$ProductToJson(this);
+  static String? _categoryFromJson(Object? value) =>
+      value is Map ? value['name'] as String? : null;
+  static Map<String, dynamic>? _categoryToJson(String? value) =>
+      value == null ? null : {'name': value};
 
   static double _toDouble(Object? value) {
     if (value is num) return value.toDouble();

@@ -1,3 +1,7 @@
+import 'package:json_annotation/json_annotation.dart';
+part 'order.g.dart';
+
+@JsonSerializable()
 class OrderSummary {
   const OrderSummary({
     required this.id,
@@ -8,17 +12,13 @@ class OrderSummary {
 
   final String id;
   final String status;
+  @JsonKey(fromJson: _toDouble)
   final double total;
   final String createdAt;
 
-  factory OrderSummary.fromJson(Map<String, dynamic> json) {
-    return OrderSummary(
-      id: json['id']?.toString() ?? '',
-      status: json['status']?.toString() ?? 'PENDING',
-      total: _toDouble(json['total']),
-      createdAt: json['createdAt']?.toString() ?? '',
-    );
-  }
+  factory OrderSummary.fromJson(Map<String, dynamic> json) =>
+      _$OrderSummaryFromJson(json);
+  Map<String, dynamic> toJson() => _$OrderSummaryToJson(this);
 
   static double _toDouble(Object? value) {
     if (value is num) return value.toDouble();

@@ -1,3 +1,5 @@
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:deliverpuyo_mobile/theme/app_theme.dart';
 import 'package:deliverpuyo_mobile/widgets/app_primary_button.dart';
 import 'package:deliverpuyo_mobile/widgets/category_filter_chip.dart';
@@ -14,6 +16,11 @@ Widget _wrap(Widget child) {
 }
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  setUp(() {
+    FlutterSecureStorage.setMockInitialValues({});
+    SharedPreferences.setMockInitialValues({});
+  });
   group('AppPrimaryButton', () {
     testWidgets('renders normal state', (tester) async {
       var pressed = false;

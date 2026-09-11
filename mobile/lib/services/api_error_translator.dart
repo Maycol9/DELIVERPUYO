@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
 class ApiErrorTranslator {
   const ApiErrorTranslator._();
@@ -19,10 +19,22 @@ class ApiErrorTranslator {
   }
 
   static String fromException(Object error) {
+    if (error is DioException) {
+      if ([
+        DioExceptionType.connectionTimeout,
+        DioExceptionType.receiveTimeout,
+        DioExceptionType.sendTimeout,
+      ].contains(error.type)) {
+        return 'El servidor tardó demasiado en responder. Inténtalo nuevamente.';
+      }
+      if (error.type == DioExceptionType.connectionError) {
+        return 'Sin conexión. Inténtalo nuevamente.';
+      }
+    }
     if (error is TimeoutException) {
       return 'La solicitud tardó demasiado. Intenta nuevamente.';
     }
-    if (error is SocketException || error is http.ClientException) {
+    if (error is SocketException) {
       return 'No fue posible conectarse con el servidor.';
     }
     if (error is FormatException) {

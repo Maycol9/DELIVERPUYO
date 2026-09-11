@@ -1,9 +1,8 @@
-import 'dart:async';
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
+import 'api_client.dart';
 
-import '../config/api_config.dart';
 import '../models/address.dart';
 import '../models/app_user.dart';
 import '../models/auth_session.dart';
@@ -27,10 +26,10 @@ class ApiResult {
 }
 
 class ApiService {
-  ApiService({http.Client? client}) : _client = client ?? http.Client();
-
-  static const Duration _timeout = Duration(seconds: 10);
-  final http.Client _client;
+  ApiService({ApiClient? client}) : client = client ?? ApiClient();
+  final ApiClient client;
+  CancelToken? productsCancelToken;
+  void cancelProducts() => productsCancelToken?.cancel();
 
   Future<ApiResult> getCategories() async {
     try {
@@ -56,14 +55,16 @@ class ApiService {
   }
 
   Future<ProductListResult> getProducts() async {
+    productsCancelToken = CancelToken();
     try {
       final decoded = await _request(
         'GET',
         '/api/products',
+        cancelToken: productsCancelToken,
         query: const {
           'page': '1',
           'limit': '50',
-          'fields': 'id,name,description,price,stock,imageUrl,category',
+          'fields': 'id,name,price,stock,imageUrl,category',
         },
       );
 
@@ -86,6 +87,9 @@ class ApiService {
         error.message,
         statusCode: error.statusCode,
       );
+    } on DioException catch (error) {
+      if (CancelToken.isCancel(error)) rethrow;
+      return ProductListResult.failure(ApiErrorTranslator.fromException(error));
     } catch (error) {
       return ProductListResult.failure(ApiErrorTranslator.fromException(error));
     }
@@ -101,12 +105,14 @@ class ApiService {
       body: {'email': email, 'password': password},
     );
     final data = _dataMap(decoded);
-    return AuthSession(
+    final session = AuthSession(
       user: AppUser.fromJson(_asMap(data['user'])),
       accessToken: data['accessToken']?.toString() ?? '',
       refreshToken: data['refreshToken']?.toString() ?? '',
       expiresInSeconds: _toInt(data['expiresInSeconds']),
     );
+    await client.saveSession(session);
+    return session;
   }
 
   Future<AuthSession> register({
@@ -120,12 +126,14 @@ class ApiService {
       body: {'name': name, 'email': email, 'password': password},
     );
     final data = _dataMap(decoded);
-    return AuthSession(
+    final session = AuthSession(
       user: AppUser.fromJson(_asMap(data['user'])),
       accessToken: data['accessToken']?.toString() ?? '',
       refreshToken: data['refreshToken']?.toString() ?? '',
       expiresInSeconds: _toInt(data['expiresInSeconds']),
     );
+    await client.saveSession(session);
+    return session;
   }
 
   Future<List<Address>> getAddresses(String token) async {
@@ -183,49 +191,33 @@ class ApiService {
     Map<String, String>? query,
     Map<String, dynamic>? body,
     String? token,
+    CancelToken? cancelToken,
   }) async {
-    final uri = Uri.parse(
-      '${ApiConfig.baseUrl}$path',
-    ).replace(queryParameters: query);
-    final headers = <String, String>{
-      'Accept': 'application/json',
-      if (body != null) 'Content-Type': 'application/json',
-      if (token != null && token.isNotEmpty) 'Authorization': 'Bearer $token',
-    };
-
     try {
-      final response = switch (method) {
-        'GET' => await _client.get(uri, headers: headers).timeout(_timeout),
-        'POST' =>
-          await _client
-              .post(uri, headers: headers, body: jsonEncode(body))
-              .timeout(_timeout),
-        _ => throw UnsupportedError('Metodo HTTP no soportado: $method'),
-      };
-      return _decodeResponse(response);
+      final response = await client.dio.request<dynamic>(
+        path,
+        data: body,
+        queryParameters: query,
+        cancelToken: cancelToken,
+        options: Options(method: method, extra: {'protected': token != null}),
+      );
+      final decoded = response.data;
+      final status = response.statusCode ?? 0;
+      if (status < 200 || status >= 300) {
+        throw ApiException.fromStatus(
+          status,
+          errors: decoded is Map ? decoded['errors'] : null,
+        );
+      }
+      if (decoded is! Map<String, dynamic>) {
+        throw const FormatException('Respuesta inválida');
+      }
+      return decoded;
     } catch (error) {
       if (error is ApiException) rethrow;
+      if (error is DioException && CancelToken.isCancel(error)) rethrow;
       throw ApiException(message: ApiErrorTranslator.fromException(error));
     }
-  }
-
-  Map<String, dynamic> _decodeResponse(http.Response response) {
-    final decoded = response.body.isEmpty
-        ? <String, dynamic>{}
-        : jsonDecode(response.body);
-    if (decoded is! Map<String, dynamic>) {
-      throw const ApiException(
-        message: 'La respuesta del servidor no tiene el formato esperado.',
-      );
-    }
-    if (response.statusCode < 200 || response.statusCode >= 300) {
-      throw ApiException.fromStatus(
-        response.statusCode,
-        serverMessage: decoded['message']?.toString(),
-        errors: decoded['errors'],
-      );
-    }
-    return decoded;
   }
 
   String _buildPreview(Map<String, dynamic> decoded) {

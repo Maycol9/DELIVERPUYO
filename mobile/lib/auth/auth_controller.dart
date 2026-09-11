@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../providers/app_providers.dart';
@@ -15,7 +16,30 @@ final authControllerProvider = NotifierProvider<AuthController, AuthState>(
 
 class AuthController extends Notifier<AuthState> {
   @override
-  AuthState build() => const Unauthenticated();
+  AuthState build() {
+    final client = ref.read(apiServiceProvider).client;
+    client.onSessionChanged = (session) {
+      state = session == null
+          ? const Unauthenticated()
+          : Authenticated(session);
+    };
+    ref.onDispose(() => client.onSessionChanged = null);
+    return const Unauthenticated();
+  }
+
+  Future<void> restore() async {
+    final client = ref.read(apiServiceProvider).client;
+    try {
+      final session = await client.storage.read();
+      if (session != null && state is Unauthenticated) {
+        state = Authenticated(session);
+      }
+    } catch (_) {
+      state = const Unauthenticated(
+        message: 'No fue posible recuperar la sesión guardada.',
+      );
+    }
+  }
 
   Future<bool> login({required String email, required String password}) async {
     state = const AuthLoading();
@@ -61,10 +85,24 @@ class AuthController extends Notifier<AuthState> {
   }
 
   void logout({String? message}) {
+    unawaited(
+      ref
+          .read(apiServiceProvider)
+          .client
+          .clearSession()
+          .catchError((Object _) {}),
+    );
     state = Unauthenticated(message: message);
   }
 
   void handleUnauthorized() {
+    unawaited(
+      ref
+          .read(apiServiceProvider)
+          .client
+          .clearSession()
+          .catchError((Object _) {}),
+    );
     state = const Unauthenticated(
       message: 'Tu sesión terminó. Inicia sesión nuevamente.',
     );

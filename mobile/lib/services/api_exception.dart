@@ -23,7 +23,7 @@ class ApiException implements Exception {
     return ApiException(
       statusCode: statusCode,
       message: statusCode == 422 ? (serverMessage ?? translated) : translated,
-      fieldErrors: _parseFieldErrors(errors),
+      fieldErrors: statusCode == 422 ? _parseFieldErrors(errors) : const {},
     );
   }
 
