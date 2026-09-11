@@ -1,0 +1,17 @@
+{
+  "success": true,
+  "data": [
+    {
+      "id": "33aee4c6-5e1f-4c2a-81db-85a66e395179",
+      "name": "Bebidas"
+    },
+    {
+      "id": "c49f8512-cedf-4dd0-a9c3-ea9309d2de33",
+      "name": "Comida rápida"
+    },
+    {
+      "id": "fb5d89bb-933d-4c10-8cb3-9ba76cb70f85",
+      "name": "Postres"
+    }
+  ]
+}

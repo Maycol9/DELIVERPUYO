@@ -1,0 +1,41 @@
+ M mobile/android/app/src/main/AndroidManifest.xml
+ M mobile/android/app/src/main/res/xml/network_security_config.xml
+ M mobile/lib/auth/auth_controller.dart
+ M mobile/lib/config/api_config.dart
+ M mobile/lib/main.dart
+ M mobile/lib/models/order.dart
+ M mobile/lib/models/product.dart
+ M mobile/lib/orders/orders_controller.dart
+ M mobile/lib/products/products_controller.dart
+ M mobile/lib/screens/orders_screen.dart
+ M mobile/lib/screens/products_screen.dart
+ M mobile/lib/services/api_error_translator.dart
+ M mobile/lib/services/api_exception.dart
+ M mobile/lib/services/api_service.dart
+ M mobile/lib/state/remote_state.dart
+ M mobile/linux/flutter/generated_plugin_registrant.cc
+ M mobile/linux/flutter/generated_plugins.cmake
+ M mobile/macos/Flutter/GeneratedPluginRegistrant.swift
+ M mobile/pubspec.lock
+ M mobile/pubspec.yaml
+ M mobile/test/auth_controller_test.dart
+ M mobile/test/semana11_closure_test.dart
+ M mobile/test/widget_test.dart
+ M mobile/windows/flutter/generated_plugin_registrant.cc
+ M mobile/windows/flutter/generated_plugins.cmake
+?? docs/semana13/
+?? evidence/semana13/
+?? mobile/android/app/src/debug/res/
+?? mobile/integration_test/
+?? mobile/lib/models/order.g.dart
+?? mobile/lib/models/product.g.dart
+?? mobile/lib/orders/order_repository.dart
+?? mobile/lib/products/product_repository.dart
+?? mobile/lib/services/api_client.dart
+?? mobile/lib/storage/
+?? mobile/test/semana13_form_test.dart
+?? mobile/test/semana13_outbox_test.dart
+?? mobile/test/semana13_prod_test.dart
+?? mobile/test/semana13_storage_test.dart
+?? mobile/test/semana13_test.dart
+?? mobile/test_driver/

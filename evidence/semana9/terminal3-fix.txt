@@ -1,0 +1,19 @@
+Correccion aplicada para Terminal 3
+
+Sintoma observado:
+flutter run compilaba e instalaba la app en Android, pero fallaba al conectar con el
+Dart Development Service / service protocol en Windows.
+
+Comando estable documentado:
+flutter run -d emulator-5554 --disable-dds --dart-define=API_URL=http://10.0.2.2:3000
+
+Resultado verificado:
+- Flutter detecta el emulador emulator-5554.
+- La app com.deliverpuyo.deliverpuyo_mobile abre en Android.
+- La pantalla muestra DeliverPuyo Movil.
+- La prueba real contra GET /api/categories muestra Conexion exitosa y Codigo HTTP: 200.
+
+Notas:
+- --disable-dds evita el componente DDS que produjo el error local de WebSocket/service protocol.
+- La ejecucion sigue siendo en modo debug y permite usar la consola de Flutter.
+- Para demostrar Hot Reload, dejar flutter run abierto y presionar r despues de modificar un texto visible.

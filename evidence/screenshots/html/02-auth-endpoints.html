@@ -1,0 +1,128 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Evidencia Auth y Endpoints Protegidos</title>
+<style>
+:root{color-scheme:light;--ink:#15202b;--muted:#52606d;--line:#d8dee7;--green:#107c41;--blue:#1455d9;--amber:#9a5a00;--bg:#f6f8fb;--panel:#ffffff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:Segoe UI,Arial,sans-serif;color:var(--ink)}
+.wrap{width:1280px;min-height:720px;padding:34px 42px 42px;margin:0 auto}
+header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px;border-bottom:2px solid var(--line);padding-bottom:18px}
+h1{font-size:34px;line-height:1.05;margin:0 0 8px;font-weight:800;letter-spacing:0}
+.subtitle{font-size:16px;color:var(--muted);max-width:760px;line-height:1.4}
+.stamp{text-align:right;font-size:14px;color:var(--muted);line-height:1.35}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+h2{font-size:20px;margin:0 0 10px;font-weight:750}
+.ok{color:var(--green);font-weight:750}.warn{color:var(--amber);font-weight:750}.info{color:var(--blue);font-weight:750}
+.meta{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 14px}.pill{border:1px solid var(--line);border-radius:999px;padding:5px 10px;background:#f9fbfd;font-size:13px;color:var(--muted)}
+pre{margin:0;background:#111827;color:#e5e7eb;border-radius:6px;padding:14px;font:13px/1.45 Consolas,Monaco,monospace;white-space:pre-wrap;word-break:break-word;max-height:430px;overflow:hidden}
+.metricrow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}.metric{background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px}.metric b{display:block;font-size:26px}.metric span{font-size:13px;color:var(--muted)}
+.footer{margin-top:18px;color:var(--muted);font-size:13px}.small pre{font-size:12px}.wide pre{max-height:520px}
+</style>
+</head>
+<body><main class="wrap"><header><div><h1>Evidencia Auth y Endpoints Protegidos</h1><div class="subtitle">Login, refresh token y consultas protegidas con Authorization Bearer enmascarado.</div></div><div class="stamp">DeliverPuyo Backend<br>Avance 8<br>18/07/2026</div></header><section class="metricrow"><div class="metric"><b class="ok">200</b><span>POST login</span></div><div class="metric"><b class="ok">200</b><span>POST refresh</span></div><div class="metric"><b>25</b><span>Pedidos</span></div><div class="metric"><b>1</b><span>Direcciones</span></div></section>
+<section class="grid"><div class="card small"><h2>Autenticacion</h2><pre>{
+    &quot;login&quot;:  {
+                  &quot;status&quot;:  200,
+                  &quot;success&quot;:  true,
+                  &quot;user&quot;:  {
+                               &quot;id&quot;:  &quot;2cf0b61f-4ade-414d-93aa-88760d4b5106&quot;,
+                               &quot;name&quot;:  &quot;Cliente de Prueba&quot;,
+                               &quot;email&quot;:  &quot;cliente@deliverpuyo.local&quot;,
+                               &quot;role&quot;:  &quot;CLIENT&quot;
+                           },
+                  &quot;accessToken&quot;:  &quot;eyJhbGciOiJIUzI1...K4jN_bmY&quot;,
+                  &quot;refreshToken&quot;:  &quot;eyJhbGciOiJIUzI1...J5NlCn20&quot;
+              },
+    &quot;refresh&quot;:  {
+                    &quot;status&quot;:  200,
+                    &quot;success&quot;:  true,
+                    &quot;accessToken&quot;:  &quot;eyJhbGciOiJIUzI1...K4jN_bmY&quot;
+                }
+}</pre></div><div class="card small"><h2>Endpoints protegidos</h2><pre>{
+    &quot;authorization&quot;:  &quot;Bearer eyJhbGciOiJIUzI1...K4jN_bmY&quot;,
+    &quot;orders&quot;:  {
+                   &quot;status&quot;:  200,
+                   &quot;data&quot;:  [
+                                {
+                                    &quot;id&quot;:  &quot;8afeb2e8-f062-4e00-bbb5-98c0461d819b&quot;,
+                                    &quot;status&quot;:  &quot;PENDING&quot;,
+                                    &quot;total&quot;:  &quot;4&quot;,
+                                    &quot;createdAt&quot;:  &quot;2026-07-18T21:07:04.597Z&quot;,
+                                    &quot;items&quot;:  [
+                                                  {
+                                                      &quot;quantity&quot;:  1,
+                                                      &quot;unitPrice&quot;:  &quot;2.5&quot;,
+                                                      &quot;product&quot;:  {
+                                                                      &quot;id&quot;:  &quot;9752b812-2ba0-4e27-8cdb-3226c0f2e42e&quot;,
+                                                                      &quot;name&quot;:  &quot;Producto 1&quot;,
+                                                                      &quot;imageUrl&quot;:  null
+                                                                  }
+                                                  }
+                                              ]
+                                },
+                                {
+                                    &quot;id&quot;:  &quot;485cb8fc-9f54-40ad-b186-46ed7eefc90e&quot;,
+                                    &quot;status&quot;:  &quot;PENDING&quot;,
+                                    &quot;total&quot;:  &quot;4&quot;,
+                                    &quot;createdAt&quot;:  &quot;2026-07-18T20:51:03.715Z&quot;,
+                                    &quot;items&quot;:  [
+                                                  {
+                                                      &quot;quantity&quot;:  1,
+                                                      &quot;unitPrice&quot;:  &quot;2.5&quot;,
+                                                      &quot;product&quot;:  {
+                                                                      &quot;id&quot;:  &quot;9752b812-2ba0-4e27-8cdb-3226c0f2e42e&quot;,
+                                                                      &quot;name&quot;:  &quot;Producto 1&quot;,
+                                                                      &quot;imageUrl&quot;:  null
+                                                                  }
+                                                  }
+                                              ]
+                                },
+                                {
+                                    &quot;id&quot;:  &quot;8c7a6496-0e46-4d33-9f6e-1e1243e9816d&quot;,
+                                    &quot;status&quot;:  &quot;PENDING&quot;,
+                                    &quot;total&quot;:  &quot;4&quot;,
+                                    &quot;createdAt&quot;:  &quot;2026-07-18T20:44:55.483Z&quot;,
+                                    &quot;items&quot;:  [
+                                                  {
+                                                      &quot;quantity&quot;:  1,
+                                                      &quot;unitPrice&quot;:  &quot;2.5&quot;,
+                                                      &quot;product&quot;:  {
+                                                                      &quot;id&quot;:  &quot;9752b812-2ba0-4e27-8cdb-3226c0f2e42e&quot;,
+                                                                      &quot;name&quot;:  &quot;Producto 1&quot;,
+                                                                      &quot;imageUrl&quot;:  null
+                                                                  }
+                                                  }
+                                              ]
+                                }
+                            ],
+                   &quot;pagination&quot;:  {
+                                      &quot;page&quot;:  1,
+                                      &quot;limit&quot;:  3,
+                                      &quot;total&quot;:  25,
+                                      &quot;pages&quot;:  9
+                                  }
+               },
+    &quot;addresses&quot;:  {
+                      &quot;status&quot;:  200,
+                      &quot;data&quot;:  [
+                                   {
+                                       &quot;id&quot;:  &quot;f007bfc6-fc2e-4f65-a274-3a5a82f8a05f&quot;,
+                                       &quot;label&quot;:  &quot;Casa&quot;,
+                                       &quot;address&quot;:  &quot;Puyo, Pastaza&quot;,
+                                       &quot;reference&quot;:  &quot;Direcci&#243;n de prueba&quot;,
+                                       &quot;latitude&quot;:  null,
+                                       &quot;longitude&quot;:  null
+                                   }
+                               ],
+                      &quot;pagination&quot;:  {
+                                         &quot;page&quot;:  1,
+                                         &quot;limit&quot;:  3,
+                                         &quot;total&quot;:  1,
+                                         &quot;pages&quot;:  1
+                                     }
+                  }
+}</pre></div></section></main></body>
+</html>

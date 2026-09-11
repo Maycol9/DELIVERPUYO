@@ -1,0 +1,32 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Evidencia Worker BullMQ y Cola</title>
+<style>
+:root{color-scheme:light;--ink:#15202b;--muted:#52606d;--line:#d8dee7;--green:#107c41;--blue:#1455d9;--amber:#9a5a00;--bg:#f6f8fb;--panel:#ffffff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:Segoe UI,Arial,sans-serif;color:var(--ink)}
+.wrap{width:1280px;min-height:720px;padding:34px 42px 42px;margin:0 auto}
+header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px;border-bottom:2px solid var(--line);padding-bottom:18px}
+h1{font-size:34px;line-height:1.05;margin:0 0 8px;font-weight:800;letter-spacing:0}
+.subtitle{font-size:16px;color:var(--muted);max-width:760px;line-height:1.4}
+.stamp{text-align:right;font-size:14px;color:var(--muted);line-height:1.35}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+h2{font-size:20px;margin:0 0 10px;font-weight:750}
+.ok{color:var(--green);font-weight:750}.warn{color:var(--amber);font-weight:750}.info{color:var(--blue);font-weight:750}
+.meta{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 14px}.pill{border:1px solid var(--line);border-radius:999px;padding:5px 10px;background:#f9fbfd;font-size:13px;color:var(--muted)}
+pre{margin:0;background:#111827;color:#e5e7eb;border-radius:6px;padding:14px;font:13px/1.45 Consolas,Monaco,monospace;white-space:pre-wrap;word-break:break-word;max-height:430px;overflow:hidden}
+.metricrow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}.metric{background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px}.metric b{display:block;font-size:26px}.metric span{font-size:13px;color:var(--muted)}
+.footer{margin-top:18px;color:var(--muted);font-size:13px}.small pre{font-size:12px}.wide pre{max-height:520px}
+</style>
+</head>
+<body><main class="wrap"><header><div><h1>Evidencia Worker BullMQ y Cola</h1><div class="subtitle">Redis activo, cola sin pendientes y comprobante procesado.</div></div><div class="stamp">DeliverPuyo Backend<br>Avance 8<br>18/07/2026</div></header><section class="metricrow"><div class="metric"><b class="ok">healthy</b><span>PostgreSQL</span></div><div class="metric"><b class="ok">healthy</b><span>Redis</span></div><div class="metric"><b class="ok">1</b><span>Trabajos completados</span></div><div class="metric"><b>0</b><span>Fallidos</span></div></section>
+<section class="grid"><div class="card"><h2>Docker Compose</h2><pre>NAME                     SERVICE    STATUS
+deliverpuyo-postgres-1   postgres   Up (healthy)
+deliverpuyo-redis-1      redis      Up (healthy)</pre></div><div class="card"><h2>Estado de cola</h2><pre>
+=== ESTADO DE LA COLA ===
+{ wait: 0, active: 0, completed: 1, failed: 0, delayed: 0, paused: 0 }
+</pre></div></section><div class="footer">No se muestra el contenido real de .env ni tokens completos.</div></main></body>
+</html>
