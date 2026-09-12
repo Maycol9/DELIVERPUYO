@@ -1,4 +1,5 @@
 import 'dart:convert';
+import '../config/api_config.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../models/order.dart';
 import '../services/api_service.dart';
@@ -33,6 +34,32 @@ class OrderRepository {
   final OrderLocalDataSource local;
   final bool Function(String)? isCurrentUser;
   bool _busy = false;
+
+  /// DEV diagnostic: never queues or substitutes an existing pending order.
+  /// Quantity zero is rejected by the real API before any database write.
+  Future<OrderSummary> probeValidationDev(
+    String user,
+    String token,
+    OrderDraft input,
+  ) async {
+    if (!ApiConfig.loggingEnabled) {
+      throw const ApiException(message: 'Diagnóstico disponible solo en DEV.');
+    }
+    if (_busy) {
+      throw const ApiException(message: 'Ya se está enviando un pedido.');
+    }
+    _checkUser(user);
+    _busy = true;
+    try {
+      return await api.createOrder(
+        token: token,
+        draft: input.copyWith(quantity: '0'),
+      );
+    } finally {
+      _busy = false;
+    }
+  }
+
   static OrderDraft draft(Map<String, dynamic> value) => OrderDraft(
     addressId: value['addressId'] as String,
     productId: value['productId'] as String,

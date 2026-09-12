@@ -569,3 +569,9 @@ Resumen:
 - Pruebas desde `mobile` con `dart format .`, `flutter analyze` y `flutter test`.
 
 No se agregan credenciales ni tokens en esta sección.
+
+## Semana 13 — Integración móvil/backend
+
+Flutter utiliza Dio centralizado con interceptores, refresh automático, serialización generada de Product/OrderSummary y repositorios con caché offline. Incluye outbox, cancelación, reintentos limitados, sesión cifrada, HTTPS en producción y logging PROD desactivado. El diagnóstico 422 está disponible solo en DEV/no release y se prueba también su bloqueo en PROD.
+
+Guía breve: [DOCUMENTO_TALLER](docs/semana13/DOCUMENTO_TALLER.md). Resultados y límites: [RESULTADO_FINAL](docs/semana13/RESULTADO_FINAL.md). Las pruebas distinguen transporte simulado de evidencia Android real.

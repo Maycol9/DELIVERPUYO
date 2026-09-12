@@ -1,4 +1,4 @@
-# Prototipo 13 — Integración de DeliverPuyo con el backend
+# Prototipo 13 — Integración móvil/backend
 
 ## 1. Objetivo
 Integrar la aplicación existente con la API real, renovar credenciales y conservar datos útiles ante fallos de red. Se conservaron las pantallas y el enrutamiento de semanas anteriores.
@@ -67,9 +67,17 @@ Véase USO_IA.md: asistencia en inspección, cambios y pruebas. Las decisiones d
 Suite de regresión y Semana 13 con mocks de transporte y almacenamiento. Prueba Android pública mediante flutter drive: API real, catálogo, caché persistente y escritura/lectura del plugin seguro. Véase evidence/semana13/VALIDACION.md para resultados y comandos definitivos.
 
 ## 23. Resultados
-Implementación móvil y pruebas de transporte completadas. No se debe confundir refresh probado con adaptador simulado con refresh real del servidor. La evidencia autenticada requiere iniciar sesión manualmente; no se creó ningún pedido durante las verificaciones públicas ni se cambió backend o .env.
+Implementación móvil y pruebas de transporte completadas. No se debe confundir refresh probado con adaptador simulado con refresh real del servidor. El usuario inició sesión manualmente y se creó un único pedido real. Se añadió diagnóstico 422 DEV y se corrigió el alcance del catch de autenticación del backend. .env no cambió. Ver RESULTADO_FINAL.md para pruebas y pendientes actuales.
 
 ## 24. Evidencias
 Capturas reales en evidence/semana13; inventario y limitaciones en EVIDENCIAS.md. No se crearon imágenes para sustituir pruebas no ejecutadas. La rúbrica distingue resultados verificados de los pendientes.
 
 Referencias: [flutter_secure_storage](https://pub.dev/documentation/flutter_secure_storage/latest/) para almacenamiento de plataforma; [json_serializable](https://pub.dev/packages/json_serializable) para generación; [Dio](https://pub.dev/documentation/dio/latest/) para interceptores y cancelación.
+
+## Diagnóstico DEV verificado
+
+La única creación automatizada produjo el pedido d6528596-e558-40b9-9f5f-7ac184f82d64 (Producto 1 x1, POST 201). El diagnóstico aislado copia el formulario con cantidad 0, usa OrderRepository/ApiService y recibe el 422 real. Mantiene los campos válidos y el mensaje del servidor junto a Cantidad. No utiliza outbox ni sustituye un pendiente. Solo se muestra/ejecuta en DEV/no release, probado bajo PROD.
+
+Se corrigió el middleware de autenticación para preservar errores de ruta: await next() quedó fuera del catch de verificación. El primer ensayo reveló el fallo y cerró sesión; el ingreso manual posterior permitió comprobar POST 422 sin crear pedidos. No se cambió el esquema para producir el error.
+
+La documentación vigente de resultados y puntaje está en RESULTADO_FINAL.md y evidence/semana13/CHECKLIST_RUBRICA.md; las descripciones técnicas previas no sustituyen la evidencia actual.

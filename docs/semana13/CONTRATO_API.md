@@ -42,3 +42,9 @@ POST /api/auth/login: email, password. POST /api/auth/register: name, email, pas
 POST /api/auth/refresh: {refreshToken}. Respuesta 200 data: accessToken, refreshToken, expiresInSeconds, sin user. Se conserva el usuario actual al renovar. El servidor verifica firma, caducidad, revocación y estado activo; revoca el refresh anterior y emite otro. El TTL predeterminado del código es 15 minutos; el TTL operativo no se inspeccionó leyendo secretos ni se cambió.
 
 Rutas protegidas consumidas: /api/addresses, /api/orders, POST /api/categories (prueba de permisos preexistente). Rutas públicas: productos, categorías GET, login y registro. El refresh no lleva Authorization; usa su cuerpo específico.
+
+## Verificación final y diagnóstico DEV
+
+TTL operativo consultado por nombres permitidos: ACCESS_TOKEN_MINUTES=15 y REFRESH_TOKEN_DAYS=7, sin cambios. POST /api/orders 201 real con un solo pedido. El diagnóstico DEV envía quantity=0 y remapea exclusivamente su errors.items a Cantidad, manteniendo el mensaje real y el formulario válido.
+
+Se corrigió middleware/auth.ts: await next() fuera del catch de verificación. Así los errores reales de ruta llegan al handler con su status y detalles, sin convertirse erróneamente en 401. El esquema de orders no cambió.

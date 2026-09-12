@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../addresses/addresses_provider.dart';
+import '../config/api_config.dart';
 import '../models/address.dart';
 import '../models/product.dart';
 import '../orders/orders_controller.dart';
@@ -48,7 +49,10 @@ class _CreateOrderScreenState extends ConsumerState<CreateOrderScreen> {
     super.dispose();
   }
 
-  Future<void> _submit() async {
+  Future<void> _submit({bool probeValidationDev = false}) async {
+    if (_submitting || (probeValidationDev && !ApiConfig.loggingEnabled)) {
+      return;
+    }
     setState(() {
       _serverErrors = const {};
       _generalError = null;
@@ -61,7 +65,10 @@ class _CreateOrderScreenState extends ConsumerState<CreateOrderScreen> {
     setState(() => _submitting = true);
     final result = await ref
         .read(ordersControllerProvider.notifier)
-        .create(ref.read(orderDraftProvider));
+        .create(
+          ref.read(orderDraftProvider),
+          probeValidationDev: probeValidationDev,
+        );
     if (!mounted) return;
     setState(() => _submitting = false);
 
@@ -74,7 +81,12 @@ class _CreateOrderScreenState extends ConsumerState<CreateOrderScreen> {
     }
 
     setState(() {
-      _serverErrors = result.fieldErrors;
+      _serverErrors = Map.of(result.fieldErrors);
+      // The diagnostic changes only items[0].quantity. Zod flattens that
+      // backend error to "items"; keep its message beside Cantidad only.
+      if (probeValidationDev && _serverErrors.containsKey('items')) {
+        _serverErrors['quantity'] = _serverErrors.remove('items')!;
+      }
       _generalError = result.fieldErrors.isEmpty ? result.message : null;
     });
     _formKey.currentState!.validate();
@@ -185,6 +197,17 @@ class _CreateOrderScreenState extends ConsumerState<CreateOrderScreen> {
                       onPressed: _submit,
                       icon: const Icon(Icons.check),
                     ),
+                    if (ApiConfig.loggingEnabled) ...[
+                      SizedBox(height: tokens.spaceMd),
+                      OutlinedButton(
+                        onPressed: _submitting
+                            ? null
+                            : () => _submit(probeValidationDev: true),
+                        child: const Text(
+                          'Probar validación backend 422 (DEV)',
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               ),

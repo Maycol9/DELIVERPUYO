@@ -1,31 +1,25 @@
-# Validación final — Semana 13
+# Validación — Semana 13
 
-## Herramientas
-Flutter 3.44.4 estable; Dart 3.12.2. Dependencias seleccionadas por pub: Dio 5.11.1, flutter_secure_storage 11.1.0, shared_preferences 2.5.5, json_annotation 4.12.0, json_serializable 6.14.1, build_runner 2.15.1. No se actualizó Flutter ni Riverpod/go_router deliberadamente.
+Resultados vigentes en docs/semana13/RESULTADO_FINAL.md e INDICE_EVIDENCIAS.md. No se mezclan ejecuciones simuladas con llamadas reales.
 
-## Resultados ejecutados
-
-| Comando / prueba | Resultado real |
+| Verificación | Resultado |
 |---|---|
-| flutter pub get | Dependencias resueltas; http directo eliminado |
-| dart run build_runner build --delete-conflicting-outputs | Exit 0; Product y OrderSummary generados; esta versión avisa que el flag fue eliminado y lo ignora |
-| dart format . | Intentado; falló al enumerar una ruta transitoria de Gradle dentro de build/ |
-| dart format lib test integration_test test_driver | Correcto, todas las fuentes Dart del proyecto formateadas |
-| flutter analyze | No issues found!; salida en flutter-analyze.txt |
-| flutter test --reporter expanded | 68 aprobadas, 1 omitida por estar condicionada a AMBIENTE=prod; salida en flutter-test.txt |
-| flutter test test/semana13_prod_test.dart --dart-define=AMBIENTE=prod --dart-define=API_URL=https://example.invalid | 1 aprobada; transporte simulado, sin red productiva |
-| flutter drive --driver=test_driver/integration_test.dart --target=integration_test/public_backend_test.dart -d emulator-5554 --dart-define=API_URL=http://10.0.2.2:3000 --dart-define=AMBIENTE=dev | Prueba funcional Android aprobada; driver muestra +2 porque incluye tearDownAll, no son dos casos funcionales |
-| GET http://localhost:3000/api/products | 200; success=true; 15 productos; backend-products.json |
-| Flutter run normal con los tres dart-define solicitados | Compilación e instalación Android correctas, GET productos 200 |
-| Offline y reconexión real en emulator-5554 | Caché visible con aviso; posterior GET 200 sin aviso. Red restaurada: avión=0, Wi-Fi=1, datos=1 |
-| git diff --check | Sin errores de espacios; advertencias LF/CRLF de Windows no son errores del diff |
+| Formato lib/test | 52 archivos, 0 cambios al cierre |
+| Flutter analyze | Sin problemas |
+| DEV | 70 aprobadas, 1 omitida condicionada a PROD |
+| PROD | 3 aprobadas; diagnóstico ausente/bloqueado y logging desactivado |
+| Backend auth | 7 aprobadas; status de ruta preservado |
+| TypeScript | npm run typecheck correcto |
+| Creación real | POST 201, d6528596-e558-40b9-9f5f-7ac184f82d64, Producto 1 x1, $4,00 |
+| 422 real | POST 422, cantidad 0 enviada por diagnóstico DEV; mensaje junto a Cantidad; formulario conserva cantidad 1 |
+| Conteo en diagnóstico corregido | 29 antes / 29 después, cero creación accidental |
+| Refresh anterior | GET 401, una renovación, retry GET 200, sesión conservada |
+| Anti-bucle/concurrencia | PASS; cinco peticiones, una renovación |
+| Offline/reconexión | Evidencia histórica real de 15 productos y GET 200 conservada |
+| Android automatizado | 1 caso público anterior; no se reinstaló/reinició la app en este cierre |
 
-Total: 69 casos unitarios/widget únicos aprobados considerando ambas configuraciones (68 dev + 1 prod), más 1 caso funcional Android público. Las 28 pruebas previas siguen aprobadas; se añadieron 41 casos unitarios/widget de Semana 13. No sumar tearDownAll como prueba adicional.
+La automatización envió un único pedido válido (conteo 27→28). Apareció otro pedido después fuera de esa acción (conteo 29); su origen no está confirmado. La prueba 422 no creó registros. Primer ensayo inválido expuso el bug de middleware y cerró sesión; login manual posterior observado. No se oculta esa incidencia.
 
-La instalación inicial de plugins informó falta de soporte de symlinks para escritorio Windows; no se habilitó Developer Mode global. La compilación y ejecución Android sí finalizaron. Gradle instaló Android SDK Platform 35 requerido por dependencias; el dispositivo probado sigue siendo API 36.
+73 ejecuciones Flutter aprobadas entre DEV/PROD (dos casos ejecutados en ambos ambientes), más siete pruebas backend. No sumar el caso omitido ni la integración histórica como ejecuciones actuales.
 
-## Límites
-
-No se ejecutaron login exitoso real, creación, refresh real ni 422 protegido real por falta de login manual autorizado. El auxiliar propuesto para leer credenciales fue rechazado antes de ejecutarse. Refresh, outbox y 422 se verifican con fakes; la UI de error 422 también tiene prueba widget.
-
-No se cambió backend, esquema, .env ni TTL. No se ejecutó seed ni se crearon pedidos, usuarios o direcciones. GET productos puede actualizar la caché Redis existente. La prueba de almacenamiento Android crea y borra únicamente una entrada local no secreta de verificación.
+Logs: final-flutter-analyze.txt, final-flutter-test.txt, final-flutter-prod.txt, final-backend-auth-test.txt, cierre-final-http.txt, 422-http-real.txt, 422-conteo-pedidos.txt, incidencia-validacion-401.txt, refresh-antes-http.txt. La correlación de refresh natural actual se añadirá al terminar.

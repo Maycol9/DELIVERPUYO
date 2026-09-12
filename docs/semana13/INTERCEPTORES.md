@@ -19,3 +19,9 @@ Las escrituras de credenciales se serializan. Una época identifica login/logout
 CancelToken se usa en productos; cancelar al abandonar catálogo o iniciar una carga nueva evita respuestas obsoletas. Una cancelación intencional no se convierte en error visual. Cancelar una espera de backoff no genera otro envío.
 
 Referencias técnicas: [Dio](https://pub.dev/documentation/dio/latest/), [InterceptorsWrapper](https://pub.dev/documentation/dio/latest/dio/InterceptorsWrapper-class.html).
+
+## Verificación real final
+
+El diagnóstico DEV envía quantity=0 con el repositorio y cliente reales; el esquema devuelve 422. Se corrigió middleware/auth.ts para no confundir errores de ruta con autenticación inválida: el catch solo rodea verifyAccessToken, no await next(). El cliente no renueva ni cierra sesión ante el 422 corregido. Siete pruebas de backend verifican preservación de status; DEV/PROD verifican bloqueo del diagnóstico.
+
+El fallo original sí disparó una renovación y luego cierre por anti-bucle; ese ensayo está identificado en incidencia-validacion-401.txt y no representa expiración natural.

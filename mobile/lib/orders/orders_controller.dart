@@ -76,7 +76,10 @@ class OrdersController extends Notifier<RemoteState<List<OrderSummary>>> {
     }
   }
 
-  Future<CreateOrderResult> create(OrderDraft draft) async {
+  Future<CreateOrderResult> create(
+    OrderDraft draft, {
+    bool probeValidationDev = false,
+  }) async {
     final session = ref.read(authControllerProvider).session;
     if (session == null) {
       return const CreateOrderResult.failure(
@@ -84,9 +87,18 @@ class OrdersController extends Notifier<RemoteState<List<OrderSummary>>> {
       );
     }
     try {
-      final order = await ref
-          .read(orderRepositoryProvider)
-          .create(session.user.id, session.accessToken, draft);
+      final repository = ref.read(orderRepositoryProvider);
+      final order = probeValidationDev
+          ? await repository.probeValidationDev(
+              session.user.id,
+              session.accessToken,
+              draft,
+            )
+          : await repository.create(
+              session.user.id,
+              session.accessToken,
+              draft,
+            );
       ref.invalidate(outboxStatusProvider);
       if (ref.read(authControllerProvider).session?.user.id !=
           session.user.id) {

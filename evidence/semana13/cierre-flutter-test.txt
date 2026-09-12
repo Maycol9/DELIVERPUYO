@@ -1,0 +1,71 @@
+00:00 +0: loading C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/auth_controller_test.dart
+00:00 +0: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/auth_controller_test.dart: AuthController starts unauthenticated
+00:00 +1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/auth_controller_test.dart: AuthController login success stores user and token in application state
+00:00 +2: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/auth_controller_test.dart: AuthController login failure exposes error state
+00:00 +3: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/auth_controller_test.dart: AuthController register success stores created user and token
+00:00 +4: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/auth_controller_test.dart: AuthController logout clears session
+00:00 +5: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/auth_controller_test.dart: AuthController 401 clears session and 403 does not force logout by itself
+00:00 +6: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/order_draft_test.dart: OrderDraft serializes using the real backend contract
+00:01 +7: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/remote_state_test.dart: RemoteState represents mutually exclusive states
+00:01 +8: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana11_closure_test.dart: ProductDetailScreen rebuilds from the route id without extra
+00:03 +9: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana11_closure_test.dart: go_router redirects protected route to login preserving from
+00:04 +10: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_form_test.dart: 422 server field error rendered on form, draft and auth retained
+00:05 +11: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_form_test.dart: 422 server field error rendered on form, draft and auth retained
+00:05 +12: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_form_test.dart: 422 server field error rendered on form, draft and auth retained
+00:05 +13: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_form_test.dart: 422 server field error rendered on form, draft and auth retained
+00:06 +14: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_form_test.dart: 422 server field error rendered on form, draft and auth retained
+00:06 +15: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_form_test.dart: 422 server field error rendered on form, draft and auth retained
+00:06 +16: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_form_test.dart: 422 server field error rendered on form, draft and auth retained
+00:06 +17: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_form_test.dart: 422 server field error rendered on form, draft and auth retained
+00:06 +18: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_form_test.dart: 422 server field error rendered on form, draft and auth retained
+00:06 +19: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_form_test.dart: 422 server field error rendered on form, draft and auth retained
+00:06 +20: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_form_test.dart: 422 server field error rendered on form, draft and auth retained
+00:06 +21: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_form_test.dart: 422 server field error rendered on form, draft and auth retained
+00:08 +22: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_prod_test.dart: production logging remains off even when requested
+00:09 +22 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_storage_test.dart: secure session roundtrip and clear, no password property
+00:09 +23 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_storage_test.dart: corrupt secure session is cleared without exposing technical data
+00:10 +24 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: dev local baseUrl and configured timeouts
+00:10 +25 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: prod requires HTTPS
+00:10 +26 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: staging requires HTTPS
+00:10 +27 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: test requires HTTPS
+00:10 +28 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: rejects unknown environment and nonlocal HTTP
+00:10 +29 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: automatic secure token on protected request
+00:11 +30 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: public login does not send token
+00:11 +31 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: 401 refresh and retry: 1 concurrent requests, one refresh
+00:11 +32 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: 401 refresh and retry: 5 concurrent requests, one refresh
+00:11 +33 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: anti-loop second 401 clears session
+00:11 +34 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: failed refresh clears storage and notifies auth
+00:11 +35 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: logout while refresh pending never restores old session
+00:11 +36 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: redacted logs exclude payload query and credentials
+00:11 +37 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: logging disabled produces no logs
+00:11 +38 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: generated Product decimal category mapping and optional null
+00:11 +39 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: generated Product accepts absent category
+00:11 +40 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: generated Order preserves contract names and Decimal
+00:11 +41 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: domain message for DioExceptionType.connectionError
+00:11 +42 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: domain message for DioExceptionType.receiveTimeout
+00:11 +43 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: HTTP 400 translated without leaking server text
+00:11 +44 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: HTTP 403 translated without leaking server text
+00:11 +45 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: HTTP 404 translated without leaking server text
+00:11 +46 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: HTTP 409 translated without leaking server text
+00:11 +47 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: HTTP 422 translated without leaking server text
+00:11 +48 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: HTTP 500 translated without leaking server text
+00:11 +49 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: GET retries 5xx with bounded backoff
+00:11 +50 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: GET network retries are bounded
+00:11 +51 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: POST without idempotency never retries 503
+00:11 +52 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: GET 422 never retries
+00:11 +53 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: intentional cancellation interrupts backoff
+00:11 +54 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: repository returns cache then refreshes local
+00:11 +55 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: repository retains cache on connection failure
+00:14 +56 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/widget_test.dart: AppPrimaryButton renders normal state
+00:15 +57 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/widget_test.dart: AppPrimaryButton renders loading state and disables action
+00:15 +58 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/widget_test.dart: AppPrimaryButton renders disabled state
+00:15 +59 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/widget_test.dart: StateView renders loading state
+00:15 +60 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/widget_test.dart: StateView renders empty state
+00:16 +61 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/widget_test.dart: StateView renders error state with retry action
+00:16 +62 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/widget_test.dart: StateView exposes semantic label for errors
+00:16 +63 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/widget_test.dart: ProductCard renders product data
+00:16 +64 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/widget_test.dart: ProductCard calls onTap callback
+00:16 +65 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/widget_test.dart: ProductCard exposes product semantic label
+00:16 +66 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/widget_test.dart: CategoryFilterChip renders selected category and calls callback
+00:16 +67 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/widget_test.dart: CategoryFilterChip exposes selected semantic label
+00:16 +68 ~1: All tests passed!
