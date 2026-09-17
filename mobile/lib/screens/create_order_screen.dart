@@ -13,6 +13,7 @@ import '../state/remote_state.dart';
 import '../theme/app_tokens.dart';
 import '../widgets/app_primary_button.dart';
 import '../widgets/app_text_field.dart';
+import '../widgets/order_native_section.dart';
 
 class CreateOrderScreen extends ConsumerStatefulWidget {
   const CreateOrderScreen({super.key});
@@ -28,6 +29,7 @@ class _CreateOrderScreenState extends ConsumerState<CreateOrderScreen> {
   final _quantityKey = GlobalKey<FormFieldState<String>>();
   Map<String, String> _serverErrors = const {};
   bool _submitting = false;
+  bool _nativeBusy = false;
   String? _generalError;
 
   @override
@@ -50,7 +52,9 @@ class _CreateOrderScreenState extends ConsumerState<CreateOrderScreen> {
   }
 
   Future<void> _submit({bool probeValidationDev = false}) async {
-    if (_submitting || (probeValidationDev && !ApiConfig.loggingEnabled)) {
+    if (_submitting ||
+        _nativeBusy ||
+        (probeValidationDev && !ApiConfig.loggingEnabled)) {
       return;
     }
     setState(() {
@@ -98,6 +102,12 @@ class _CreateOrderScreenState extends ConsumerState<CreateOrderScreen> {
     final productsState = ref.watch(productsControllerProvider);
     final addressesState = ref.watch(addressesProvider);
     final draft = ref.watch(orderDraftProvider);
+    ref.listen(orderDraftProvider, (previous, next) {
+      if (!_quantityFocus.hasFocus &&
+          _quantityController.text != next.quantity) {
+        _quantityController.text = next.quantity;
+      }
+    });
 
     return Scaffold(
       appBar: AppBar(
@@ -191,10 +201,16 @@ class _CreateOrderScreenState extends ConsumerState<CreateOrderScreen> {
                       },
                     ),
                     SizedBox(height: tokens.spaceLg),
+                    OrderNativeSection(
+                      enabled: !_submitting,
+                      onBusyChanged: (value) =>
+                          setState(() => _nativeBusy = value),
+                    ),
+                    SizedBox(height: tokens.spaceLg),
                     AppPrimaryButton(
                       text: 'CREAR PEDIDO',
                       loading: _submitting,
-                      onPressed: _submit,
+                      onPressed: _nativeBusy ? null : _submit,
                       icon: const Icon(Icons.check),
                     ),
                     if (ApiConfig.loggingEnabled) ...[

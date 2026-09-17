@@ -1,25 +1,55 @@
 # Uso de IA — Prototipo 13
 
-Herramientas: ChatGPT y Codex, como apoyo para revisión, implementación, diagnóstico, pruebas y documentación. La IA no sustituye la revisión del propietario ni la evaluación docente.
+Herramientas empleadas: ChatGPT y Codex, como apoyo para revisión técnica, diagnóstico, implementación, pruebas automatizadas y documentación. La IA no reemplaza la responsabilidad final del propietario del proyecto ni la evaluación docente.
 
-## Verificaciones técnicas
+## Alcance del uso
 
-- Cliente Dio, sesiones y refresh contrastados con código real del backend y tests.
-- Secure storage: arquitectura existente y prueba Android histórica; ninguna herramienta leyó sus valores de sesión en este cierre.
-- Reintentos, anti-bucle y concurrencia: suite automatizada; cinco solicitudes y una renovación.
-- HTTPS y logging PROD: tests bajo AMBIENTE=prod, incluidos bloqueo del diagnóstico y cero solicitudes fuera de DEV.
-- Idempotencia: backend no tiene claves idempotentes; POST no se repite ante resultado de red ambiguo. La evidencia no afirma entrega exactamente una vez.
-- Middleware: la prueba real descubrió un 422 convertido indebidamente en 401. Se corrigió el alcance del catch y se añadieron siete pruebas sin claves ni sesiones reales.
-- Capturas: adb screencap real y revisión visual. No se generaron imágenes ni se representaron tests simulados como llamadas reales.
+La asistencia de IA se utilizó para:
+
+- revisar el contrato real del backend y contrastarlo con la lógica de autenticación, sesiones y refresh;
+- diagnosticar errores de middleware, manejos HTTP y flujo de pedidos;
+- apoyar la implementación de correcciones mínimas y verificables;
+- generar y ajustar pruebas automatizadas de regresión;
+- resumir evidencias, diferencias de comportamiento y límites del prototipo;
+- preparar la documentación técnica final con trazabilidad hacia pruebas reales.
+
+No se utilizó la IA para sustituir la validación humana ni para afirmar resultados que no se ejecutaron en el proyecto.
+
+## Verificaciones técnicas realizadas
+
+- Cliente Dio, sesiones y refresh: contrastados con el código real del backend y con las pruebas del flujo de autenticación.
+- Secure storage: se revisó la arquitectura existente y la prueba Android histórica; ninguna herramienta leyó valores de sesión durante este cierre de trabajo.
+- Reintentos, anti-bucle y concurrencia: verificados mediante suite automatizada con cinco solicitudes y una renovación del token.
+- HTTPS y logging de producción: pruebas ejecutadas bajo `AMBIENTE=prod`, con bloqueo del diagnóstico y ausencia de solicitudes fuera del entorno de desarrollo.
+- Idempotencia: el backend no implementa claves idempotentes; cuando el resultado de red es ambiguo, el sistema no reenvía automáticamente el pedido. La evidencia no afirma entrega exactamente una vez.
+- Middleware de autenticación: la prueba real mostró que un 422 era convertido indebidamente en 401. Se corrigió el alcance del `catch` y se añadieron pruebas sin claves ni sesiones reales.
+- Capturas y evidencia visual: se emplearon capturas reales con `adb screencap` y revisión visual manual. No se generaron imágenes falsas ni se representaron pruebas simuladas como llamadas reales.
+- Diagnóstico DEV aislado: se ejecutó una comprobación limitada y controlada para confirmar que el error real de validación se reportaba correctamente sin acarrear creación de pedidos.
 
 ## Intervención humana
 
-El usuario ingresó manualmente a la cuenta de prueba con dirección existente. No se pidió ni utilizó una contraseña por herramientas. El usuario autorizó un único pedido y una herramienta de diagnóstico DEV aislada. La revisión final del diff por el propietario y la nota docente siguen siendo humanas.
+La intervención humana fue determinante en los puntos críticos:
+
+- El usuario ingresó manualmente a la cuenta de prueba con dirección existente.
+- No se pidió ni se utilizó ninguna contraseña por parte de las herramientas.
+- El usuario autorizó un único pedido real y una comprobación de diagnóstico DEV aislada.
+- La revisión final del `diff`, la validación del comportamiento y la nota docente quedaron en manos humanas.
+
+La IA apoyó la revisión y el diagnóstico, pero la decisión final y la responsabilidad del cierre técnico siguen siendo humanas.
 
 ## Incidencias y límites
 
-Una búsqueda previa del seed mostró accidentalmente contraseñas de prueba en la salida de herramienta. No se copian aquí ni se usaron para autenticarse. No se afirma que toda la sesión de trabajo estuvo libre de exposición. Los logs nuevos y las doce capturas se revisan por separado.
+Durante la revisión se detectó una incidencia puntual:
 
-El primer ensayo inválido encontró un fallo de middleware, produjo dos 401 con una renovación y cerró sesión por anti-bucle; no se declara como 422 exitoso. Requiere login manual posterior. La documentación final distingue ese ensayo del flujo correcto posterior.
+- una búsqueda previa del seed mostró contraseñas de prueba en la salida de una herramienta; esos valores no se copiaron ni se utilizaron para autenticarse.
 
-Las pruebas de transporte simulado, las pruebas reales Android y las evidencias históricas se identifican como tales. No se promete 10/10 sin verificaciones completas.
+Además, se cumplieron estas limitaciones de forma explícita:
+
+- No se afirma que toda la sesión de trabajo estuvo libre de exposición; los logs nuevos y las capturas se revisan por separado.
+- El primer ensayo inválido encontró un fallo de middleware, provocó dos 401 con renovación y cerró sesión por anti-bucle; ese caso no se declara como un 422 exitoso y requiere login manual posterior.
+- La documentación final distingue claramente entre el ensayo fallido inicial y el flujo correcto posterior.
+- Las pruebas de transporte simulado, las pruebas reales Android y las evidencias históricas se identifican como tales. No se promete un resultado de 10/10 sin verificaciones completas.
+
+## Conclusión
+
+El uso de IA fue válido como apoyo técnico para detectar problemas, proponer correcciones mínimas, preparar evidencias y documentar el estado real del prototipo, siempre bajo revisión humana. La verificación final del proyecto se apoyó en pruebas reales, trazabilidad del código y contraste con la implementación del backend, sin reemplazar la supervisión del propietario ni la evaluación académica.

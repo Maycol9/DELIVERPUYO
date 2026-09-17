@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>NSCameraUsageDescription</key>
+    <string>DeliverPuyo utiliza la cámara para tomar una fotografía opcional relacionada con un pedido.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>DeliverPuyo utiliza tu ubicación mientras usas la aplicación para agregar una referencia opcional al pedido.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>DeliverPuyo permite adjuntar únicamente la fotografía que elijas como referencia opcional del pedido.</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>

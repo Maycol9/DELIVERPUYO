@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../models/order.dart';
 import '../services/api_service.dart';
 import '../services/api_exception.dart';
+import 'evidence_store.dart';
 
 /// One pending order per account. A sent request is never replayed after an
 /// ambiguous failure: this backend does not implement idempotency.
@@ -18,18 +19,19 @@ class OrderLocalDataSource {
   Future<void> write(String user, OrderDraft draft, String status) =>
       _storage.write(
         key: _key(user),
-        value: jsonEncode({
-          'addressId': draft.addressId,
-          'productId': draft.productId,
-          'quantity': draft.quantity,
-          'status': status,
-        }),
+        value: jsonEncode({...draft.toLocalJson(), 'status': status}),
       );
   Future<void> clear(String user) => _storage.delete(key: _key(user));
 }
 
 class OrderRepository {
-  OrderRepository(this.api, this.local, {this.isCurrentUser});
+  OrderRepository(
+    this.api,
+    this.local, {
+    this.isCurrentUser,
+    EvidenceStore? evidence,
+  }) : evidence = evidence ?? EvidenceStore();
+  final EvidenceStore evidence;
   final ApiService api;
   final OrderLocalDataSource local;
   final bool Function(String)? isCurrentUser;
@@ -60,11 +62,8 @@ class OrderRepository {
     }
   }
 
-  static OrderDraft draft(Map<String, dynamic> value) => OrderDraft(
-    addressId: value['addressId'] as String,
-    productId: value['productId'] as String,
-    quantity: value['quantity'] as String,
-  );
+  static OrderDraft draft(Map<String, dynamic> value) =>
+      OrderDraft.fromLocalJson(value);
 
   Future<OrderSummary> create(
     String user,
@@ -101,6 +100,7 @@ class OrderRepository {
       await local.write(user, input, 'sending');
       try {
         final order = await api.createOrder(token: token, draft: input);
+        await evidence.archive(user, order.id, input);
         await local.clear(user);
         return order;
       } on ApiException catch (e) {

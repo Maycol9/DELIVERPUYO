@@ -12,6 +12,7 @@ final orderRepositoryProvider = Provider<OrderRepository>(
   (ref) => OrderRepository(
     ref.watch(apiServiceProvider),
     OrderLocalDataSource(),
+    evidence: ref.watch(evidenceStoreProvider),
     isCurrentUser: (user) =>
         ref.read(authControllerProvider).session?.user.id == user,
   ),
