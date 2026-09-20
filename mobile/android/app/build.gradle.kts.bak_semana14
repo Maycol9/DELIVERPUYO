@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.deliverpuyo.deliverpuyo_mobile"
-    compileSdk = 37
+    compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
