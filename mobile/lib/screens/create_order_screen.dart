@@ -256,6 +256,7 @@ class _AddressField extends StatelessWidget {
     };
 
     return DropdownButtonFormField<String>(
+      isExpanded: true,
       initialValue: addresses.any((item) => item.id == value) ? value : null,
       decoration: InputDecoration(
         labelText: 'Dirección',
@@ -266,7 +267,11 @@ class _AddressField extends StatelessWidget {
         for (final address in addresses)
           DropdownMenuItem(
             value: address.id,
-            child: Text('${address.label} - ${address.address}'),
+            child: Text(
+              '${address.label} - ${address.address}',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
       ],
       onChanged: addresses.isEmpty ? null : onChanged,
@@ -300,6 +305,7 @@ class _ProductField extends StatelessWidget {
     };
 
     return DropdownButtonFormField<String>(
+      isExpanded: true,
       initialValue: products.any((item) => item.id == value) ? value : null,
       decoration: InputDecoration(
         labelText: 'Producto',
@@ -312,6 +318,8 @@ class _ProductField extends StatelessWidget {
             value: product.id,
             child: Text(
               '${product.name} - \$${product.price.toStringAsFixed(2)}',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
       ],

@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../models/order.dart';
 import '../services/api_service.dart';
 import '../services/api_exception.dart';
+import '../services/app_logger.dart';
 import 'evidence_store.dart';
 
 /// One pending order per account. A sent request is never replayed after an
@@ -84,6 +85,29 @@ class OrderRepository {
         );
       }
       if (previous != null) input = draft(previous);
+      final errors = <String, String>{};
+      if (input.addressId.trim().isEmpty) {
+        errors['addressId'] = 'Selecciona una dirección.';
+      }
+      if (input.productId.trim().isEmpty) {
+        errors['productId'] = 'Selecciona un producto.';
+      }
+      final quantity = int.tryParse(input.quantity.trim());
+      if (quantity == null || quantity < 1 || quantity > 50) {
+        errors['quantity'] = 'La cantidad debe ser un entero entre 1 y 50.';
+      }
+      if (errors.isNotEmpty) {
+        AppLogger().record(
+          level: LogLevel.warning,
+          module: LogModule.orders,
+          action: LogAction.validate,
+          errorType: LogErrorType.invalidDraft,
+        );
+        throw ApiException(
+          message: 'Revisa los datos del pedido.',
+          fieldErrors: errors,
+        );
+      }
       // Read-only preflight. Failure here guarantees POST was not attempted.
       try {
         await api.getOrders(token);

@@ -44,6 +44,8 @@ dependencies:
   geolocator: ^14.0.3
   permission_handler: ^13.0.2
   path_provider: ^2.1.6
+  sentry_flutter: ^9.30.1
+  crypto: ^3.0.7
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +70,8 @@ flutter:
   config:
     enable-swift-package-manager: false
     enable-windows-desktop: false
+    # Android workflow on Windows: avoid Linux plugin symlinks after clean.
+    enable-linux-desktop: false
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

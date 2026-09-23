@@ -1,20 +1,28 @@
-import 'auth/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'auth/auth_controller.dart';
 import 'router/app_router.dart';
+import 'services/sentry_service.dart';
 import 'theme/app_theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final container = ProviderContainer();
   await container.read(authControllerProvider.notifier).restore();
-  runApp(
-    UncontrolledProviderScope(
-      container: container,
-      child: const DeliverPuyoApp(),
-    ),
-  );
+
+  // Set up FlutterError.onError BEFORE Sentry init so the SDK's
+  // FlutterErrorIntegration preserves and chains this handler.
+  SentryService.setupFlutterError();
+
+  await SentryService.initApp(() {
+    runApp(
+      UncontrolledProviderScope(
+        container: container,
+        child: const DeliverPuyoApp(),
+      ),
+    );
+  });
 }
 
 class DeliverPuyoApp extends ConsumerWidget {

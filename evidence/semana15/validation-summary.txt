@@ -1,0 +1,23 @@
+Resultados observados el 2026-09-22. Resumen, no transcripción completa.
+CIERRE FINAL después de añadir y corregir la regresión de pantalla estrecha:
+flutter test: 95 aprobadas, 1 omisión DEV, exit 0. Ver tests-final.txt.
+flutter test --coverage --test-randomize-ordering-seed=15: 95 aprobadas, 1 omisión DEV, exit 0. Ver coverage-final.txt y lcov-final.info.
+flutter analyze: No issues found! (ran in 23.6s), exit 0.
+E2E Android: 1 aprobada, exit 0. Ver e2e.txt.
+flutter build apk --debug: APK final compilado, exit 0. Ver build-final.txt.
+Los resultados siguientes conservan el historial previo a esa última regresión:
+Flutter 3.44.4; Dart 3.12.2.
+flutter test test/semana15_validation_test.dart --reporter expanded
+00:00 +11: All tests passed! (exit 0 después de la corrección)
+flutter test test/semana15_catalog_test.dart test/semana15_form_test.dart --reporter expanded
+00:04 +7: All tests passed! (exit 0)
+flutter test --reporter expanded
+00:10 +94 ~1: All tests passed! (exit 0)
+flutter test --coverage --reporter expanded
+00:21 +94 ~1: All tests passed! (exit 0)
+flutter test test/semana13_prod_test.dart test/semana15_logging_test.dart --dart-define=AMBIENTE=prod --dart-define=API_URL=https://example.invalid --reporter expanded
+00:00 +3: All tests passed! (exit 0, ninguna omisión)
+flutter analyze (después de corregir siete avisos de llaves en tests nuevos)
+No issues found! (ran in 9.1s) (exit 0)
+dart format lib test integration_test
+Formatted 65 files (0 changed) in 0.45 seconds. (exit 0; antes de los últimos ajustes E2E)

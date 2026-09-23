@@ -1,0 +1,100 @@
+Comando: flutter test --coverage --test-randomize-ordering-seed=15 --reporter expanded
+Exit code: 0
+00:01 +7: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/remote_state_test.dart: RemoteState represents mutually exclusive states
+00:01 +8: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana11_closure_test.dart: ProductDetailScreen rebuilds from the route id without extra
+00:03 +9: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_diagnostic_test.dart: diagnostic DEV field error or PROD hidden and blocked
+00:03 +10: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_diagnostic_test.dart: diagnostic DEV field error or PROD hidden and blocked
+00:03 +11: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_diagnostic_test.dart: diagnostic DEV field error or PROD hidden and blocked
+00:03 +12: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_diagnostic_test.dart: diagnostic DEV field error or PROD hidden and blocked
+00:03 +13: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_diagnostic_test.dart: diagnostic DEV field error or PROD hidden and blocked
+00:03 +14: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_diagnostic_test.dart: diagnostic DEV field error or PROD hidden and blocked
+00:04 +14 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_diagnostic_test.dart: diagnostic DEV field error or PROD hidden and blocked
+00:04 +15 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_diagnostic_test.dart: diagnostic DEV field error or PROD hidden and blocked
+00:04 +16 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_diagnostic_test.dart: diagnostic DEV field error or PROD hidden and blocked
+00:05 +17 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_form_test.dart: 422 server field error rendered on form, draft and auth retained
+00:05 +18 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_form_test.dart: 422 server field error rendered on form, draft and auth retained
+00:06 +19 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_form_test.dart: 422 server field error rendered on form, draft and auth retained
+00:06 +20 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_form_test.dart: 422 server field error rendered on form, draft and auth retained
+00:06 +21 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: redacted logs exclude payload query and credentials
+00:06 +22 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana11_closure_test.dart: go_router redirects protected route to login preserving from
+00:06 +23 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana11_closure_test.dart: go_router redirects protected route to login preserving from
+00:06 +24 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana11_closure_test.dart: go_router redirects protected route to login preserving from
+00:06 +25 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana11_closure_test.dart: go_router redirects protected route to login preserving from
+00:06 +26 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana11_closure_test.dart: go_router redirects protected route to login preserving from
+00:06 +27 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana11_closure_test.dart: go_router redirects protected route to login preserving from
+00:06 +28 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana11_closure_test.dart: go_router redirects protected route to login preserving from
+00:06 +29 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana11_closure_test.dart: go_router redirects protected route to login preserving from
+00:06 +30 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana11_closure_test.dart: go_router redirects protected route to login preserving from
+00:06 +31 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana11_closure_test.dart: go_router redirects protected route to login preserving from
+00:06 +32 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana11_closure_test.dart: go_router redirects protected route to login preserving from
+00:06 +33 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana11_closure_test.dart: go_router redirects protected route to login preserving from
+00:06 +34 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana11_closure_test.dart: go_router redirects protected route to login preserving from
+00:06 +35 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana11_closure_test.dart: go_router redirects protected route to login preserving from
+00:06 +36 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana11_closure_test.dart: go_router redirects protected route to login preserving from
+00:06 +37 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana11_closure_test.dart: go_router redirects protected route to login preserving from
+00:06 +38 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana11_closure_test.dart: go_router redirects protected route to login preserving from
+00:06 +39 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana11_closure_test.dart: go_router redirects protected route to login preserving from
+00:06 +40 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana11_closure_test.dart: go_router redirects protected route to login preserving from
+00:06 +41 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana11_closure_test.dart: go_router redirects protected route to login preserving from
+00:06 +42 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana11_closure_test.dart: go_router redirects protected route to login preserving from
+00:06 +43 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana11_closure_test.dart: go_router redirects protected route to login preserving from
+00:06 +44 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: 401 refresh and retry: 5 concurrent requests, one refresh
+00:06 +45 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: 401 refresh and retry: 5 concurrent requests, one refresh
+00:06 +46 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana11_closure_test.dart: 422 extracts field errors and keeps the order draft values
+00:06 +47 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: logout while refresh pending never restores old session
+00:06 +48 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: GET network retries are bounded
+00:06 +49 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: repository retains cache on connection failure
+00:06 +50 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: generated Order preserves contract names and Decimal
+00:06 +51 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_test.dart: 401 refresh and retry: 1 concurrent requests, one refresh
+00:06 +52 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana15_auth_test.dart: restore storage failure stays unauthenticated with safe notice
+00:06 +53 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana15_auth_test.dart: restore storage failure stays unauthenticated with safe notice
+00:06 +54 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana15_auth_test.dart: restore storage failure stays unauthenticated with safe notice
+00:06 +55 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana15_auth_test.dart: restore storage failure stays unauthenticated with safe notice
+00:06 +56 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana15_auth_test.dart: restore storage failure stays unauthenticated with safe notice
+00:06 +57 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_storage_test.dart: secure session roundtrip and clear, no password property
+00:06 +58 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_storage_test.dart: corrupt secure session is cleared without exposing technical data
+00:09 +59 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana15_form_test.dart: selected order fields fit a 320 pixel wide screen
+00:11 +60 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana15_form_test.dart: selected order fields fit a 320 pixel wide screen
+00:11 +61 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana15_form_test.dart: selected order fields fit a 320 pixel wide screen
+00:11 +62 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana15_form_test.dart: selected order fields fit a 320 pixel wide screen
+00:11 +63 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana15_catalog_test.dart: catalog screen error with fake repository
+00:12 +64 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana15_form_test.dart: order form rejects quantity "-1" without POST
+00:12 +65 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana15_catalog_test.dart: catalog screen empty with fake repository
+00:12 +66 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana15_form_test.dart: order form rejects quantity "0" without POST
+00:12 +67 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana15_catalog_test.dart: catalog screen data with fake repository
+00:12 +68 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana15_form_test.dart: order form rejects quantity "" without POST
+00:13 +69 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana15_outbox_test.dart: DioExceptionType.connectionError before POST persists full draft and retries once after recreation
+00:13 +70 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana15_outbox_test.dart: POST timeout retains sending data and never blindly replays
+00:13 +71 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana15_outbox_test.dart: DioExceptionType.receiveTimeout before POST persists full draft and retries once after recreation
+00:15 +72 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana15_validation_test.dart: rejects negative before transport or outbox writes
+{"level":"warning","module":"orders","action":"validate","errorType":"invalidDraft"}
+00:15 +73 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana15_validation_test.dart: rejects missing product before transport or outbox writes
+{"level":"warning","module":"orders","action":"validate","errorType":"invalidDraft"}
+00:15 +74 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana15_validation_test.dart: rejects missing address before transport or outbox writes
+{"level":"warning","module":"orders","action":"validate","errorType":"invalidDraft"}
+00:15 +75 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana15_validation_test.dart: rejects missing quantity before transport or outbox writes
+{"level":"warning","module":"orders","action":"validate","errorType":"invalidDraft"}
+00:15 +76 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana15_validation_test.dart: rejects fraction before transport or outbox writes
+{"level":"warning","module":"orders","action":"validate","errorType":"invalidDraft"}
+00:15 +77 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana15_validation_test.dart: accepts valid quantity 50 and sends once
+00:15 +78 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana15_validation_test.dart: rejects zero before transport or outbox writes
+{"level":"warning","module":"orders","action":"validate","errorType":"invalidDraft"}
+00:15 +79 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana15_validation_test.dart: accepts valid quantity 2 and sends once
+00:15 +80 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana15_validation_test.dart: rejects over limit before transport or outbox writes
+{"level":"warning","module":"orders","action":"validate","errorType":"invalidDraft"}
+00:15 +81 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana15_validation_test.dart: rejects blank address before transport or outbox writes
+{"level":"warning","module":"orders","action":"validate","errorType":"invalidDraft"}
+00:15 +82 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana15_validation_test.dart: accepts valid quantity 1 and sends once
+00:15 +83 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/widget_test.dart: AppPrimaryButton renders normal state
+00:17 +84 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/widget_test.dart: AppPrimaryButton renders disabled state
+00:17 +85 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/widget_test.dart: AppPrimaryButton renders loading state and disables action
+00:17 +86 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/widget_test.dart: CategoryFilterChip renders selected category and calls callback
+00:17 +87 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/widget_test.dart: CategoryFilterChip exposes selected semantic label
+00:17 +88 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/widget_test.dart: ProductCard renders product data
+00:17 +89 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/widget_test.dart: ProductCard exposes product semantic label
+00:17 +90 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/widget_test.dart: ProductCard calls onTap callback
+00:17 +91 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/widget_test.dart: StateView renders loading state
+00:17 +92 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/widget_test.dart: StateView exposes semantic label for errors
+00:17 +93 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/widget_test.dart: StateView renders error state with retry action
+00:17 +94 ~1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/widget_test.dart: StateView renders empty state
+00:18 +95 ~1: All tests passed!
