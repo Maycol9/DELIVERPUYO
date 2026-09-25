@@ -1,0 +1,8 @@
+Comando: flutter build apk --debug
+Exit code: 0
+
+<WORKSPACE>\mobile\android>if "0" == "0" goto mainEnd
+
+<WORKSPACE>\mobile\android>if "Windows_NT" == "Windows_NT" endlocal
+Running Gradle task 'assembleDebug'...                             48,7s
+√ Built build\app\outputs\flutter-apk\app-debug.apk

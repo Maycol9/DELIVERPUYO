@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Excepción exclusiva para desarrollo local con Android Emulator.
+  Permite HTTP solo hacia 10.0.2.2, que representa la máquina anfitriona.
+  En producción debe eliminarse esta excepción y utilizar HTTPS.
+-->
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="false">10.0.2.2</domain>
+    </domain-config>
+</network-security-config>

@@ -1,0 +1,7 @@
+  bash arg: -p
+  bash arg: com.deliverpuyo.deliverpuyo_mobile
+  bash arg: -c
+  bash arg: android.intent.category.LAUNCHER
+  bash arg: 1
+Events injected: 1
+## Network stats: elapsed time=148ms (0ms mobile, 0ms wifi, 148ms not connected)

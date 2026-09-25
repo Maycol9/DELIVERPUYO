@@ -1,0 +1,5 @@
+00:00 +0: loading C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_prod_test.dart
+00:00 +0: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_prod_test.dart: production logging remains off even when requested
+00:01 +1: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_diagnostic_test.dart: diagnostic DEV field error or PROD hidden and blocked
+00:02 +2: C:/Users/Maycol Perez/Documents/Visual Studio/PROYECTODELIVERYMAY/DELIVERPUYO/mobile/test/semana13_diagnostic_test.dart: DEV diagnostic never queues or substitutes an existing pending order
+00:02 +3: All tests passed!
