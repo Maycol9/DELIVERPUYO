@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import '../config/api_config.dart';
 import '../models/auth_session.dart';
 import '../storage/session_storage.dart';
+import 'sentry_dio_interceptor.dart';
+import 'sentry_service.dart';
 
 /// One transport, including refresh. Internal flags never go over the wire.
 class ApiClient {
@@ -31,6 +33,7 @@ class ApiClient {
       validateStatus: (s) => s != null && s >= 200 && s < 600,
       headers: {'Accept': 'application/json'},
     );
+    this.dio.interceptors.add(SentryDioBreadcrumbInterceptor());
     this.dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (o, h) async {
@@ -139,6 +142,8 @@ class ApiClient {
       await storage.write(session);
       if (epoch == _epoch) {
         _signedOut = false;
+        SentryService.clearUser();
+        SentryService.setAnonymousUser();
         onSessionChanged?.call(session);
       }
     });
@@ -147,6 +152,7 @@ class ApiClient {
   Future<void> clearSession() async {
     _epoch++;
     _signedOut = true;
+    SentryService.clearUser();
     onSessionChanged?.call(null);
     await _mutate(storage.clear);
   }

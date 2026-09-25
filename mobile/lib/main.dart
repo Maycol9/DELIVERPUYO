@@ -9,13 +9,13 @@ import 'theme/app_theme.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final container = ProviderContainer();
-  await container.read(authControllerProvider.notifier).restore();
 
   // Set up FlutterError.onError BEFORE Sentry init so the SDK's
   // FlutterErrorIntegration preserves and chains this handler.
   SentryService.setupFlutterError();
 
-  await SentryService.initApp(() {
+  await SentryService.initApp(() async {
+    await container.read(authControllerProvider.notifier).restore();
     runApp(
       UncontrolledProviderScope(
         container: container,

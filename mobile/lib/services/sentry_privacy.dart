@@ -1,4 +1,5 @@
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'sentry_dio_interceptor.dart';
 
 /// Privacy filter applied to every Sentry event via `beforeSend`.
 ///
@@ -20,6 +21,7 @@ class SentryPrivacy {
   /// with or without underscores / camelCase).
   static final Set<String> _sensitiveKeys = {
     'authorization',
+    'headers',
     'access_token',
     'accesstoken',
     'refresh_token',
@@ -51,6 +53,17 @@ class SentryPrivacy {
     'sessionid',
     'user_id',
     'userid',
+    'body',
+    'requestbody',
+    'responsebody',
+    'payload',
+    'lat',
+    'lng',
+    'lon',
+    'token',
+    'secret',
+    'contraseña',
+    'contrasena',
   };
 
   /// PII keys that must be **deleted** (not redacted) from the
@@ -74,7 +87,7 @@ class SentryPrivacy {
 
   /// Matches JWT-like strings starting with `eyJ`.
   static final RegExp _jwtPattern = RegExp(
-    r'^eyJ[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+',
+    r'eyJ[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+',
   );
 
   /// Matches email addresses.
@@ -150,6 +163,64 @@ class SentryPrivacy {
   static SentryEvent? beforeSend(SentryEvent event, Hint hint) {
     try {
       final json = event.toJson();
+      // Unlabelled secrets cannot reliably be recognized in arbitrary prose.
+      if (json.containsKey('message')) {
+        json['message'] = {'formatted': redacted};
+      }
+      final exceptions = (json['exception'] as Map?)?['values'] as List?;
+      for (final exception in exceptions ?? []) {
+        exception['value'] = redacted;
+        final frames = (exception['stacktrace'] as Map?)?['frames'] as List?;
+        for (final frame in frames ?? []) {
+          for (final key in [
+            'vars',
+            'pre_context',
+            'post_context',
+            'context_line',
+          ]) {
+            frame.remove(key);
+          }
+        }
+      }
+      final request = json['request'] as Map?;
+      if (request != null) {
+        json['request'] = {
+          'method': SentryDioBreadcrumbInterceptor.safeMethod(
+            '${request['method']}',
+          ),
+          'url': SentryDioBreadcrumbInterceptor.safePath('${request['url']}'),
+        };
+      }
+      final breadcrumbs = json['breadcrumbs'] as List?;
+      for (final crumb in breadcrumbs ?? []) {
+        if (crumb['category'] == 'http') {
+          crumb['message'] = SentryDioBreadcrumbInterceptor.safePath(
+            '${crumb['message']}',
+          );
+          final data = crumb['data'] as Map? ?? {};
+          crumb['data'] = {
+            'method': SentryDioBreadcrumbInterceptor.safeMethod(
+              '${data['method']}',
+            ),
+            if (RegExp(r'^[1-5][0-9]{2}$').hasMatch('${data['status']}'))
+              'status': '${data['status']}',
+            if (const [
+              'connectionTimeout',
+              'sendTimeout',
+              'receiveTimeout',
+              'badCertificate',
+              'badResponse',
+              'cancel',
+              'connectionError',
+              'unknown',
+            ].contains(data['error_type']))
+              'error_type': data['error_type'],
+          };
+        } else {
+          crumb['message'] = redacted;
+          crumb.remove('data');
+        }
+      }
       final sanitized = _sanitizeMap(json);
       _stripUserPii(sanitized);
       return SentryEvent.fromJson(sanitized);

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'api_config.dart';
 
 /// Configuration constants for Sentry, all read from `--dart-define`.
@@ -28,9 +29,17 @@ class SentryConfig {
   /// Sentry is considered enabled when a DSN is provided.
   static bool get isEnabled => dsn.isNotEmpty;
 
-  /// The crash-test button / function is only active in non-prod
-  /// environments when `SENTRY_TEST_MODE=true`.
-  static bool get crashEnabled => testMode && ApiConfig.environment != 'prod';
+  static bool allowsTestAction({
+    required bool debug,
+    required String environment,
+    required bool testMode,
+  }) => debug && environment == 'dev' && testMode;
+
+  static bool get crashEnabled => allowsTestAction(
+    debug: kDebugMode,
+    environment: environment,
+    testMode: testMode,
+  );
 
   /// Re-uses the existing `ApiConfig.environment` (dart-define AMBIENTE).
   static String get environment => ApiConfig.environment;

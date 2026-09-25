@@ -24,9 +24,7 @@ void main() {
       expect(result, isNotNull);
       final json = result!.toJson();
       final request = json['request'] as Map<String, dynamic>;
-      final headers = request['headers'] as Map<String, dynamic>;
-      expect(headers['Authorization'], SentryPrivacy.redacted);
-      expect(headers['Content-Type'], 'application/json');
+      expect(request['headers'], isNull);
     });
 
     test('accessToken is redacted', () {
@@ -106,9 +104,8 @@ void main() {
       expect(result, isNotNull);
       final request = result!.toJson()['request'] as Map<String, dynamic>;
       expect(request['method'], 'POST');
-      expect(request['url'], 'https://api.deliverpuyo.com/api/products');
-      final headers = request['headers'] as Map<String, dynamic>;
-      expect(headers['Content-Type'], 'application/json');
+      expect(request['url'], '/api/products');
+      expect(request['headers'], isNull);
     });
 
     test('User email and name are removed', () {
@@ -253,9 +250,8 @@ void main() {
       expect(result, isNotNull);
       final breadcrumbs = result!.toJson()['breadcrumbs'] as List<dynamic>;
       final crumb = breadcrumbs[0] as Map<String, dynamic>;
-      final crumbData = crumb['data'] as Map<String, dynamic>;
-      expect(crumbData['accessToken'], SentryPrivacy.redacted);
-      expect(crumb['message'], 'Login attempt');
+      expect(crumb['data'], isNull);
+      expect(crumb['message'], SentryPrivacy.redacted);
     });
   });
 }

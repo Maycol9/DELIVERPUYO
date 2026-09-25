@@ -1,25 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-
 import '../config/sentry_config.dart';
 
-/// Dio interceptor that records **metadata-only** breadcrumbs in Sentry.
-///
-/// Unlike [SentryDioInterceptor], this interceptor NEVER captures:
-/// - Authorization headers
-/// - Cookies or tokens
-/// - Request bodies
-/// - Response bodies
-/// - Full URLs (only the sanitized path is used)
-///
-/// Captured metadata per request:
-/// - HTTP method
-/// - Sanitized endpoint path (from a fixed allowlist)
-/// - Status code
-/// - Duration in milliseconds
-/// - Error type (on failure)
+/// Closed-vocabulary HTTP metadata; no headers, payloads or exception text.
 class SentryDioBreadcrumbInterceptor extends Interceptor {
-  static const _allowedPaths = [
+  static const _paths = [
     '/api/auth/login',
     '/api/auth/register',
     '/api/auth/refresh',
@@ -28,80 +13,61 @@ class SentryDioBreadcrumbInterceptor extends Interceptor {
     '/api/addresses',
     '/api/categories',
   ];
+  static const _methods = [
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'HEAD',
+    'OPTIONS',
+  ];
 
-  @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    if (!SentryConfig.isEnabled) {
-      handler.next(options);
-      return;
+  static String safePath(String raw) {
+    final path = Uri.tryParse(raw)?.path;
+    return _paths.firstWhere(
+      (p) => path == p || (path?.startsWith('$p/') ?? false),
+      orElse: () => '[ruta]',
+    );
+  }
+
+  static String safeMethod(String method) =>
+      _methods.contains(method) ? method : 'OTHER';
+
+  void _record(RequestOptions request, int? status, DioExceptionType? error) {
+    if (!SentryConfig.isEnabled) return;
+    try {
+      Sentry.addBreadcrumb(
+        Breadcrumb(
+          message: safePath(request.path),
+          category: 'http',
+          level: error != null || (status ?? 0) >= 500
+              ? SentryLevel.error
+              : (status ?? 0) >= 400
+              ? SentryLevel.warning
+              : SentryLevel.info,
+          data: {
+            'method': safeMethod(request.method),
+            if (status != null && status >= 100 && status <= 599)
+              'status': '$status',
+            if (error != null) 'error_type': error.name,
+          },
+        ),
+      );
+    } catch (_) {
+      // Observability must never interrupt the transport.
     }
-    options.extra['sentry_started'] = DateTime.now();
-    handler.next(options);
   }
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    if (!SentryConfig.isEnabled) {
-      handler.next(response);
-      return;
-    }
-    final started =
-        response.requestOptions.extra['sentry_started'] as DateTime?;
-    if (started != null) {
-      final ms = DateTime.now().difference(started).inMilliseconds;
-      Sentry.addBreadcrumb(
-        Breadcrumb(
-          message: _safePath(response.requestOptions.path),
-          category: 'http',
-          level: _levelFromStatus(response.statusCode),
-          data: {
-            'method': response.requestOptions.method,
-            'status': response.statusCode?.toString() ?? 'unknown',
-            'duration_ms': ms.toString(),
-          },
-        ),
-      );
-    }
+    _record(response.requestOptions, response.statusCode, null);
     handler.next(response);
   }
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    if (!SentryConfig.isEnabled) {
-      handler.next(err);
-      return;
-    }
-    final started = err.requestOptions.extra['sentry_started'] as DateTime?;
-    if (started != null) {
-      final ms = DateTime.now().difference(started).inMilliseconds;
-      Sentry.addBreadcrumb(
-        Breadcrumb(
-          message: _safePath(err.requestOptions.path),
-          category: 'http',
-          level: SentryLevel.error,
-          data: {
-            'method': err.requestOptions.method,
-            'error_type': err.type.name,
-            'duration_ms': ms.toString(),
-          },
-        ),
-      );
-    }
+    _record(err.requestOptions, err.response?.statusCode, err.type);
     handler.next(err);
-  }
-
-  static String _safePath(String path) {
-    final match = _allowedPaths.firstWhere(
-      (p) => path.contains(p),
-      orElse: () => '[ruta]',
-    );
-    return match;
-  }
-
-  static SentryLevel _levelFromStatus(int? status) {
-    if (status == null) return SentryLevel.error;
-    if (status >= 500) return SentryLevel.error;
-    if (status >= 400) return SentryLevel.warning;
-    return SentryLevel.info;
   }
 }

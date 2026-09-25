@@ -1,6 +1,6 @@
 # Prototipo 15 — DeliverPuyo
 
-Fecha: 2026-09-22. Estado: validación automatizada aprobada; monitoreo y rendimiento físico pendientes por las pausas explícitas del encargo. No se declara listo para publicación.
+Actualización: 2026-09-24. Sentry recibido según verificación comunicada por el propietario; rendimiento físico pendiente de captura DevTools. Los resultados del 22 de septiembre conservados abajo son históricos y no sustituyen la validación de cierre. No se declara listo para publicación.
 
 ## 1. Objetivo
 
@@ -50,6 +50,12 @@ Se reutilizan Adapter, MemorySession, makeClient, jsonBody y FormApi de Semana 1
 
 ## 9. Cobertura
 
+Actualización de cierre 24/09/2026: flutter test y flutter test --coverage terminaron
+con 132 aprobadas, 1 omitida y 0 fallos. LCOV actual: 1512 líneas ejecutadas de
+2227 instrumentadas (67,89 %). Evidencia: evidence/semana15/lcov-cierre.info.
+La cifra de 98 pruebas y los archivos *-final siguientes corresponden al 22/09,
+no al estado actual. No se mide cobertura de ramas ni rendimiento con LCOV.
+
 LCOV real en `mobile/coverage/lcov.info`, con copia final en `evidence/semana15/lcov-final.info`. Suite actual con cobertura: 98 aprobadas y una omisión condicional DEV; las evidencias históricas conservan ejecuciones anteriores con 95 aprobadas. COBERTURA.md explica áreas y límites. Se cubrió después de inspeccionar LCOV la rama restore() que falla al leer almacenamiento: `DA:38,0` pasó a `DA:38,1`. No se inventa cobertura de ramas ni se exige un porcentaje arbitrario.
 
 ## 10. Bugs/regresiones
@@ -62,15 +68,15 @@ AppLogger incorpora JSON con niveles debug/info/warning/error y contexto enum. S
 
 ## 12. Monitoreo
 
-No existía SDK. Sentry es la opción elegida para continuar por su SDK Flutter y [plan Developer gratuito](https://sentry.io/pricing/). La configuración requiere cuenta/proyecto y DSN real según el [SDK oficial](https://pub.dev/packages/sentry_flutter). Se respeta la pausa solicitada: no instalado/configurado, sin evento remoto enviado ni DSN falso. Ver MONITOREO.md.
+Sentry Flutter 9.30.1 está integrado. El propietario confirma recepción real de StateError con traza, ambiente dev y versión 1.0.0 (1). Esta sesión documenta su confirmación, sin acceder al panel ni generar otro evento. No se archiva DSN ni identificadores. Ver evidence/semana15/sentry-verificacion.md para distinguir recepción confirmada de evidencia visual y revisión manual pendientes.
 
 ## 13. Privacidad
 
-Logs locales verificados. PRIVACIDAD_MONITOREO.md establece filtros que todavía deben implementarse y probarse antes de habilitar el SDK remoto. No hay un identificador anónimo dedicado verificado; se propone omitir identidad. No se afirma que filtros remotos ya funcionen.
+Filtros locales implementados y probados: texto libre de mensajes/excepciones redactado; cuerpos y encabezados HTTP eliminados; breadcrumbs limitados a método, ruta permitida, estado y tipo de error. Identificador aleatorio por sesión, sin derivarlo de la cuenta; limpieza al salir. La inspección del contenido del evento remoto debe documentarse aparte de las pruebas locales.
 
 ## 14. Rendimiento
 
-No medido. Pendiente dispositivo físico en profile: arranque, fluidez, frames lentos, UI y raster. RENDIMIENTO.md deja el procedimiento. No se optimizó a ciegas ni se confunden tiempos de tests/build con rendimiento. La corrección de overflow es funcional, no una mejora medida de fluidez.
+TECNO KM4 físico detectado por ADB, Android 15/API 35, app activa. Profile comunicado por el propietario, pendiente de corroboración en DevTools. Frecuencia puntual observada: 60 Hz, con modos 90/120 Hz disponibles. Faltan captura del recorrido y duraciones UI/Raster; no se conocen los frames lentos ni el arranque. RENDIMIENTO.md define el procedimiento. No se realizó una optimización de fluidez sin mediciones.
 
 ## 15. CI
 
@@ -85,6 +91,12 @@ CHECKLIST_PUBLICACION.md marca pruebas, estados UI, cobertura y compilación apr
 USO_IA.md enumera consultas, cambios y revisión de comportamiento. Solo se reportan comandos ejecutados y resultados observados. No se utilizaron agentes delegados.
 
 ## 18. Resultados
+
+Resultados de cierre 24/09/2026: formato sin cambios (75 archivos, exit 0),
+analyze sin incidencias (exit 0), test y test --coverage con 132 aprobadas,
+1 omitida y 0 fallos (exit 0). Evidencias: format-cierre.txt, analyze-cierre.txt,
+tests-cierre.txt, coverage-cierre.txt y lcov-cierre.info en evidence/semana15/.
+No se repitió compilación ni E2E en esta sesión. La tabla siguiente es histórica.
 
 | Comando desde mobile | Resultado final |
 |---|---|
@@ -101,7 +113,7 @@ No se hizo commit/push. No se cambió backend, Prisma, BD, .env, dependencias ni
 
 ## 19. Pendientes manuales reales
 
-1. **ACCIÓN MANUAL REQUERIDA — MONITOREO:** cuenta/proyecto y DSN real para integrar Sentry; luego filtros, fallo controlado, stack trace y versión verificados en el panel.
-2. **ACCIÓN MANUAL REQUERIDA — PRUEBA DE RENDIMIENTO EN DISPOSITIVO FÍSICO:** ejecutar profile, medir, identificar problema real y volver a medir tras corregirlo.
+1. Archivar evidencia sanitizada de Sentry y confirmar por escrito la revisión del mensaje redactado y ausencia de datos sensibles. No hace falta generar otro evento.
+2. Capturar/exportar Performance en la sesión Profile del TECNO KM4 y analizar UI/Raster. Corregir y repetir únicamente si las métricas lo justifican.
 3. Antes de publicar: firma release y configuración productiva HTTPS. No se inventaron claves ni valores.
 4. Ejecutar/revisar el workflow en GitHub cuando el propietario publique los cambios; no se realizó commit ni push.

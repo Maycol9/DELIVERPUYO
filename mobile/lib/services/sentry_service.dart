@@ -1,6 +1,6 @@
-import 'dart:convert';
+import 'dart:math';
+import 'dart:async';
 
-import 'package:crypto/crypto.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
@@ -56,9 +56,9 @@ class SentryService {
 
   /// Initializes Sentry and runs the app.
   /// When Sentry is disabled (no DSN), runs the app normally.
-  static Future<void> initApp(void Function() appRunner) async {
+  static Future<void> initApp(FutureOr<void> Function() appRunner) async {
     if (!SentryConfig.isEnabled) {
-      appRunner();
+      await appRunner();
       return;
     }
     await SentryFlutter.init(
@@ -69,27 +69,32 @@ class SentryService {
 
   // ── User ────────────────────────────────────────────────────────
 
-  /// Sets an **anonymous** user context.
-  ///
-  /// The [userId] (the internal AppUser.id) is hashed with SHA-256
-  /// before being sent, making it non-reversible.  Email, name,
-  /// IP address and any other PII are never attached.
-  ///
-  /// If [userId] is null or Sentry is disabled, no user is set.
-  static void setAnonymousUser(String? userId) {
+  static String? _anonymousId;
+
+  /// Ephemeral random ID, never derived from account identifiers or PII.
+  static void setAnonymousUser() {
     if (!SentryConfig.isEnabled) return;
-    if (userId == null || userId.isEmpty) return;
-    final hash = sha256.convert(utf8.encode(userId)).toString();
-    Sentry.configureScope((scope) {
-      scope.setUser(SentryUser(id: hash));
-    });
+    try {
+      final random = Random.secure();
+      _anonymousId ??= List.generate(
+        16,
+        (_) => random.nextInt(256).toRadixString(16).padLeft(2, '0'),
+      ).join();
+      Sentry.configureScope((scope) {
+        scope.setUser(SentryUser(id: _anonymousId));
+      });
+    } catch (_) {
+      // Telemetry must not prevent authentication.
+    }
   }
 
   /// Clears the current user context.
   static void clearUser() {
+    _anonymousId = null;
     if (!SentryConfig.isEnabled) return;
     Sentry.configureScope((scope) {
       scope.setUser(null);
+      scope.clearBreadcrumbs();
     });
   }
 
@@ -132,22 +137,16 @@ class SentryService {
 
   // ── Test crash ─────────────────────────────────────────────────
 
-  /// Throws a controlled exception to verify crash reporting.
-  ///
-  /// Only active when:
-  /// - `SENTRY_TEST_MODE=true` (via `--dart-define`)
-  /// - `AMBIENTE != prod`
-  ///
-  /// In production or when the flag is absent, this is a no-op.
-  static void triggerTestCrash() {
-    if (!SentryConfig.crashEnabled) return;
-    Sentry.addBreadcrumb(
-      Breadcrumb(
-        message: 'Test crash triggered',
-        category: 'deliverpuyo.test',
-        level: SentryLevel.warning,
-      ),
+  /// Manual debug probe. Explicit capture keeps the app available for inspection.
+  /// Returning an ID does not prove remote reception.
+  static Future<SentryId?> triggerTestCrash() async {
+    if (!SentryConfig.crashEnabled || !SentryConfig.isEnabled) return null;
+    return Sentry.captureException(
+      StateError('DeliverPuyo manual Sentry test'),
+      stackTrace: StackTrace.current,
+      withScope: (scope) {
+        scope.setTag('sentry_test', 'manual');
+      },
     );
-    throw StateError('DeliverPuyo test crash — Semana 15');
   }
 }

@@ -1,9 +1,9 @@
 Comando: flutter test integration_test/critical_order_test.dart -d emulator-5554 --reporter expanded
 Exit code: 0
 
-C:\Users\Maycol Perez\Documents\Visual Studio\PROYECTODELIVERYMAY\DELIVERPUYO\mobile\android>if "0" == "0" goto mainEnd
+<WORKSPACE>\mobile\android>if "0" == "0" goto mainEnd
 
-C:\Users\Maycol Perez\Documents\Visual Studio\PROYECTODELIVERYMAY\DELIVERPUYO\mobile\android>if "Windows_NT" == "Windows_NT" endlocal
+<WORKSPACE>\mobile\android>if "Windows_NT" == "Windows_NT" endlocal
 Running Gradle task 'assembleDebug'...                             35,5s
 √ Built build\app\outputs\flutter-apk\app-debug.apk
 Installing build\app\outputs\flutter-apk\app-debug.apk...        1.762ms

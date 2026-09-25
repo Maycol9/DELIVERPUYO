@@ -1,8 +1,12 @@
 # Privacidad de monitoreo
 
-## Estado: IMPLEMENTADO — pendiente de DSN real y verificación manual
+## Estado: IMPLEMENTADO — recepción confirmada por el propietario
 
-El filtro de privacidad `beforeSend` está implementado en `lib/services/sentry_privacy.dart`. La configuración de Sentry está lista en `lib/services/sentry_service.dart` y `lib/config/sentry_config.dart`. **No se envía ningún dato hasta que el usuario proporcione un DSN real**.
+El filtro `beforeSend` está implementado. El propietario confirmó el 24/09/2026
+la recepción de StateError con traza, ambiente dev y versión 1.0.0 (1).
+No se accedió al panel en esta auditoría: falta archivar una captura sanitizada
+y documentar la revisión del mensaje redactado y de los datos sensibles del evento.
+No se almacena el DSN. Las pruebas locales no sustituyen esa revisión remota.
 
 ## Política implementada
 
@@ -10,9 +14,10 @@ El filtro de privacidad `beforeSend` está implementado en `lib/services/sentry_
 - `beforeSend` serializa el evento a JSON, aplica sanitización recursiva y re-hidrata un `SentryEvent` limpio. Si la sanitización falla, el evento se descarta.
 - Eliminación de contexto HTTP: headers sensibles, cookies, cuerpos, query, URLs con identificadores.
 - Eliminación de usuario: email, nombre, IP, cédula, teléfono, coordenadas, dirección.
-- Breadcrumbs: solo metadata segura (método, ruta sanitizada, status code, duración, tipo de error).
+- Breadcrumbs HTTP: solo método, ruta sanitizada, estado y tipo de error; sin duración ni cuerpos. Otros breadcrumbs: texto redactado y datos eliminados.
 - NO se activa Session Replay, screenshots, grabación de pantalla, ni adjuntos.
-- Usuario anónimo: SHA-256 de `AppUser.id`. Nunca email, nombre, cédula.
+- Usuario anónimo: identificador aleatorio por sesión, no derivado de AppUser.id; se limpia al cerrar o invalidar sesión. Sentry se inicializa antes de restaurar la sesión.
+- Mensajes y valores de excepciones: texto libre sustituido por [REDACTED]; tipo y traza conservados, sin variables ni contexto de código de los frames.
 
 ## Tabla de datos
 
@@ -39,13 +44,13 @@ El filtro de privacidad `beforeSend` está implementado en `lib/services/sentry_
 
 | Superficie | Campos revisados | Sanitización |
 |---|---|---|
-| `SentryEvent.request` | `url`, `method`, `headers`, `data`, `cookies` | Headers sensible → `[REDACTED]`; `data` recursivo |
-| `SentryEvent.user` | `id`, `email`, `username`, `name`, `ipAddress`, `geo` | Email/name/IP eliminados; `id` = hash SHA-256 |
-| `SentryEvent.breadcrumbs` | `message`, `data`, `category` | Recursivo sobre `data`; patrones Bearer/JWT/email en `message` |
+| `SentryEvent.request` | `url`, `method`, `headers`, `data`, `cookies` | Solo método permitido y ruta sanitizada; resto eliminado |
+| `SentryEvent.user` | `id`, `email`, `username`, `name`, `ipAddress`, `geo` | Email/name/IP eliminados; integración asigna ID aleatorio |
+| `SentryEvent.breadcrumbs` | `message`, `data`, `category` | HTTP limitado a vocabulario cerrado; texto libre y datos de otros breadcrumbs eliminados |
 | `SentryEvent.extra` | `Map<String, dynamic>` | Recursivo: keys sensibles → `[REDACTED]` |
 | `SentryEvent.tags` | `Map<String, String>` | Keys sensibles → `[REDACTED]` |
 | `SentryEvent.contexts` | `device`, `app`, `os`, `custom` | Recursivo sobre todos los valores |
-| `SentryEvent.message` | `message`, `format`, `params` | Patrones Bearer/JWT/email → `[REDACTED]` |
+| `SentryEvent.message` | `message`, `format`, `params` | Sustituido por mensaje [REDACTED], sin parámetros |
 
 ## Pruebas de privacidad
 

@@ -8,6 +8,7 @@ import '../providers/app_providers.dart';
 import '../services/api_exception.dart';
 import '../theme/app_tokens.dart';
 import '../widgets/app_primary_button.dart';
+import '../widgets/sentry_test_button.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -93,6 +94,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   ] else if (state is Unauthenticated) ...[
                     Text(state.message ?? 'No hay sesión activa.'),
                   ],
+                  const SentryTestButton(),
                 ],
               ),
             ),
