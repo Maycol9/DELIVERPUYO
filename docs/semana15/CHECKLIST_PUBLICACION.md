@@ -19,9 +19,9 @@ Este checklist distingue verificado de pendiente; no autoriza publicación.
 
 ## Rendimiento
 
-- [ ] Modo Profile corroborado en DevTools (informado por el propietario).
-- [x] TECNO KM4 físico conectado, Android 15/API 35, comprobado por ADB el 24/09/2026.
-- [ ] Arranque, frames lentos, hilo UI y raster.
+- [x] Modo Profile corroborado en DevTools, TECNO KM4 físico, Android 15/API 35.
+- [x] Rendimiento del recorrido exportado: 26 frames, 59 FPS, UI máxima 3,8 ms, Raster máxima 12,4 ms y 0 jank.
+- [x] Frecuencia activa verificada durante el recorrido: 60 Hz; presupuesto 16,67 ms.
 - [ ] Problema real identificado, corregido y vuelto a medir.
 
 ## Seguridad
@@ -29,14 +29,14 @@ Este checklist distingue verificado de pendiente; no autoriza publicación.
 - [x] Almacenamiento seguro y tokens en peticiones protegidas: tests existentes aprobados.
 - [x] Logs del alcance móvil sin datos sensibles: filtros previos y nuevo esquema cerrado probados.
 - [x] SDK Sentry 9.30.1 integrado, filtros locales y botón manual probados.
-- [ ] Archivar revisión de privacidad del evento remoto y captura sanitizada.
+- [x] Archivar revisión visual de privacidad y captura sanitizada en `evidence/semana15/sentry-event-sanitized.png`; no contiene barra de direcciones, ID de evento ni Trace ID.
 
 ## Monitoreo
 
 - [x] Servicio configurado por el propietario; no se registra el DSN.
 - [x] Recepción real de StateError confirmada por el propietario.
 - [x] Traza, ambiente dev y versión 1.0.0 (1) confirmados por el propietario.
-- [ ] Evidencia visual sanitizada del panel archivada (no aportada).
+- [x] Evidencia visual sanitizada del panel archivada y revisada.
 
 ## Publicación
 
@@ -56,7 +56,7 @@ No se modificaron credenciales, firma, .env, backend ni base de datos. Compilar 
 - [x] Evidencias actuales: archivos *-cierre.txt y lcov-cierre.info.
 - [x] Se sustituyeron rutas personales por marcadores en seis logs históricos.
 - [x] Workflow local incluye flutter analyze, flutter test --coverage y pruebas PROD.
-- [ ] Captura física de Performance exportada y analizada, con frecuencia durante el recorrido.
+- [x] Captura física de Performance exportada y analizada, con frecuencia durante el recorrido.
 - [ ] Resultado de GitHub Actions remoto: no consultado ni ejecutado en esta sesión.
 
 Subir únicamente fuentes/pruebas revisadas, documentación y evidencias sanitizadas.

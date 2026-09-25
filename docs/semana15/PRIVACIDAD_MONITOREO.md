@@ -3,9 +3,10 @@
 ## Estado: IMPLEMENTADO — recepción confirmada por el propietario
 
 El filtro `beforeSend` está implementado. El propietario confirmó el 24/09/2026
-la recepción de StateError con traza, ambiente dev y versión 1.0.0 (1).
-No se accedió al panel en esta auditoría: falta archivar una captura sanitizada
-y documentar la revisión del mensaje redactado y de los datos sensibles del evento.
+la recepción remota de StateError con traza, ambiente dev y versión 1.0.0 (1).
+La captura sanitizada archivada fue revisada visualmente: no muestra la barra de
+direcciones, el ID del evento ni el Trace ID, y conserva solo los datos técnicos
+necesarios visibles.
 No se almacena el DSN. Las pruebas locales no sustituyen esa revisión remota.
 
 ## Política implementada

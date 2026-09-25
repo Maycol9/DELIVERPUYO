@@ -1,40 +1,48 @@
-# Rendimiento — medición pendiente de exportación DevTools
+# Rendimiento — medición física con Flutter DevTools
 
-## Auditoría del 24 de septiembre de 2026, 18:49 (UTC−05)
+## Medición del 25 de septiembre de 2026
 
 Comprobado mediante ADB dirigido exclusivamente al equipo físico: TECNO KM4,
 Android 15, API 35; proceso de DeliverPuyo activo y adb reverse TCP 3000 activo.
 El backend escucha en el puerto 3000. No se detuvo la aplicación ni el backend.
 Flutter local: 3.44.4, Dart 3.12.2, DevTools 2.57.0.
 
-El propietario informa que la aplicación está en Profile y que el catálogo de
-15 productos funciona con fluidez. Hay DevTools abierto y un puerto VM reenviado,
-pero la consulta directa del servicio VM no estuvo disponible. Profile todavía
-debe corroborarse en la sesión conectada de DevTools; no se infiere del puerto.
+La sesión conectada a DevTools confirmó `Flutter native`, `Profile build`, Android
+arm64 y motor Impeller. La captura se realizó sobre la aplicación existente, sin
+recompilarla ni detener el backend.
 
-Android informó modo activo 1, renderFrameRate 60.0 Hz; modos admitidos:
-60, 90 y aproximadamente 120 Hz. Es una lectura puntual, no la frecuencia
-verificada durante un recorrido. Presupuestos: 16,67 ms a 60 Hz; 11,11 ms a
-90 Hz; 8,33 ms a 120 Hz. No sumar UI y Raster para compararlos con el presupuesto:
-se analiza cada etapa por separado.
+Android informó `mActiveRenderFrameRate=60.0` durante la medición; el dispositivo
+admite 60, 90 y aproximadamente 120 Hz. El presupuesto usado fue 16,67 ms por
+fotograma a 60 Hz. UI y Raster se analizaron por separado, sin sumarlos.
 
-| Métrica del recorrido | Estado |
+| Métrica del recorrido | Resultado real |
 |---|---|
-| Duraciones UI y Raster | Sin captura |
-| Total de fotogramas / lentos | No determinado; no equivale a cero |
-| Percentiles y máximos | No calculables sin exportación |
-| Arranque | No medido; se conserva la sesión existente |
-| Antes/después | No aplica todavía: no hay problema demostrado ni corrección |
+| Duraciones UI y Raster | UI máxima 3,8 ms; Raster máxima 12,4 ms |
+| Total de fotogramas / lentos | 26 registrados; 0 lentos/jank |
+| FPS promedio | 59 FPS según DevTools |
+| Frecuencia efectiva | 60 Hz durante la sesión; 90/120 Hz admitidos |
+| Acción relacionada con frames lentos | Ninguna: DevTools indicó “no jank detected” |
 
-## Acción manual en la sesión existente
+## Recorrido y análisis
+
+Se ejecutaron desplazamientos repetidos del catálogo, búsqueda de producto,
+apertura del detalle, regreso al catálogo y cambio de categoría. Se registraron
+26 fotogramas. El mayor tiempo UI fue 3,8 ms y el mayor Raster 12,4 ms, ambos por
+debajo del presupuesto de 16,67 ms a 60 Hz. No se detectó un problema atribuible
+al hilo UI ni al renderizado Raster, por lo que no se modificó el código Flutter.
+
+La evidencia sanitizada está en
+`evidence/semana15/performance-profile-2026-09-25.json`. La exportación original
+`dart_devtools_2026-09-25_10_48_20.820.json` se conserva fuera del repositorio.
+
+## Procedimiento ejecutado en la sesión existente
 
 1. En DevTools, seleccionar el TECNO KM4 y comprobar que indique Profile.
    No utilizar la conexión del emulador.
-2. Abrir **Performance** y pulsar **Record**. Según la versión, el control
-   de grabación puede mostrarse como un círculo rojo.
+2. Abrir **Performance**, limpiar la captura previa e iniciar la grabación.
 3. En el teléfono: abrir catálogo, desplazarse, buscar un producto, abrir
    detalle, volver al catálogo y cambiar de categoría si está disponible.
-4. Pulsar **Stop** y luego **Export**, arriba a la derecha del gráfico de frames.
+4. Detener la grabación y usar **Save this screen's data for offline viewing**.
 5. Mantener la exportación original local fuera del repositorio hasta revisar
    URLs, tokens, datos personales e identificadores. Preparar después una copia
    sanitizada en evidence/semana15/. No incluir la URL privada de conexión VM.
@@ -44,15 +52,18 @@ se analiza cada etapa por separado.
 
 Fuente: https://docs.flutter.dev/tools/devtools/performance
 
-No se aplican optimizaciones a ciegas. Si no se observa un problema en una captura
-válida, se documentará ese resultado y quedará sin justificar el requisito de
-corrección y comparación antes/después. Por ahora no se puede afirmar ese resultado.
+No se aplican optimizaciones a ciegas. Esta captura válida no demuestra un
+problema de fluidez, por lo que no se realizó una corrección ni una comparación
+antes/después.
 
 ## Procedimiento histórico (no ejecutarlo para reemplazar la sesión activa)
 
-ACCIÓN MANUAL REQUERIDA — PRUEBA DE RENDIMIENTO EN DISPOSITIVO FÍSICO
+REGISTRO HISTÓRICO — PROCEDIMIENTO ANTERIOR A LA MEDICIÓN DEL 25/09/2026
 
-No se ejecutó modo profile ni se midieron arranque, fluidez, frames, hilo UI o raster. El emulador utilizado para integración no sirve como evidencia de rendimiento del encargo. Los tiempos impresos por flutter test y Gradle no son métricas de la aplicación.
+Este bloque conserva el procedimiento previo y no describe el estado actual. El
+emulador utilizado para integración no sirve como evidencia de rendimiento del
+encargo. Los tiempos impresos por flutter test y Gradle no son métricas de la
+aplicación; la medición física actual está documentada arriba.
 
 Cuando el usuario disponga del equipo físico, identificarlo con `flutter devices` y ejecutar desde mobile:
 

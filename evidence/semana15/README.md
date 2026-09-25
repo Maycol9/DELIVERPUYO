@@ -20,7 +20,15 @@ coverage-final, coverage-run, e2e, overflow-before y tests-final, sin cambiar re
 La compilación exitosa en TEMP consta en la etapa anterior; no se adjunta APK
 ni se afirma una compilación nueva del código actual. No se generaron capturas.
 
-Pendientes: exportación Performance sanitizada, frecuencia durante el recorrido,
-análisis UI/Raster y evidencia sanitizada del evento Sentry ya recibido.
-Comparación antes/después solo si se identifica y corrige un problema real.
+La medición Performance física está documentada en
+`performance-profile-2026-09-25.json`: 26 frames, 59 FPS, 60 Hz activos,
+UI máxima 3,8 ms, Raster máxima 12,4 ms y 0 jank. La exportación original se
+conserva fuera del repositorio.
+
+La evidencia visual sanitizada del evento Sentry está archivada en
+`sentry-event-sanitized.png` y fue revisada para ocultar barra de direcciones, ID
+del evento y Trace ID. Conserva StateError, `[REDACTED]` y la traza necesaria.
+
+La comparación antes/después no aplica porque no se identificó un problema real
+de fluidez; el requisito académico de corregirlo queda expresamente pendiente.
 No versionar originales DevTools sin revisar, URLs de VM, DSN ni identificadores.

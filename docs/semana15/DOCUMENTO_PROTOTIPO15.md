@@ -1,6 +1,6 @@
 # Prototipo 15 — DeliverPuyo
 
-Actualización: 2026-09-24. Sentry recibido según verificación comunicada por el propietario; rendimiento físico pendiente de captura DevTools. Los resultados del 22 de septiembre conservados abajo son históricos y no sustituyen la validación de cierre. No se declara listo para publicación.
+Actualización: 2026-09-25. Sentry recibido según verificación comunicada por el propietario; rendimiento físico medido con DevTools en el TECNO KM4. Los resultados históricos conservados abajo no sustituyen la validación de cierre. No se declara listo para publicación.
 
 ## 1. Objetivo
 
@@ -68,7 +68,7 @@ AppLogger incorpora JSON con niveles debug/info/warning/error y contexto enum. S
 
 ## 12. Monitoreo
 
-Sentry Flutter 9.30.1 está integrado. El propietario confirma recepción real de StateError con traza, ambiente dev y versión 1.0.0 (1). Esta sesión documenta su confirmación, sin acceder al panel ni generar otro evento. No se archiva DSN ni identificadores. Ver evidence/semana15/sentry-verificacion.md para distinguir recepción confirmada de evidencia visual y revisión manual pendientes.
+Sentry Flutter 9.30.1 está integrado. El propietario confirma recepción real de StateError con traza, ambiente dev y versión 1.0.0 (1). La captura sanitizada del evento está archivada en `evidence/semana15/sentry-event-sanitized.png`; conserva StateError, `[REDACTED]` y la traza, sin barra de direcciones, ID del evento ni Trace ID. No se archiva DSN ni identificadores. Ver `evidence/semana15/sentry-verificacion.md` para distinguir recepción, privacidad local y evidencia visual.
 
 ## 13. Privacidad
 
@@ -76,7 +76,7 @@ Filtros locales implementados y probados: texto libre de mensajes/excepciones re
 
 ## 14. Rendimiento
 
-TECNO KM4 físico detectado por ADB, Android 15/API 35, app activa. Profile comunicado por el propietario, pendiente de corroboración en DevTools. Frecuencia puntual observada: 60 Hz, con modos 90/120 Hz disponibles. Faltan captura del recorrido y duraciones UI/Raster; no se conocen los frames lentos ni el arranque. RENDIMIENTO.md define el procedimiento. No se realizó una optimización de fluidez sin mediciones.
+Medición real en TECNO KM4 físico, Android 15/API 35, Flutter 3.44.4, Dart 3.12.2 y DevTools 2.57.0. DevTools confirmó `Profile build`, Android arm64 y motor Impeller. El recorrido cubrió desplazamiento del catálogo, búsqueda, detalle, regreso y cambio de categoría. Se registraron 26 fotogramas, 59 FPS promedio, 0 fotogramas lentos, UI máxima 3,8 ms y Raster máxima 12,4 ms. Android reportó 60 Hz activos durante la medición, con modos 90/120 Hz disponibles; el presupuesto usado fue 16,67 ms. No se demostró un problema de fluidez y no se aplicó optimización innecesaria. Evidencia sanitizada: `evidence/semana15/performance-profile-2026-09-25.json`; exportación original conservada fuera del repositorio. Ver RENDIMIENTO.md para el análisis y las limitaciones.
 
 ## 15. CI
 
@@ -84,7 +84,7 @@ Workflow local `.github/workflows/flutter_tests.yml`: pub get, analyze, test --c
 
 ## 16. Checklist de publicación
 
-CHECKLIST_PUBLICACION.md marca pruebas, estados UI, cobertura y compilación aprobados. Monitoreo/performance siguen pendientes. Release aún usa firma debug; producción requiere firma adecuada y API_URL HTTPS con AMBIENTE=prod. Esa configuración se inspeccionó, no se modificó ni publicó.
+CHECKLIST_PUBLICACION.md marca pruebas, estados UI, cobertura, medición física de rendimiento y captura visual sanitizada de Sentry aprobados. La corrección académica de fluidez no está demostrada porque la medición no encontró jank. Release aún usa firma debug; producción requiere firma adecuada y API_URL HTTPS con AMBIENTE=prod. Esa configuración se inspeccionó, no se modificó ni publicó.
 
 ## 17. Uso de IA
 
@@ -114,6 +114,6 @@ No se hizo commit/push. No se cambió backend, Prisma, BD, .env, dependencias ni
 ## 19. Pendientes manuales reales
 
 1. Archivar evidencia sanitizada de Sentry y confirmar por escrito la revisión del mensaje redactado y ausencia de datos sensibles. No hace falta generar otro evento.
-2. Capturar/exportar Performance en la sesión Profile del TECNO KM4 y analizar UI/Raster. Corregir y repetir únicamente si las métricas lo justifican.
+2. El requisito de corregir un problema de fluidez queda pendiente solo si la evaluación académica exige una regresión demostrada; esta medición no justificó cambios.
 3. Antes de publicar: firma release y configuración productiva HTTPS. No se inventaron claves ni valores.
 4. Ejecutar/revisar el workflow en GitHub cuando el propietario publique los cambios; no se realizó commit ni push.
