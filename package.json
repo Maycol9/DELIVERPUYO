@@ -13,7 +13,7 @@
     "generate": "prisma generate",
     "migrate-dev": "prisma migrate dev",
     "seed": "tsx prisma/seed.ts",
-    "worker:receipt": "tsx --env-file=.env workers/receipt.worker.ts",
+    "worker:receipt": "tsx workers/receipt.worker.ts",
     "benchmark": "tsx --env-file=.env scripts/benchmark.ts"
   },
   "dependencies": {

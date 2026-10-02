@@ -3,6 +3,7 @@ import { createRouter } from 'next-connect';
 import { z } from 'zod';
 import { routerOptions } from '@/lib/api/router-config';
 import { auth } from '@/middleware/auth';
+import { withCors } from '@/middleware/cors';
 import { requireRoles } from '@/middleware/roles';
 import { ApiError } from '@/errors/api-error';
 import { productUpdateSchema } from '@/validations/products';
@@ -16,4 +17,4 @@ router.use(auth).patch(requireRoles('ADMIN'), async (req, res) => {
   if (!parsed.success) throw new ApiError(422, 'Datos de actualización inválidos', parsed.error.flatten().fieldErrors);
   res.status(200).json({ success: true, data: await productService.update(id.data, parsed.data) });
 });
-export default router.handler(routerOptions);
+export default withCors(router.handler(routerOptions));

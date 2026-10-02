@@ -4,6 +4,7 @@ import { prisma } from '@/database/client';
 import { ApiError } from '@/errors/api-error';
 import { routerOptions } from '@/lib/api/router-config';
 import { auth } from '@/middleware/auth';
+import { withCors } from '@/middleware/cors';
 import { addressCreateSchema } from '@/validations/addresses';
 import { pagination } from '@/helper/pagination';
 
@@ -24,4 +25,4 @@ router.use(auth)
     const data = await prisma.address.create({ data: { userId: req.user!.sub, ...parsed.data }, select: { id: true, label: true, address: true, reference: true } });
     res.status(201).json({ success: true, data });
   });
-export default router.handler(routerOptions);
+export default withCors(router.handler(routerOptions));

@@ -3,6 +3,7 @@ import { createRouter } from 'next-connect';
 import { z } from 'zod';
 import { routerOptions } from '@/lib/api/router-config';
 import { auth } from '@/middleware/auth';
+import { withCors } from '@/middleware/cors';
 import { ApiError } from '@/errors/api-error';
 import { orderService } from '@/services/order.service';
 
@@ -13,4 +14,4 @@ router.use(auth).get(async (req, res) => {
   if (!id.success) throw new ApiError(422, 'Identificador de pedido inválido', id.error.flatten().formErrors);
   res.status(200).json({ success: true, data: await orderService.detail(req.user!.sub, req.user!.role, id.data, includeAddress) });
 });
-export default router.handler(routerOptions);
+export default withCors(router.handler(routerOptions));

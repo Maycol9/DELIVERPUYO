@@ -11,6 +11,7 @@ const schema = z.object({
   REDIS_URL: z.string().url(),
   JWT_ACCESS_SECRET: z.string().min(32),
   JWT_REFRESH_SECRET: z.string().min(32),
+  CORS_ALLOWED_ORIGINS: z.string().optional(),
   ACCESS_TOKEN_MINUTES: z.coerce.number().int().positive().default(15),
   REFRESH_TOKEN_DAYS: z.coerce.number().int().positive().default(7),
   PRODUCT_CACHE_TTL_SECONDS: z.coerce.number().int().positive().default(120),

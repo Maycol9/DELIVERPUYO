@@ -1,32 +1,38 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import type { NextHandler } from 'next-connect';
+import type { NextApiHandler } from 'next';
+import { env } from '@/lib/config/env';
 
 const allowedDevOrigins = new Set([
   'http://localhost:8081',
   'http://127.0.0.1:8081',
 ]);
 
-export async function devCors(
-  req: NextApiRequest,
-  res: NextApiResponse,
-  next: NextHandler,
-): Promise<void> {
-  const origin = req.headers.origin;
+const configuredOrigins = new Set(
+  (env.CORS_ALLOWED_ORIGINS ?? '').split(',').map((origin) => origin.trim()).filter(Boolean),
+);
 
-  if (origin && allowedDevOrigins.has(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
-    res.setHeader(
-      'Access-Control-Allow-Headers',
-      'Content-Type, Authorization, X-Bypass-Cache',
+export function withCors(handler: NextApiHandler): NextApiHandler {
+  return async (req, res) => {
+    const origin = req.headers.origin;
+    const originAllowed = origin && (
+      configuredOrigins.has(origin) ||
+      (env.NODE_ENV !== 'production' && allowedDevOrigins.has(origin))
     );
-    res.setHeader('Vary', 'Origin');
-  }
 
-  if (req.method === 'OPTIONS') {
-    res.status(204).end();
-    return;
-  }
+    if (originAllowed) {
+      res.setHeader('Access-Control-Allow-Origin', origin);
+      res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PATCH,OPTIONS');
+      res.setHeader(
+        'Access-Control-Allow-Headers',
+        'Content-Type, Authorization, X-Bypass-Cache',
+      );
+      res.setHeader('Vary', 'Origin');
+    }
 
-  await next();
+    if (req.method === 'OPTIONS') {
+      res.status(204).end();
+      return;
+    }
+
+    await handler(req, res);
+  };
 }

@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { createRouter } from 'next-connect';
 import { routerOptions } from '@/lib/api/router-config';
 import { auth } from '@/middleware/auth';
+import { withCors } from '@/middleware/cors';
 import { ApiError } from '@/errors/api-error';
 import { createOrderSchema } from '@/validations/orders';
 import { orderService } from '@/services/order.service';
@@ -19,4 +20,4 @@ router.use(auth)
     if (!parsed.success) throw new ApiError(422, 'Datos del pedido inválidos', parsed.error.flatten().fieldErrors);
     res.status(201).json({ success: true, data: await orderService.create(req.user!.sub, parsed.data), message: 'Pedido creado; comprobante en procesamiento' });
   });
-export default router.handler(routerOptions);
+export default withCors(router.handler(routerOptions));

@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { createRouter } from 'next-connect';
 import { routerOptions } from '@/lib/api/router-config';
+import { withCors } from '@/middleware/cors';
 import { refreshSchema } from '@/validations/auth';
 import { ApiError } from '@/errors/api-error';
 import { authService } from '@/services/auth.service';
@@ -11,4 +12,4 @@ router.post(async (req, res) => {
   if (!parsed.success) throw new ApiError(422, 'Refresh token requerido');
   res.status(200).json({ success: true, data: await authService.refresh(parsed.data.refreshToken) });
 });
-export default router.handler(routerOptions);
+export default withCors(router.handler(routerOptions));
