@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@types/node": "^20",
-    "@types/pdfkit": "^0.13.8",
+    "@types/pdfkit": "^0.13.9",
     "@types/pg": "^8.15.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
