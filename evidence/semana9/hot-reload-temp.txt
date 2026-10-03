@@ -1,0 +1,14 @@
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "type": "ReloadReport",
+    "success": false,
+    "notices": [
+      {
+        "type": "ReasonForCancelling",
+        "message": "Error while starting Kernel isolate task"
+      }
+    ]
+  },
+  "id": ""
+}

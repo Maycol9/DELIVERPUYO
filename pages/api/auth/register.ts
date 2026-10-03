@@ -4,6 +4,7 @@ import { routerOptions } from '@/lib/api/router-config';
 import { registerSchema } from '@/validations/auth';
 import { ApiError } from '@/errors/api-error';
 import { authService } from '@/services/auth.service';
+import { withCors } from '@/middleware/cors';
 
 const router = createRouter<NextApiRequest, NextApiResponse>();
 router.post(async (req, res) => {
@@ -11,4 +12,5 @@ router.post(async (req, res) => {
   if (!parsed.success) throw new ApiError(422, 'Datos de registro inválidos', parsed.error.flatten().fieldErrors);
   res.status(201).json({ success: true, data: await authService.register(parsed.data) });
 });
-export default router.handler(routerOptions);
+
+export default withCors(router.handler(routerOptions));

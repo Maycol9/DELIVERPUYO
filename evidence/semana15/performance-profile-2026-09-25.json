@@ -1,0 +1,33 @@
+{
+  "medicion": "Flutter DevTools Performance",
+  "fecha_local": "2026-09-25",
+  "dispositivo": "TECNO KM4",
+  "android": "Android 15 (API 35)",
+  "flutter": "3.44.4",
+  "dart": "3.12.2",
+  "devtools": "2.57.0",
+  "modo": "Profile",
+  "motor": "Impeller",
+  "frecuencia_activa_hz": 60.0,
+  "frecuencias_admitidas_hz": [60.0, 90.0, 120.0],
+  "presupuesto_fotograma_ms": 16.67,
+  "fotogramas_registrados": 26,
+  "fps_promedio_devtools": 59,
+  "ui_max_ms": 3.8,
+  "raster_max_ms": 12.4,
+  "fotogramas_lentos": 0,
+  "jank_detectado": false,
+  "recorrido": [
+    "catalogo y desplazamiento repetido",
+    "busqueda de producto",
+    "detalle de producto",
+    "regreso al catalogo",
+    "cambio de categoria"
+  ],
+  "conclusion": "No se demostro un problema de fluidez en esta captura. No se aplico optimizacion de rendimiento.",
+  "exportacion_original": "Conservada fuera del repositorio; no contiene DSN ni tokens en esta evidencia.",
+  "limitaciones": [
+    "La frecuencia de 60 Hz fue verificada mediante dumpsys display durante la sesion; el dispositivo admite 90 y 120 Hz.",
+    "La exportacion original amplia de DevTools no se publica dentro del repositorio por contener datos tecnicos de la sesion."
+  ]
+}

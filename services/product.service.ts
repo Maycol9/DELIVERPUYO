@@ -39,11 +39,13 @@ export const productService = {
       prisma.product.findMany({ where, skip: p.skip, take: p.limit, orderBy: { name: 'asc' }, select: selectFromFields(query.fields) }),
       prisma.product.count({ where }),
     ]);
-    const result = { success: true, data, pagination: p.meta(total), cache: 'MISS' as const };
-    try {
-      await ensureRedis();
-      await redis.set(cacheKey, JSON.stringify(result), 'EX', env.PRODUCT_CACHE_TTL_SECONDS);
-    } catch (error) { console.warn('No fue posible escribir en Redis', error); }
+    const result = { success: true, data, pagination: p.meta(total), cache: (bypassCache ? 'BYPASS' : 'MISS') as 'BYPASS' | 'MISS' };
+    if (!bypassCache) {
+      try {
+        await ensureRedis();
+        await redis.set(cacheKey, JSON.stringify(result), 'EX', env.PRODUCT_CACHE_TTL_SECONDS);
+      } catch (error) { console.warn('No fue posible escribir en Redis', error); }
+    }
     return result;
   },
 

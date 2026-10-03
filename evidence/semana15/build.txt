@@ -1,0 +1,6 @@
+Comando ejecutado desde mobile: flutter build apk --debug
+Resultado observado: exit code 0.
+Running Gradle task 'assembleDebug'... 46,3s
+Built build\app\outputs\flutter-apk\app-debug.apk
+Compilación normal con target lib/main.dart; no es una medición de rendimiento.
+Las ejecuciones posteriores de integration_test pueden sustituir el APK local por su APK de pruebas.

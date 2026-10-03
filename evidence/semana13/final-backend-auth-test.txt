@@ -1,0 +1,15 @@
+✔ valid verification proceeds and attaches claims (27.0414ms)
+✔ missing authentication never invokes route (8.471ms)
+✔ failed verification never invokes route (8.6287ms)
+✔ downstream 422 preserves original status and field details (9.3682ms)
+✔ downstream 403 preserves original status and field details (6.9346ms)
+✔ downstream 409 preserves original status and field details (6.1281ms)
+✔ downstream 500 preserves original status and field details (5.8431ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 448.7485

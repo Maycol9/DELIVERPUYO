@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { createRouter } from 'next-connect';
 import { routerOptions } from '@/lib/api/router-config';
 import { auth } from '@/middleware/auth';
+import { withCors } from '@/middleware/cors';
 import { requireRoles } from '@/middleware/roles';
 import { ApiError } from '@/errors/api-error';
 import { productCreateSchema, productQuerySchema } from '@/validations/products';
@@ -20,4 +21,4 @@ router.use(auth).post(requireRoles('ADMIN'), async (req, res) => {
   if (!parsed.success) throw new ApiError(422, 'Datos del producto inválidos', parsed.error.flatten().fieldErrors);
   res.status(201).json({ success: true, data: await productService.create(parsed.data) });
 });
-export default router.handler(routerOptions);
+export default withCors(router.handler(routerOptions));

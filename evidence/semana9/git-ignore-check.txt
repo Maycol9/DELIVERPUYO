@@ -1,0 +1,4 @@
+.gitignore:10:.env	.env
+.gitignore:2:node_modules/	node_modules
+mobile/.gitignore:29:.dart_tool/	"mobile\\.dart_tool"
+mobile/.gitignore:33:/build/	"mobile\\build"

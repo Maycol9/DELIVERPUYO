@@ -13,7 +13,8 @@
     "generate": "prisma generate",
     "migrate-dev": "prisma migrate dev",
     "seed": "tsx prisma/seed.ts",
-    "worker:receipt": "tsx --env-file=.env workers/receipt.worker.ts",
+    "seed:catalog": "tsx scripts/seed-production-catalog.ts",
+    "worker:receipt": "tsx workers/receipt.worker.ts",
     "benchmark": "tsx --env-file=.env scripts/benchmark.ts"
   },
   "dependencies": {
@@ -34,7 +35,7 @@
   },
   "devDependencies": {
     "@types/node": "^20",
-    "@types/pdfkit": "^0.13.8",
+    "@types/pdfkit": "^0.13.9",
     "@types/pg": "^8.15.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",

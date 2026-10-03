@@ -1,0 +1,10 @@
+09-12 03:46:50.197 21054 21054 I flutter : POST /api/orders 401 992ms
+09-12 03:46:50.318 21054 21054 I flutter : POST /api/auth/refresh 200 89ms
+09-12 03:46:50.876 21054 21054 I flutter : POST /api/orders 401 117ms
+09-12 03:46:51.345 21054 21054 I flutter : GET /api/addresses 200 557ms
+09-12 03:48:40.062 21054 21054 I flutter : POST /api/auth/login 200 683ms
+09-12 03:48:40.365 21054 21054 I flutter : GET /api/addresses 200 171ms
+09-12 03:48:40.784 21054 21054 I flutter : GET /api/orders 200 153ms
+09-12 03:48:47.846 21054 21054 I flutter : GET /api/orders 200 885ms
+09-12 03:48:47.963 21054 21054 I flutter : POST /api/orders 201 94ms
+09-12 03:48:48.147 21054 21054 I flutter : GET /api/orders 200 85ms

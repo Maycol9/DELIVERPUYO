@@ -1,0 +1,143 @@
+00:00 +0: loading <WORKSPACE>/mobile/test/auth_controller_test.dart
+00:00 +0: <WORKSPACE>/mobile/test/auth_controller_test.dart: AuthController starts unauthenticated
+00:00 +1: <WORKSPACE>/mobile/test/auth_controller_test.dart: AuthController login success stores user and token in application state
+00:00 +2: <WORKSPACE>/mobile/test/auth_controller_test.dart: AuthController login failure exposes error state
+00:00 +3: <WORKSPACE>/mobile/test/auth_controller_test.dart: AuthController register success stores created user and token
+00:00 +4: <WORKSPACE>/mobile/test/auth_controller_test.dart: AuthController logout clears session
+00:00 +5: <WORKSPACE>/mobile/test/auth_controller_test.dart: AuthController 401 clears session and 403 does not force logout by itself
+00:00 +6: <WORKSPACE>/mobile/test/order_draft_test.dart: OrderDraft serializes using the real backend contract
+00:01 +7: <WORKSPACE>/mobile/test/remote_state_test.dart: RemoteState represents mutually exclusive states
+00:01 +8: <WORKSPACE>/mobile/test/semana11_closure_test.dart: ProductDetailScreen rebuilds from the route id without extra
+00:03 +9: <WORKSPACE>/mobile/test/semana13_diagnostic_test.dart: diagnostic DEV field error or PROD hidden and blocked
+00:04 +10: <WORKSPACE>/mobile/test/semana13_diagnostic_test.dart: diagnostic DEV field error or PROD hidden and blocked
+00:04 +11: <WORKSPACE>/mobile/test/semana13_diagnostic_test.dart: diagnostic DEV field error or PROD hidden and blocked
+00:04 +12: <WORKSPACE>/mobile/test/semana13_diagnostic_test.dart: diagnostic DEV field error or PROD hidden and blocked
+00:04 +13: <WORKSPACE>/mobile/test/semana13_diagnostic_test.dart: diagnostic DEV field error or PROD hidden and blocked
+00:04 +14: <WORKSPACE>/mobile/test/semana13_diagnostic_test.dart: diagnostic DEV field error or PROD hidden and blocked
+00:05 +14 ~1: <WORKSPACE>/mobile/test/semana13_diagnostic_test.dart: diagnostic DEV field error or PROD hidden and blocked
+00:05 +15 ~1: <WORKSPACE>/mobile/test/semana13_diagnostic_test.dart: diagnostic DEV field error or PROD hidden and blocked
+00:05 +16 ~1: <WORKSPACE>/mobile/test/semana13_form_test.dart: 422 server field error rendered on form, draft and auth retained
+00:05 +17 ~1: <WORKSPACE>/mobile/test/semana13_form_test.dart: 422 server field error rendered on form, draft and auth retained
+00:06 +18 ~1: <WORKSPACE>/mobile/test/semana13_form_test.dart: 422 server field error rendered on form, draft and auth retained
+00:06 +19 ~1: <WORKSPACE>/mobile/test/semana11_closure_test.dart: login success returns to the intended protected destination
+00:06 +20 ~1: <WORKSPACE>/mobile/test/semana11_closure_test.dart: login success returns to the intended protected destination
+00:06 +21 ~1: <WORKSPACE>/mobile/test/semana11_closure_test.dart: login success returns to the intended protected destination
+00:07 +22 ~1: <WORKSPACE>/mobile/test/semana11_closure_test.dart: logout blocks protected routes again
+00:07 +23 ~1: <WORKSPACE>/mobile/test/semana11_closure_test.dart: 422 extracts field errors and keeps the order draft values
+00:07 +24 ~1: <WORKSPACE>/mobile/test/semana11_closure_test.dart: 403 keeps AuthSession, token, user and exposes permission message
+00:07 +25 ~1: <WORKSPACE>/mobile/test/semana11_closure_test.dart: 401 clears session and leaves router able to show login
+00:07 +26 ~1: <WORKSPACE>/mobile/test/semana13_test.dart: dev local baseUrl and configured timeouts
+00:07 +27 ~1: <WORKSPACE>/mobile/test/semana13_test.dart: prod requires HTTPS
+00:07 +28 ~1: <WORKSPACE>/mobile/test/semana13_test.dart: staging requires HTTPS
+00:07 +29 ~1: <WORKSPACE>/mobile/test/semana13_test.dart: test requires HTTPS
+00:07 +30 ~1: <WORKSPACE>/mobile/test/semana13_test.dart: rejects unknown environment and nonlocal HTTP
+00:07 +31 ~1: <WORKSPACE>/mobile/test/semana13_test.dart: automatic secure token on protected request
+00:07 +32 ~1: <WORKSPACE>/mobile/test/semana13_test.dart: public login does not send token
+00:07 +33 ~1: <WORKSPACE>/mobile/test/semana13_test.dart: 401 refresh and retry: 1 concurrent requests, one refresh
+00:07 +34 ~1: <WORKSPACE>/mobile/test/semana13_test.dart: 401 refresh and retry: 5 concurrent requests, one refresh
+00:07 +35 ~1: <WORKSPACE>/mobile/test/semana13_test.dart: anti-loop second 401 clears session
+00:07 +36 ~1: <WORKSPACE>/mobile/test/semana13_test.dart: failed refresh clears storage and notifies auth
+00:07 +37 ~1: <WORKSPACE>/mobile/test/semana13_test.dart: logout while refresh pending never restores old session
+00:07 +38 ~1: <WORKSPACE>/mobile/test/semana13_test.dart: redacted logs exclude payload query and credentials
+00:07 +39 ~1: <WORKSPACE>/mobile/test/semana13_test.dart: logging disabled produces no logs
+00:07 +40 ~1: <WORKSPACE>/mobile/test/semana13_test.dart: generated Product decimal category mapping and optional null
+00:07 +41 ~1: <WORKSPACE>/mobile/test/semana13_test.dart: generated Product accepts absent category
+00:08 +42 ~1: <WORKSPACE>/mobile/test/semana13_test.dart: generated Order preserves contract names and Decimal
+00:08 +43 ~1: <WORKSPACE>/mobile/test/semana13_test.dart: domain message for DioExceptionType.connectionError
+00:08 +44 ~1: <WORKSPACE>/mobile/test/semana13_test.dart: domain message for DioExceptionType.receiveTimeout
+00:08 +45 ~1: <WORKSPACE>/mobile/test/semana13_test.dart: HTTP 400 translated without leaking server text
+00:08 +46 ~1: <WORKSPACE>/mobile/test/semana13_test.dart: HTTP 403 translated without leaking server text
+00:08 +47 ~1: <WORKSPACE>/mobile/test/semana13_test.dart: HTTP 404 translated without leaking server text
+00:08 +48 ~1: <WORKSPACE>/mobile/test/semana13_test.dart: HTTP 409 translated without leaking server text
+00:08 +49 ~1: <WORKSPACE>/mobile/test/semana13_test.dart: HTTP 422 translated without leaking server text
+00:08 +50 ~1: <WORKSPACE>/mobile/test/semana13_test.dart: HTTP 500 translated without leaking server text
+00:08 +51 ~1: <WORKSPACE>/mobile/test/semana13_test.dart: GET retries 5xx with bounded backoff
+00:08 +52 ~1: <WORKSPACE>/mobile/test/semana13_test.dart: GET network retries are bounded
+00:08 +53 ~1: <WORKSPACE>/mobile/test/semana13_test.dart: POST without idempotency never retries 503
+00:08 +54 ~1: <WORKSPACE>/mobile/test/semana13_test.dart: GET 422 never retries
+00:08 +55 ~1: <WORKSPACE>/mobile/test/semana13_test.dart: intentional cancellation interrupts backoff
+00:08 +56 ~1: <WORKSPACE>/mobile/test/semana13_test.dart: repository returns cache then refreshes local
+00:08 +57 ~1: <WORKSPACE>/mobile/test/semana15_auth_test.dart: valid credentials authenticate and persist the session
+00:08 +58 ~1: <WORKSPACE>/mobile/test/semana15_auth_test.dart: valid credentials authenticate and persist the session
+00:08 +59 ~1: <WORKSPACE>/mobile/test/semana15_auth_test.dart: invalid credentials become a handled authentication failure
+00:08 +60 ~1: <WORKSPACE>/mobile/test/semana15_auth_test.dart: transport failure becomes a safe authentication failure
+00:08 +61 ~1: <WORKSPACE>/mobile/test/semana15_auth_test.dart: restore storage failure stays unauthenticated with safe notice
+00:10 +62 ~1: <WORKSPACE>/mobile/test/semana15_catalog_test.dart: catalog screen loading with fake repository
+00:12 +63 ~1: <WORKSPACE>/mobile/test/semana15_catalog_test.dart: catalog screen loading with fake repository
+00:12 +64 ~1: <WORKSPACE>/mobile/test/semana15_catalog_test.dart: catalog screen loading with fake repository
+00:13 +65 ~1: <WORKSPACE>/mobile/test/semana15_catalog_test.dart: catalog screen loading with fake repository
+00:13 +66 ~1: <WORKSPACE>/mobile/test/semana15_form_test.dart: selected order fields fit a 320 pixel wide screen
+00:13 +67 ~1: <WORKSPACE>/mobile/test/semana15_form_test.dart: selected order fields fit a 320 pixel wide screen
+00:13 +68 ~1: <WORKSPACE>/mobile/test/semana15_form_test.dart: selected order fields fit a 320 pixel wide screen
+00:13 +69 ~1: <WORKSPACE>/mobile/test/semana15_form_test.dart: selected order fields fit a 320 pixel wide screen
+00:13 +70 ~1: <WORKSPACE>/mobile/test/semana15_form_test.dart: selected order fields fit a 320 pixel wide screen
+00:13 +71 ~1: <WORKSPACE>/mobile/test/semana15_form_test.dart: selected order fields fit a 320 pixel wide screen
+00:13 +72 ~1: <WORKSPACE>/mobile/test/semana15_form_test.dart: selected order fields fit a 320 pixel wide screen
+00:13 +73 ~1: <WORKSPACE>/mobile/test/semana15_form_test.dart: selected order fields fit a 320 pixel wide screen
+00:13 +74 ~1: <WORKSPACE>/mobile/test/semana15_form_test.dart: selected order fields fit a 320 pixel wide screen
+00:13 +75 ~1: <WORKSPACE>/mobile/test/semana15_form_test.dart: selected order fields fit a 320 pixel wide screen
+00:14 +76 ~1: <WORKSPACE>/mobile/test/semana15_catalog_test.dart: catalog screen data with fake repository
+00:14 +77 ~1: <WORKSPACE>/mobile/test/semana15_form_test.dart: order form rejects quantity "" without POST
+00:14 +78 ~1: <WORKSPACE>/mobile/test/semana15_form_test.dart: order form rejects quantity "" without POST
+00:14 +79 ~1: <WORKSPACE>/mobile/test/semana15_form_test.dart: order form rejects quantity "" without POST
+00:15 +80 ~1: <WORKSPACE>/mobile/test/semana15_form_test.dart: order form rejects quantity "" without POST
+00:15 +81 ~1: <WORKSPACE>/mobile/test/semana15_catalog_test.dart: catalog screen error with fake repository
+00:15 +82 ~1: <WORKSPACE>/mobile/test/semana15_catalog_test.dart: catalog screen error with fake repository
+00:15 +83 ~1: <WORKSPACE>/mobile/test/semana15_catalog_test.dart: catalog screen error with fake repository
+00:15 +84 ~1: <WORKSPACE>/mobile/test/semana15_catalog_test.dart: catalog screen error with fake repository
+00:15 +85 ~1: <WORKSPACE>/mobile/test/semana15_catalog_test.dart: catalog screen error with fake repository
+00:15 +86 ~1: <WORKSPACE>/mobile/test/semana15_form_test.dart: order form rejects quantity "0" without POST
+00:15 +87 ~1: <WORKSPACE>/mobile/test/semana15_form_test.dart: order form rejects quantity "-1" without POST
+00:15 +88 ~1: <WORKSPACE>/mobile/test/semana15_form_test.dart: order form rejects quantity "-1" without POST
+00:16 +89 ~1: <WORKSPACE>/mobile/test/semana15_sentry_manual_test.dart: button requires manual tap and never captures on mount
+00:16 +90 ~1: <WORKSPACE>/mobile/test/semana15_sentry_manual_test.dart: button requires manual tap and never captures on mount
+00:16 +91 ~1: <WORKSPACE>/mobile/test/semana15_sentry_manual_test.dart: button requires manual tap and never captures on mount
+00:16 +92 ~1: <WORKSPACE>/mobile/test/semana15_sentry_manual_test.dart: button requires manual tap and never captures on mount
+00:17 +93 ~1: <WORKSPACE>/mobile/test/semana15_sentry_manual_test.dart: configured privacy hook retains synthetic trace and release
+00:18 +94 ~1: <WORKSPACE>/mobile/test/semana15_sentry_privacy_test.dart: SentryPrivacy sanitization Authorization header is redacted
+00:18 +95 ~1: <WORKSPACE>/mobile/test/semana15_sentry_privacy_test.dart: SentryPrivacy sanitization accessToken is redacted
+00:18 +96 ~1: <WORKSPACE>/mobile/test/semana15_sentry_privacy_test.dart: SentryPrivacy sanitization refreshToken is redacted
+00:18 +97 ~1: <WORKSPACE>/mobile/test/semana15_sentry_privacy_test.dart: SentryPrivacy sanitization password is redacted
+00:18 +98 ~1: <WORKSPACE>/mobile/test/semana15_sentry_privacy_test.dart: SentryPrivacy sanitization email is redacted
+00:18 +99 ~1: <WORKSPACE>/mobile/test/semana15_sentry_privacy_test.dart: SentryPrivacy sanitization latitude/longitude are redacted
+00:18 +100 ~1: <WORKSPACE>/mobile/test/semana15_sentry_privacy_test.dart: SentryPrivacy sanitization HTTP method and status are preserved when safe
+00:18 +101 ~1: <WORKSPACE>/mobile/test/semana15_sentry_privacy_test.dart: SentryPrivacy sanitization User email and name are removed
+00:18 +102 ~1: <WORKSPACE>/mobile/test/semana15_sentry_privacy_test.dart: SentryPrivacy sanitization Bearer token in string value is redacted
+00:18 +103 ~1: <WORKSPACE>/mobile/test/semana15_sentry_privacy_test.dart: SentryPrivacy sanitization JWT token in string value is redacted
+00:18 +104 ~1: <WORKSPACE>/mobile/test/semana15_sentry_privacy_test.dart: SentryPrivacy sanitization Nested maps are recursively sanitized
+00:18 +105 ~1: <WORKSPACE>/mobile/test/semana15_sentry_privacy_test.dart: SentryPrivacy sanitization Lists are recursively sanitized
+00:18 +106 ~1: <WORKSPACE>/mobile/test/semana15_sentry_privacy_test.dart: SentryPrivacy sanitization Sensitive keys are matched case-insensitively
+00:18 +107 ~1: <WORKSPACE>/mobile/test/semana15_sentry_privacy_test.dart: SentryPrivacy sanitization Email in string value is redacted
+00:18 +108 ~1: <WORKSPACE>/mobile/test/semana15_sentry_privacy_test.dart: SentryPrivacy sanitization Breadcrumbs are sanitized
+00:19 +109 ~1: <WORKSPACE>/mobile/test/semana15_validation_test.dart: rejects zero before transport or outbox writes
+{"level":"warning","module":"orders","action":"validate","errorType":"invalidDraft"}
+00:19 +110 ~1: <WORKSPACE>/mobile/test/semana15_validation_test.dart: rejects negative before transport or outbox writes
+{"level":"warning","module":"orders","action":"validate","errorType":"invalidDraft"}
+00:19 +111 ~1: <WORKSPACE>/mobile/test/semana15_validation_test.dart: rejects missing quantity before transport or outbox writes
+{"level":"warning","module":"orders","action":"validate","errorType":"invalidDraft"}
+00:19 +112 ~1: <WORKSPACE>/mobile/test/semana15_validation_test.dart: rejects fraction before transport or outbox writes
+{"level":"warning","module":"orders","action":"validate","errorType":"invalidDraft"}
+00:19 +113 ~1: <WORKSPACE>/mobile/test/semana15_validation_test.dart: rejects over limit before transport or outbox writes
+{"level":"warning","module":"orders","action":"validate","errorType":"invalidDraft"}
+00:19 +114 ~1: <WORKSPACE>/mobile/test/semana15_validation_test.dart: rejects missing address before transport or outbox writes
+{"level":"warning","module":"orders","action":"validate","errorType":"invalidDraft"}
+00:19 +115 ~1: <WORKSPACE>/mobile/test/semana15_validation_test.dart: rejects missing product before transport or outbox writes
+{"level":"warning","module":"orders","action":"validate","errorType":"invalidDraft"}
+00:19 +116 ~1: <WORKSPACE>/mobile/test/semana15_validation_test.dart: rejects blank address before transport or outbox writes
+{"level":"warning","module":"orders","action":"validate","errorType":"invalidDraft"}
+00:19 +117 ~1: <WORKSPACE>/mobile/test/semana15_validation_test.dart: accepts valid quantity 1 and sends once
+00:19 +118 ~1: <WORKSPACE>/mobile/test/semana15_validation_test.dart: accepts valid quantity 2 and sends once
+00:19 +119 ~1: <WORKSPACE>/mobile/test/semana15_validation_test.dart: accepts valid quantity 50 and sends once
+00:19 +120 ~1: <WORKSPACE>/mobile/test/widget_test.dart: AppPrimaryButton renders normal state
+00:20 +121 ~1: <WORKSPACE>/mobile/test/widget_test.dart: AppPrimaryButton renders loading state and disables action
+00:20 +122 ~1: <WORKSPACE>/mobile/test/widget_test.dart: AppPrimaryButton renders disabled state
+00:20 +123 ~1: <WORKSPACE>/mobile/test/widget_test.dart: StateView renders loading state
+00:20 +124 ~1: <WORKSPACE>/mobile/test/widget_test.dart: StateView renders empty state
+00:21 +125 ~1: <WORKSPACE>/mobile/test/widget_test.dart: StateView renders error state with retry action
+00:21 +126 ~1: <WORKSPACE>/mobile/test/widget_test.dart: StateView exposes semantic label for errors
+00:21 +127 ~1: <WORKSPACE>/mobile/test/widget_test.dart: ProductCard renders product data
+00:21 +128 ~1: <WORKSPACE>/mobile/test/widget_test.dart: ProductCard calls onTap callback
+00:21 +129 ~1: <WORKSPACE>/mobile/test/widget_test.dart: ProductCard exposes product semantic label
+00:21 +130 ~1: <WORKSPACE>/mobile/test/widget_test.dart: CategoryFilterChip renders selected category and calls callback
+00:21 +131 ~1: <WORKSPACE>/mobile/test/widget_test.dart: CategoryFilterChip exposes selected semantic label
+00:22 +132 ~1: All tests passed!

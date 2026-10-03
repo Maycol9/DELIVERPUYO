@@ -1,0 +1,10 @@
+Transcripción resumida de ejecución real previa a modificar OrderRepository.
+Comando: flutter test --coverage --reporter expanded
+Salida final: 00:13 +73 ~1 -8: Some tests failed.
+Exit code: 1
+Las ocho pruebas nuevas rejects zero/negative/missing quantity/fraction/over limit/missing address/missing product/blank address fallaron:
+Expected: throws <Instance of 'ApiException'> with `field errors`: non-empty
+Actual: <Instance of 'Future<OrderSummary>'>
+Which: emitted <Instance of 'OrderSummary'>
+test\semana15_validation_test.dart 42:13 main.<fn>
+Las 70 pruebas previas ejecutables en DEV y los tres casos válidos nuevos pasaron. Una prueba de PROD omitida por condición de entorno.

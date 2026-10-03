@@ -1,0 +1,8 @@
+{
+  "verifiedAt": "2026-09-11T15:12:10.2147896-05:00",
+  "method": "GET",
+  "url": "http://localhost:3000/api/products",
+  "statusCode": 200,
+  "success": true,
+  "products": 15
+}

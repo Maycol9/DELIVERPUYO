@@ -1,0 +1,111 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Evidencia API y Cache Redis</title>
+<style>
+:root{color-scheme:light;--ink:#15202b;--muted:#52606d;--line:#d8dee7;--green:#107c41;--blue:#1455d9;--amber:#9a5a00;--bg:#f6f8fb;--panel:#ffffff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:Segoe UI,Arial,sans-serif;color:var(--ink)}
+.wrap{width:1280px;min-height:720px;padding:34px 42px 42px;margin:0 auto}
+header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px;border-bottom:2px solid var(--line);padding-bottom:18px}
+h1{font-size:34px;line-height:1.05;margin:0 0 8px;font-weight:800;letter-spacing:0}
+.subtitle{font-size:16px;color:var(--muted);max-width:760px;line-height:1.4}
+.stamp{text-align:right;font-size:14px;color:var(--muted);line-height:1.35}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+h2{font-size:20px;margin:0 0 10px;font-weight:750}
+.ok{color:var(--green);font-weight:750}.warn{color:var(--amber);font-weight:750}.info{color:var(--blue);font-weight:750}
+.meta{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 14px}.pill{border:1px solid var(--line);border-radius:999px;padding:5px 10px;background:#f9fbfd;font-size:13px;color:var(--muted)}
+pre{margin:0;background:#111827;color:#e5e7eb;border-radius:6px;padding:14px;font:13px/1.45 Consolas,Monaco,monospace;white-space:pre-wrap;word-break:break-word;max-height:430px;overflow:hidden}
+.metricrow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}.metric{background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px}.metric b{display:block;font-size:26px}.metric span{font-size:13px;color:var(--muted)}
+.footer{margin-top:18px;color:var(--muted);font-size:13px}.small pre{font-size:12px}.wide pre{max-height:520px}
+</style>
+</head>
+<body><main class="wrap"><header><div><h1>Evidencia API y Cache Redis</h1><div class="subtitle">Productos con fields/paginacion y cabecera X-Cache en solicitudes consecutivas.</div></div><div class="stamp">DeliverPuyo Backend<br>Avance 8<br>18/07/2026</div></header><section class="metricrow"><div class="metric"><b class="ok">200</b><span>GET productos</span></div><div class="metric"><b class="warn">HIT</b><span>Primera solicitud</span></div><div class="metric"><b class="ok">HIT</b><span>Segunda solicitud</span></div><div class="metric"><b>15</b><span>Total productos</span></div></section>
+<section class="grid"><div class="card small"><h2>GET /api/products</h2><div class="meta"><span class="pill">page=1</span><span class="pill">limit=5</span><span class="pill">fields=id,name,price,stock</span></div><pre>{
+    &quot;status&quot;:  200,
+    &quot;headers&quot;:  {
+                    &quot;x-cache&quot;:  &quot;HIT&quot;,
+                    &quot;content-type&quot;:  &quot;application/json; charset=utf-8&quot;,
+                    &quot;date&quot;:  &quot;Sat, 18 Jul 2026 23:21:37 GMT&quot;
+                },
+    &quot;data&quot;:  [
+                 {
+                     &quot;id&quot;:  &quot;9752b812-2ba0-4e27-8cdb-3226c0f2e42e&quot;,
+                     &quot;name&quot;:  &quot;Producto 1&quot;,
+                     &quot;price&quot;:  &quot;2.5&quot;,
+                     &quot;stock&quot;:  95
+                 },
+                 {
+                     &quot;id&quot;:  &quot;8da50899-f9d3-40e7-be8e-d6e88c571b8e&quot;,
+                     &quot;name&quot;:  &quot;Producto 10&quot;,
+                     &quot;price&quot;:  &quot;7&quot;,
+                     &quot;stock&quot;:  100
+                 },
+                 {
+                     &quot;id&quot;:  &quot;ec876166-44fd-4e71-a79c-001df1b76c0a&quot;,
+                     &quot;name&quot;:  &quot;Producto 11&quot;,
+                     &quot;price&quot;:  &quot;7.5&quot;,
+                     &quot;stock&quot;:  100
+                 },
+                 {
+                     &quot;id&quot;:  &quot;fe90f311-ea28-4c7a-899a-68c6b9d276a0&quot;,
+                     &quot;name&quot;:  &quot;Producto 12&quot;,
+                     &quot;price&quot;:  &quot;8&quot;,
+                     &quot;stock&quot;:  100
+                 },
+                 {
+                     &quot;id&quot;:  &quot;8d206bfd-5e8e-40d4-b530-d6941ed2e5a2&quot;,
+                     &quot;name&quot;:  &quot;Producto 13&quot;,
+                     &quot;price&quot;:  &quot;8.5&quot;,
+                     &quot;stock&quot;:  100
+                 }
+             ],
+    &quot;pagination&quot;:  {
+                       &quot;page&quot;:  1,
+                       &quot;limit&quot;:  5,
+                       &quot;total&quot;:  15,
+                       &quot;pages&quot;:  3
+                   }
+}</pre></div><div class="card small"><h2>Respuesta cacheada</h2><div class="meta"><span class="pill">X-Cache: HIT</span><span class="pill">Redis TTL activo</span></div><pre>{
+    &quot;status&quot;:  200,
+    &quot;headers&quot;:  {
+                    &quot;x-cache&quot;:  &quot;HIT&quot;,
+                    &quot;content-type&quot;:  &quot;application/json; charset=utf-8&quot;,
+                    &quot;date&quot;:  &quot;Sat, 18 Jul 2026 23:21:37 GMT&quot;
+                },
+    &quot;sample&quot;:  [
+                   {
+                       &quot;id&quot;:  &quot;9752b812-2ba0-4e27-8cdb-3226c0f2e42e&quot;,
+                       &quot;name&quot;:  &quot;Producto 1&quot;,
+                       &quot;price&quot;:  &quot;2.5&quot;,
+                       &quot;stock&quot;:  95
+                   },
+                   {
+                       &quot;id&quot;:  &quot;8da50899-f9d3-40e7-be8e-d6e88c571b8e&quot;,
+                       &quot;name&quot;:  &quot;Producto 10&quot;,
+                       &quot;price&quot;:  &quot;7&quot;,
+                       &quot;stock&quot;:  100
+                   },
+                   {
+                       &quot;id&quot;:  &quot;ec876166-44fd-4e71-a79c-001df1b76c0a&quot;,
+                       &quot;name&quot;:  &quot;Producto 11&quot;,
+                       &quot;price&quot;:  &quot;7.5&quot;,
+                       &quot;stock&quot;:  100
+                   },
+                   {
+                       &quot;id&quot;:  &quot;fe90f311-ea28-4c7a-899a-68c6b9d276a0&quot;,
+                       &quot;name&quot;:  &quot;Producto 12&quot;,
+                       &quot;price&quot;:  &quot;8&quot;,
+                       &quot;stock&quot;:  100
+                   },
+                   {
+                       &quot;id&quot;:  &quot;8d206bfd-5e8e-40d4-b530-d6941ed2e5a2&quot;,
+                       &quot;name&quot;:  &quot;Producto 13&quot;,
+                       &quot;price&quot;:  &quot;8.5&quot;,
+                       &quot;stock&quot;:  100
+                   }
+               ]
+}</pre></div></section></main></body>
+</html>

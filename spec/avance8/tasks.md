@@ -9,4 +9,6 @@
 - [x] Worker BullMQ para PDF
 - [x] Paginación, fields y compresión
 - [x] Script de benchmark
-- [ ] Ejecutar benchmark en el equipo del estudiante y adjuntar capturas
+- [x] Ejecutar benchmark en el equipo del estudiante y conservar resultados JSON/TXT
+- [x] Adjuntar capturas finales para el video de presentación
+- [x] Documentar uso responsable de inteligencia artificial

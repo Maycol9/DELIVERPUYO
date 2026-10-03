@@ -4,13 +4,20 @@ import { prisma } from '@/database/client';
 import { ApiError } from '@/errors/api-error';
 import { routerOptions } from '@/lib/api/router-config';
 import { auth } from '@/middleware/auth';
+import { withCors } from '@/middleware/cors';
 import { addressCreateSchema } from '@/validations/addresses';
+import { pagination } from '@/helper/pagination';
 
 const router = createRouter<NextApiRequest, NextApiResponse>();
 router.use(auth)
   .get(async (req, res) => {
-    const data = await prisma.address.findMany({ where: { userId: req.user!.sub }, orderBy: { createdAt: 'desc' }, select: { id: true, label: true, address: true, reference: true, latitude: true, longitude: true } });
-    res.status(200).json({ success: true, data });
+    const p = pagination(req.query.page, req.query.limit);
+    const where = { userId: req.user!.sub };
+    const [data, total] = await prisma.$transaction([
+      prisma.address.findMany({ where, skip: p.skip, take: p.limit, orderBy: { createdAt: 'desc' }, select: { id: true, label: true, address: true, reference: true, latitude: true, longitude: true } }),
+      prisma.address.count({ where }),
+    ]);
+    res.status(200).json({ success: true, data, pagination: p.meta(total) });
   })
   .post(async (req, res) => {
     const parsed = addressCreateSchema.safeParse(req.body);
@@ -18,4 +25,4 @@ router.use(auth)
     const data = await prisma.address.create({ data: { userId: req.user!.sub, ...parsed.data }, select: { id: true, label: true, address: true, reference: true } });
     res.status(201).json({ success: true, data });
   });
-export default router.handler(routerOptions);
+export default withCors(router.handler(routerOptions));

@@ -7,10 +7,11 @@ function connection() {
 }
 
 export type ReceiptJob = { orderId: string; userId: string };
-export const receiptQueue = new Queue<ReceiptJob>('order-receipts', { connection: connection() });
+let receiptQueue: Queue<ReceiptJob> | undefined;
 
 export async function enqueueReceipt(job: ReceiptJob): Promise<void> {
   if (!env.QUEUE_ENABLED) return;
+  receiptQueue ??= new Queue<ReceiptJob>('order-receipts', { connection: connection() });
   await receiptQueue.add('generate-receipt', job, {
     attempts: 5,
     backoff: { type: 'exponential', delay: 2000 },
